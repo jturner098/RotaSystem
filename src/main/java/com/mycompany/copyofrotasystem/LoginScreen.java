@@ -4,6 +4,11 @@
  */
 package com.mycompany.copyofrotasystem;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 /**
  *
  * @author josephturner
@@ -35,6 +40,7 @@ public class LoginScreen extends javax.swing.JFrame {
         CreateAccount = new javax.swing.JButton();
         ForgotPassword = new javax.swing.JButton();
         Login = new javax.swing.JButton();
+        ErrorMessage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -83,19 +89,16 @@ public class LoginScreen extends javax.swing.JFrame {
             }
         });
 
+        ErrorMessage.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        ErrorMessage.setForeground(new java.awt.Color(255, 51, 51));
+        ErrorMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(113, 113, 113)
-                        .addComponent(CreateAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(44, 44, 44)
-                        .addComponent(ForgotPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(43, 43, 43)
-                        .addComponent(Login, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -106,7 +109,17 @@ public class LoginScreen extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(Username)
                                 .addGap(18, 18, 18)
-                                .addComponent(UsernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(UsernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(CreateAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(44, 44, 44)
+                                .addComponent(ForgotPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(43, 43, 43)
+                                .addComponent(Login, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(ErrorMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(14, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -126,7 +139,9 @@ public class LoginScreen extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(Password, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(98, 98, 98)
+                .addGap(18, 18, 18)
+                .addComponent(ErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CreateAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ForgotPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -169,10 +184,31 @@ public class LoginScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_ForgotPasswordActionPerformed
 
     private void LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginActionPerformed
+        ErrorMessage.setText(null);
         String username = UsernameField.getText();
-        StaffMainMenu smm = new StaffMainMenu();
-        smm.setVisible(true);
-        smm.ShiftsHeader.setText(username + "'s upcoming shifts:");
+        String password = PasswordField.getText();
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/RotaSystem", "root", "root");
+            Statement st = con.createStatement();
+            String q = "SELECT FirstName, Username, Password FROM tblStaff;";
+            ResultSet rs = st.executeQuery (q);
+            while (rs.next()) {
+                String dbUsername = rs.getString("Username");
+                String dbPassword = rs.getString("Password");
+                
+                if (dbUsername.equals(username) && dbPassword.equals(password)) {
+                            StaffMainMenu smm = new StaffMainMenu();
+                            smm.setVisible(true);
+                            smm.ShiftsHeader.setText(rs.getString("FirstName") + "'s upcoming shifts:");
+                            smm.Title.setText("Welcome, " + rs.getString("FirstName"));
+                } else {
+                    ErrorMessage.setText("Error: Login details incorrect - Please try again!");
+                }
+            }
+        } catch(Exception e) {
+            ErrorMessage.setText("Error while connecting to database - " + e);
+        }
     }//GEN-LAST:event_LoginActionPerformed
 
     /**
@@ -215,6 +251,7 @@ public class LoginScreen extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CreateAccount;
+    private javax.swing.JLabel ErrorMessage;
     private javax.swing.JButton ForgotPassword;
     private javax.swing.JButton Login;
     private javax.swing.JLabel Password;
