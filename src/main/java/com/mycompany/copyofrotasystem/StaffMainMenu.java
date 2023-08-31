@@ -7,19 +7,29 @@ package com.mycompany.copyofrotasystem;
 
 import javax.swing.*;
 import java.sql.*;
+import java.util.ArrayList;
 
 /**
  *
  * @author josephturner
  */
 public class StaffMainMenu extends javax.swing.JFrame {
-
+    String firstName;
     /**
      * Creates new form StaffMainMenu
      */
     public StaffMainMenu() {
         initComponents();
     }
+    
+    public void SetName(String name) {
+        this.firstName = name;
+    }
+    
+    public String GetName() {
+        return firstName;
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -35,6 +45,10 @@ public class StaffMainMenu extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         ShiftList = new javax.swing.JList<>();
         Title = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -42,11 +56,6 @@ public class StaffMainMenu extends javax.swing.JFrame {
         ShiftsHeader.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         ShiftsHeader.setText("[USER]'s shifts");
 
-        ShiftList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(ShiftList);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -56,8 +65,8 @@ public class StaffMainMenu extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ShiftsHeader, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane1)
+                    .addComponent(ShiftsHeader, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -65,14 +74,37 @@ public class StaffMainMenu extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(ShiftsHeader)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(65, Short.MAX_VALUE))
         );
 
         Title.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 36)); // NOI18N
         Title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Title.setText("Welcome, [USER]");
+
+        jButton2.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 24)); // NOI18N
+        jButton2.setText("View Rota");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 24)); // NOI18N
+        jButton3.setText("Your Shifts");
+
+        jButton1.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 24)); // NOI18N
+        jButton1.setText("Submit Holiday Request");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setBackground(new java.awt.Color(128, 191, 180));
+        jButton4.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 24)); // NOI18N
+        jButton4.setText("Logout");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -82,11 +114,21 @@ public class StaffMainMenu extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(174, 174, 174)
                         .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(188, Short.MAX_VALUE))
+                .addGap(18, 18, 18))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(374, 374, 374)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGap(16, 16, 16)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -94,58 +136,80 @@ public class StaffMainMenu extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addComponent(Title, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(57, 57, 57))))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(157, 157, 157)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(306, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        StaffRotaView srv = new StaffRotaView();
+        srv.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       HolidayRequestForm hrf = new HolidayRequestForm();
+       hrf.setVisible(true);
+       dispose();
+       hrf.SetName(GetName());
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public void main(String args[]) {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new StaffMainMenu().setVisible(true);
             }
         });
-        
+        ArrayList<String> shifts = new ArrayList<>();
         DefaultListModel DLM = new DefaultListModel();
-        DLM.addElement("Date");
-        DLM.addElement("Start time");
-        DLM.addElement("End time");
-        DLM.addElement("Location");
+        DLM.addElement("hello");
         ShiftList.setModel(DLM);
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost/RotaSystem", "root", "root");
             Statement st = con.createStatement();
-            String q = "SELECT StaffID, Date, StartTime, EndTime, Location FROM tblShift, tblLocation";
+            String q = "SELECT * FROM tblStaff";
             ResultSet rs = st.executeQuery (q);
             while (rs.next()) {
-                String dbUsername = rs.getString("Username");
-                String dbPassword = rs.getString("Password");
-                
-                if (dbUsername.equals(username) && dbPassword.equals(password)) {
-                            StaffMainMenu smm = new StaffMainMenu();
-                            smm.setVisible(true);
-                            smm.ShiftsHeader.setText(rs.getString("FirstName") + "'s upcoming shifts:");
-                            smm.Title.setText("Welcome, " + rs.getString("FirstName"));
-                } else {
-                    ErrorMessage.setText("Error: Login details incorrect - Please try again!");
-                }
+                shifts.add(rs.getString("Date") + " - " + rs.getString("StartTime") + " - " + rs.getString("EndTime") + " - " + rs.getString("Location"));
             }
-        } catch(Exception e) {
-            ErrorMessage.setText("Error while connecting to database - " + e);
+            ShiftList.setModel(DLM);
+            con.close();
+            } catch(Exception e) {
+                DLM.addElement(e);
         }
+
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private static javax.swing.JList<String> ShiftList;
+    javax.swing.JList<String> ShiftList;
     public javax.swing.JLabel ShiftsHeader;
     public javax.swing.JLabel Title;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     public javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
