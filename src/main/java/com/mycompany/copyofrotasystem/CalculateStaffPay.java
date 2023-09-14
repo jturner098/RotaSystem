@@ -4,6 +4,8 @@
  */
 package com.mycompany.copyofrotasystem;
 
+import java.sql.*;
+
 /**
  *
  * @author josephturner
@@ -27,65 +29,139 @@ public class CalculateStaffPay extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
+        Title = new javax.swing.JLabel();
+        StaffMember = new javax.swing.JLabel();
+        StaffMemberField = new javax.swing.JComboBox<>();
+        btnGetStaffDetails = new javax.swing.JButton();
+        HoursWorked = new javax.swing.JLabel();
+        RateOfPay = new javax.swing.JLabel();
+        NIContribution = new javax.swing.JLabel();
+        TotalPay = new javax.swing.JLabel();
+        HoursWorkedField = new javax.swing.JTextField();
+        RateOfPayField = new javax.swing.JTextField();
+        NIContributionField = new javax.swing.JTextField();
+        TotalPayField = new javax.swing.JTextField();
+        btnPrintPayslip = new javax.swing.JButton();
+        btnRefreshStaffList = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 36)); // NOI18N
-        jLabel1.setText("Calculate Staff Pay");
+        Title.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 36)); // NOI18N
+        Title.setText("Calculate Staff Pay");
 
-        jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        jLabel2.setText("Staff Member:");
-        jLabel2.setToolTipText("");
+        StaffMember.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        StaffMember.setText("Staff Member:");
+        StaffMember.setToolTipText("");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        btnGetStaffDetails.setText("Get Staff Details");
+        btnGetStaffDetails.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGetStaffDetailsActionPerformed(evt);
+            }
+        });
 
-        jButton1.setText("Get Staff Details");
+        HoursWorked.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        HoursWorked.setText("Number of Hours Worked:");
 
-        jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        jLabel3.setText("Number of Hours Worked:");
-        jLabel3.setPreferredSize(new java.awt.Dimension(124, 21));
+        RateOfPay.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        RateOfPay.setText("Rate of Pay:");
+
+        NIContribution.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        NIContribution.setText("National Insurance Contribution:");
+
+        TotalPay.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        TotalPay.setText("Total Pay:");
+
+        HoursWorkedField.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 13)); // NOI18N
+
+        RateOfPayField.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 13)); // NOI18N
+
+        NIContributionField.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 13)); // NOI18N
+
+        TotalPayField.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
+        TotalPayField.setText("£");
+
+        btnPrintPayslip.setBackground(new java.awt.Color(128, 191, 180));
+        btnPrintPayslip.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnPrintPayslip.setText("Print Payslip");
+
+        btnRefreshStaffList.setText("Refresh Staff List");
+        btnRefreshStaffList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshStaffListActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(267, Short.MAX_VALUE)
+                .addComponent(btnGetStaffDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(261, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(180, 180, 180)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addComponent(StaffMember)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(187, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(73, 73, 73)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(StaffMemberField, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(Title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(TotalPay)
+                    .addComponent(HoursWorked)
+                    .addComponent(RateOfPay)
+                    .addComponent(NIContribution))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnPrintPayslip)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(HoursWorkedField)
+                        .addComponent(RateOfPayField)
+                        .addComponent(NIContributionField)
+                        .addComponent(TotalPayField, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnRefreshStaffList, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(262, 262, 262))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(61, 61, 61)
+                .addComponent(Title)
+                .addGap(26, 26, 26)
+                .addComponent(btnRefreshStaffList)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(StaffMember)
+                    .addComponent(StaffMemberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(btnGetStaffDetails)
+                .addGap(34, 34, 34)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(HoursWorked)
+                    .addComponent(HoursWorkedField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(294, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(RateOfPay)
+                    .addComponent(RateOfPayField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(NIContribution)
+                    .addComponent(NIContributionField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(40, 40, 40)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TotalPayField, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TotalPay))
+                .addGap(18, 18, 18)
+                .addComponent(btnPrintPayslip, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -107,6 +183,52 @@ public class CalculateStaffPay extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnRefreshStaffListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshStaffListActionPerformed
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/RotaSystem", "root", "root");
+            Statement st = con.createStatement();
+            String q = "SELECT Surname, FirstName FROM tblStaff";
+            ResultSet rs = st.executeQuery (q);          
+            while (rs.next()) {
+                String name = rs.getString("FirstName") + " " + rs.getString("Surname");
+                StaffMemberField.addItem(name);
+            }
+            
+                
+            con.close();
+            } catch(Exception e) {
+                
+        }                // TODO add your handling code here:
+    }//GEN-LAST:event_btnRefreshStaffListActionPerformed
+
+    private void btnGetStaffDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetStaffDetailsActionPerformed
+        float hoursWorked = 0;
+        float rateOfPay = 0;
+        String staffName = (String) StaffMemberField.getSelectedItem();
+        String[] nameParts = staffName.split(" ");
+        String firstName = nameParts[0];
+        String surname = nameParts[1];
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/RotaSystem", "root", "root");
+            Statement st = con.createStatement();
+            String q = "SELECT StartTime, EndTime, FirstName, Surname, tblShift.StaffID, RateOfPay FROM tblShift, tblStaff WHERE tblShift.StaffID = tblStaff.StaffID AND FirstName = '" + firstName + "' AND Surname = '" + surname + "';";
+            ResultSet rs = st.executeQuery (q); 
+            
+            while (rs.next()) {
+                hoursWorked = hoursWorked + (rs.getFloat("EndTime") - rs.getFloat("StartTime"));
+                
+            }
+            rateOfPay = rs.getFloat("RateOfPay");
+            con.close();
+            } catch(Exception e) {
+                
+        }
+            HoursWorkedField.setText(Float.toString(hoursWorked));
+            RateOfPayField.setText("£" + Float.toString(rateOfPay));        
+    }//GEN-LAST:event_btnGetStaffDetailsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -144,11 +266,20 @@ public class CalculateStaffPay extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel HoursWorked;
+    private javax.swing.JTextField HoursWorkedField;
+    private javax.swing.JLabel NIContribution;
+    private javax.swing.JTextField NIContributionField;
+    private javax.swing.JLabel RateOfPay;
+    private javax.swing.JTextField RateOfPayField;
+    private javax.swing.JLabel StaffMember;
+    private javax.swing.JComboBox<String> StaffMemberField;
+    private javax.swing.JLabel Title;
+    private javax.swing.JLabel TotalPay;
+    private javax.swing.JTextField TotalPayField;
+    private javax.swing.JButton btnGetStaffDetails;
+    private javax.swing.JButton btnPrintPayslip;
+    private javax.swing.JButton btnRefreshStaffList;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

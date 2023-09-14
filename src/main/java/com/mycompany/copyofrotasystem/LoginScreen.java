@@ -37,9 +37,9 @@ public class LoginScreen extends javax.swing.JFrame {
         UsernameField = new javax.swing.JTextField();
         Password = new javax.swing.JLabel();
         PasswordField = new javax.swing.JPasswordField();
-        CreateAccount = new javax.swing.JButton();
-        ForgotPassword = new javax.swing.JButton();
-        Login = new javax.swing.JButton();
+        btnCreateAccount = new javax.swing.JButton();
+        btnForgotPassword = new javax.swing.JButton();
+        btnLogin = new javax.swing.JButton();
         ErrorMessage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -64,28 +64,28 @@ public class LoginScreen extends javax.swing.JFrame {
 
         PasswordField.setFont(new java.awt.Font("Helvetica Neue", 0, 36)); // NOI18N
 
-        CreateAccount.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
-        CreateAccount.setText("Create Account");
-        CreateAccount.addActionListener(new java.awt.event.ActionListener() {
+        btnCreateAccount.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
+        btnCreateAccount.setText("Create Account");
+        btnCreateAccount.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CreateAccountActionPerformed(evt);
+                btnCreateAccountActionPerformed(evt);
             }
         });
 
-        ForgotPassword.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
-        ForgotPassword.setText("Forgot Password");
-        ForgotPassword.addActionListener(new java.awt.event.ActionListener() {
+        btnForgotPassword.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
+        btnForgotPassword.setText("Forgot Password");
+        btnForgotPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ForgotPasswordActionPerformed(evt);
+                btnForgotPasswordActionPerformed(evt);
             }
         });
 
-        Login.setBackground(new java.awt.Color(128, 191, 180));
-        Login.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
-        Login.setText("Login");
-        Login.addActionListener(new java.awt.event.ActionListener() {
+        btnLogin.setBackground(new java.awt.Color(128, 191, 180));
+        btnLogin.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
+        btnLogin.setText("Login");
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LoginActionPerformed(evt);
+                btnLoginActionPerformed(evt);
             }
         });
 
@@ -114,11 +114,11 @@ public class LoginScreen extends javax.swing.JFrame {
                         .addGap(113, 113, 113)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(CreateAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnCreateAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(44, 44, 44)
-                                .addComponent(ForgotPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnForgotPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(43, 43, 43)
-                                .addComponent(Login, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(ErrorMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(14, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -131,21 +131,21 @@ public class LoginScreen extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(62, 62, 62)
                 .addComponent(Title)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(UsernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(UsernameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Username))
                 .addGap(48, 48, 48)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(Password, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Password)
+                    .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(ErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CreateAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ForgotPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Login, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCreateAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnForgotPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35))
         );
 
@@ -175,15 +175,15 @@ public class LoginScreen extends javax.swing.JFrame {
         this.setSize(710,520);
     }//GEN-LAST:event_formWindowActivated
 
-    private void CreateAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateAccountActionPerformed
+    private void btnCreateAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateAccountActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_CreateAccountActionPerformed
+    }//GEN-LAST:event_btnCreateAccountActionPerformed
 
-    private void ForgotPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ForgotPasswordActionPerformed
+    private void btnForgotPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForgotPasswordActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ForgotPasswordActionPerformed
+    }//GEN-LAST:event_btnForgotPasswordActionPerformed
 
-    private void LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginActionPerformed
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         ErrorMessage.setText(null);
         String username = UsernameField.getText();
         String password = PasswordField.getText();
@@ -191,7 +191,7 @@ public class LoginScreen extends javax.swing.JFrame {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost/RotaSystem", "root", "root");
             Statement st = con.createStatement();
-            String q = "SELECT FirstName, Username, Password FROM tblStaff;";
+            String q = "SELECT * FROM tblStaff;";
             ResultSet rs = st.executeQuery (q);
             while (rs.next()) {
                 String dbUsername = rs.getString("Username");
@@ -200,8 +200,12 @@ public class LoginScreen extends javax.swing.JFrame {
                 if (dbUsername.equals(username) && dbPassword.equals(password)) {
                             StaffMainMenu smm = new StaffMainMenu();
                             smm.setVisible(true);
+                            smm.setName(rs.getString("FirstName"));
+                            smm.SetID(rs.getInt("StaffID"));
                             smm.ShiftsHeader.setText(rs.getString("FirstName") + "'s upcoming shifts:");
                             smm.Title.setText("Welcome, " + rs.getString("FirstName"));
+                            con.close();
+                            dispose();
                 } else {
                     ErrorMessage.setText("Error: Login details incorrect - Please try again!");
                 }
@@ -209,7 +213,7 @@ public class LoginScreen extends javax.swing.JFrame {
         } catch(Exception e) {
             ErrorMessage.setText("Error while connecting to database - " + e);
         }
-    }//GEN-LAST:event_LoginActionPerformed
+    }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -250,15 +254,15 @@ public class LoginScreen extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton CreateAccount;
     private javax.swing.JLabel ErrorMessage;
-    private javax.swing.JButton ForgotPassword;
-    private javax.swing.JButton Login;
     private javax.swing.JLabel Password;
     private javax.swing.JPasswordField PasswordField;
     private javax.swing.JLabel Title;
     private javax.swing.JLabel Username;
     private javax.swing.JTextField UsernameField;
+    private javax.swing.JButton btnCreateAccount;
+    private javax.swing.JButton btnForgotPassword;
+    private javax.swing.JButton btnLogin;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

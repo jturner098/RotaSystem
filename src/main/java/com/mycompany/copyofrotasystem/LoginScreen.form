@@ -75,11 +75,11 @@
                           <EmptySpace min="-2" pref="113" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="CreateAccount" min="-2" pref="153" max="-2" attributes="0"/>
+                                  <Component id="btnCreateAccount" min="-2" pref="153" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-                                  <Component id="ForgotPassword" min="-2" pref="153" max="-2" attributes="0"/>
+                                  <Component id="btnForgotPassword" min="-2" pref="153" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
-                                  <Component id="Login" min="-2" pref="100" max="-2" attributes="0"/>
+                                  <Component id="btnLogin" min="-2" pref="100" max="-2" attributes="0"/>
                               </Group>
                               <Component id="ErrorMessage" max="32767" attributes="0"/>
                           </Group>
@@ -99,23 +99,23 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
                   <Component id="Title" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="71" max="32767" attributes="0"/>
+                  <EmptySpace pref="59" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="UsernameField" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
+                      <Component id="UsernameField" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="Username" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="Password" max="32767" attributes="0"/>
-                      <Component id="PasswordField" pref="0" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="Password" min="-2" max="-2" attributes="0"/>
+                      <Component id="PasswordField" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="ErrorMessage" min="-2" pref="62" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="CreateAccount" alignment="3" min="-2" pref="62" max="-2" attributes="0"/>
-                      <Component id="ForgotPassword" alignment="3" min="-2" pref="62" max="-2" attributes="0"/>
-                      <Component id="Login" alignment="3" min="-2" pref="62" max="-2" attributes="0"/>
+                      <Component id="btnCreateAccount" alignment="3" min="-2" pref="62" max="-2" attributes="0"/>
+                      <Component id="btnForgotPassword" alignment="3" min="-2" pref="62" max="-2" attributes="0"/>
+                      <Component id="btnLogin" alignment="3" min="-2" pref="62" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
               </Group>
@@ -161,7 +161,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="CreateAccount">
+        <Component class="javax.swing.JButton" name="btnCreateAccount">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Helvetica Neue" size="14" style="1"/>
@@ -169,10 +169,10 @@
             <Property name="text" type="java.lang.String" value="Create Account"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CreateAccountActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCreateAccountActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="ForgotPassword">
+        <Component class="javax.swing.JButton" name="btnForgotPassword">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Helvetica Neue" size="14" style="1"/>
@@ -180,10 +180,10 @@
             <Property name="text" type="java.lang.String" value="Forgot Password"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ForgotPasswordActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnForgotPasswordActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="Login">
+        <Component class="javax.swing.JButton" name="btnLogin">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="b4" green="bf" red="80" type="rgb"/>
@@ -194,7 +194,7 @@
             <Property name="text" type="java.lang.String" value="Login"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LoginActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLoginActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="ErrorMessage">
