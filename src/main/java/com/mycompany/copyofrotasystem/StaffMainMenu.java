@@ -102,6 +102,11 @@ public class StaffMainMenu extends javax.swing.JFrame {
 
         btnYourShifts.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 24)); // NOI18N
         btnYourShifts.setText("Your Shifts");
+        btnYourShifts.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnYourShiftsActionPerformed(evt);
+            }
+        });
 
         btnSubmitHolidayRequest.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 24)); // NOI18N
         btnSubmitHolidayRequest.setText("Submit Holiday Request");
@@ -114,6 +119,11 @@ public class StaffMainMenu extends javax.swing.JFrame {
         btnLogout.setBackground(new java.awt.Color(128, 191, 180));
         btnLogout.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 24)); // NOI18N
         btnLogout.setText("Logout");
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -169,15 +179,32 @@ public class StaffMainMenu extends javax.swing.JFrame {
     private void btnViewRotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewRotaActionPerformed
         StaffRotaView srv = new StaffRotaView();
         srv.setVisible(true);
-        dispose();
+        this.setVisible(false);
+        srv.SetName(firstName);
+        srv.SetID(GetID());
     }//GEN-LAST:event_btnViewRotaActionPerformed
 
     private void btnSubmitHolidayRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitHolidayRequestActionPerformed
        HolidayRequestForm hrf = new HolidayRequestForm();
        hrf.setVisible(true);
-       setVisible()
+       setVisible(false);
+       hrf.SetName(firstName);
        hrf.SetID(GetID());
     }//GEN-LAST:event_btnSubmitHolidayRequestActionPerformed
+
+    private void btnYourShiftsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnYourShiftsActionPerformed
+        YourShifts shifts = new YourShifts();
+        shifts.setVisible(true);
+        this.setVisible(false);
+        shifts.SetName(firstName);
+        shifts.SetID(GetID());
+    }//GEN-LAST:event_btnYourShiftsActionPerformed
+
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+       LoginScreen login = new LoginScreen();
+       login.setVisible(true);
+       this.dispose();
+    }//GEN-LAST:event_btnLogoutActionPerformed
 
     /**
      * @param args the command line arguments
