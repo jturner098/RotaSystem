@@ -184,35 +184,43 @@ public class LoginScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_btnForgotPasswordActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        ErrorMessage.setText(null);
-        String username = UsernameField.getText();
-        String password = PasswordField.getText();
+        /*ErrorMessage.setText(null);
+        String username = UsernameField.getText(); // Gets user's username entry from the username field
+        String password = PasswordField.getText(); // Gets user's password entry from the password field
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/RotaSystem", "root", "root");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/RotaSystem", "root", "root"); // Establishes connection to SQL Database
             Statement st = con.createStatement();
             String q = "SELECT * FROM tblStaff;";
             ResultSet rs = st.executeQuery (q);
             while (rs.next()) {
                 String dbUsername = rs.getString("Username");
-                String dbPassword = rs.getString("Password");
+                String dbPassword = rs.getString("Password"); // Selects username and password from database
                 
-                if (dbUsername.equals(username) && dbPassword.equals(password)) {
-                            StaffMainMenu smm = new StaffMainMenu();
-                            smm.setVisible(true);
-                            smm.setName(rs.getString("FirstName"));
+                if (dbUsername.equals(username) && dbPassword.equals(password)) { // If database username and password match user's entries
+                            StaffMainMenu smm = new StaffMainMenu(); // Create new Staff Main Menu
+                            smm.setVisible(true); // Make Staff Main Menu visible
+                            smm.setName(rs.getString("FirstName")); // Uses setter methods to store user's firstName and StaffID within the main menu
                             smm.SetID(rs.getInt("StaffID"));
                             smm.ShiftsHeader.setText(rs.getString("FirstName") + "'s upcoming shifts:");
                             smm.Title.setText("Welcome, " + rs.getString("FirstName"));
                             con.close();
                             dispose();
                 } else {
-                    ErrorMessage.setText("Error: Login details incorrect - Please try again!");
+                    ErrorMessage.setText("Error: Login details incorrect - Please try again!"); // Displays when login credentials are incorrect
                 }
             }
         } catch(Exception e) {
-            ErrorMessage.setText("Error while connecting to database - " + e);
-        }
+            ErrorMessage.setText("Error while connecting to database - " + e); // Displays when there is a problem with the database
+        }*/
+        StaffMainMenu smm = new StaffMainMenu();
+        String firstName = "Joe";
+                            smm.setVisible(true);
+                            smm.setName(firstName);
+                            smm.SetID(1);
+                            smm.ShiftsHeader.setText(firstName + "'s upcoming shifts:");
+                            smm.Title.setText("Welcome, " + firstName);
+                            dispose();    
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
