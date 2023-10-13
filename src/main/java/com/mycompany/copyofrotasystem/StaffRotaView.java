@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
  * @author josephturner
  */
 public class StaffRotaView extends javax.swing.JFrame {
+    DAO db;
     String firstName;
     int staffID;
     /**
@@ -53,6 +54,11 @@ public class StaffRotaView extends javax.swing.JFrame {
         BackButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         Title.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 36)); // NOI18N
         Title.setText("View Rota");
@@ -61,17 +67,7 @@ public class StaffRotaView extends javax.swing.JFrame {
         RotaTable.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 13)); // NOI18N
         RotaTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "ShiftID", "Staff Member", "Location", "Date", "Start Time", "End Time"
@@ -155,33 +151,7 @@ public class StaffRotaView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGenerateRotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateRotaActionPerformed
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/RotaSystem", "root", "root");
-            Statement st = con.createStatement();
-            String q = "";
-            ResultSet rs = st.executeQuery (q);          
-            while (rs.next()) {
-                String shiftID = String.valueOf(rs.getInt("StaffID"));
-                String name = rs.getString("Surname") + rs.getString("FirstName");
-                String location = rs.getString("Location");
-                String date = rs.getString("ShiftDate");
-                String startTime = rs.getString("StartTime");
-                String endTime = rs.getString("StartTime");
-                
-                
-                String[] tableData = {shiftID, name, location, date, startTime, endTime};
-                
-                DefaultTableModel dtm = (DefaultTableModel)RotaTable.getModel();
-                dtm.addRow(tableData);
-
-            }
-            
-                
-            con.close();
-            } catch(Exception e) {
-                
-        }        
+        
     }//GEN-LAST:event_btnGenerateRotaActionPerformed
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
@@ -193,6 +163,33 @@ public class StaffRotaView extends javax.swing.JFrame {
         smm.Title.setText("Welcome, " + firstName);
         dispose();
     }//GEN-LAST:event_BackButtonActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        try {
+            ResultSet rs = db.RotaShifts();   
+            System.out.println(rs);
+            while (rs.next()) {
+                String shiftID = rs.getString("shiftid");
+                String name = rs.getString("firstname") + " " + rs.getString("surname");
+                String location = rs.getString("location");
+                String date = rs.getString("shiftdate");
+                String startTime = rs.getString("starttime");
+                String endTime = rs.getString("endtime");
+                
+                
+                String tableData[] = {shiftID, name, location, date, startTime, endTime};
+                
+                DefaultTableModel dtm = (DefaultTableModel) RotaTable.getModel();
+                dtm.addRow(tableData);
+
+            }
+            } catch(Exception e) {
+                
+        }/*
+        
+
+        */
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments

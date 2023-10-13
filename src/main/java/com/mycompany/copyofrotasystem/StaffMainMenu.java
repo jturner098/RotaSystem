@@ -18,11 +18,13 @@ public class StaffMainMenu extends javax.swing.JFrame {
     DAO db = new DAO();
     String firstName;
     int staffID;
+    User user;
     /**
      * Creates new form StaffMainMenu
      */
-    public StaffMainMenu() {
+    public StaffMainMenu(User user) {
         initComponents();
+        this.user = user;
     }
     
     public void SetName(String name) {
@@ -55,7 +57,6 @@ public class StaffMainMenu extends javax.swing.JFrame {
         ShiftsHeader = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         ShiftList = new javax.swing.JTable();
-        btnRefresh = new javax.swing.JButton();
         Title = new javax.swing.JLabel();
         btnViewRota = new javax.swing.JButton();
         btnYourShifts = new javax.swing.JButton();
@@ -64,6 +65,11 @@ public class StaffMainMenu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(710, 520));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         ShiftsHeader.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 24)); // NOI18N
         ShiftsHeader.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -71,29 +77,14 @@ public class StaffMainMenu extends javax.swing.JFrame {
 
         ShiftList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Date", "Start Time", "End Time", "Location"
             }
         ));
+        ShiftList.setEnabled(false);
         jScrollPane2.setViewportView(ShiftList);
-
-        btnRefresh.setText("Refresh");
-        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRefreshActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -101,24 +92,19 @@ public class StaffMainMenu extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(ShiftsHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(80, 80, 80)
+                        .addComponent(ShiftsHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(11, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                        .addGap(1, 1, 1))
-                    .addComponent(ShiftsHeader))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ShiftsHeader)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -236,12 +222,14 @@ public class StaffMainMenu extends javax.swing.JFrame {
        this.dispose();
     }//GEN-LAST:event_btnLogoutActionPerformed
 
-    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        Title.setText("Welcome, " + user.getFirstName());
+        ShiftsHeader.setText(user.getFirstName() + "'s upcoming shifts");
         try {
             ResultSet rs = db.UserShifts();
             System.out.println(rs);
             while (rs.next()) {
-                String location = rs.getString("locationid");
+                String location = rs.getString("location");
                 String date = rs.getString("shiftdate");
                 String startTime = rs.getString("starttime");
                 String endTime = rs.getString("endtime");
@@ -253,9 +241,8 @@ public class StaffMainMenu extends javax.swing.JFrame {
         }
         } catch(Exception e) {
             
-        }    
-        
-    }//GEN-LAST:event_btnRefreshActionPerformed
+        } 
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
@@ -264,11 +251,9 @@ public class StaffMainMenu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StaffMainMenu().setVisible(true);
+                new StaffMainMenu(user).setVisible(true);
             }
-        });
-
-
+        }); 
         
     }
 
@@ -277,7 +262,6 @@ public class StaffMainMenu extends javax.swing.JFrame {
     public javax.swing.JLabel ShiftsHeader;
     public javax.swing.JLabel Title;
     private javax.swing.JButton btnLogout;
-    private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnSubmitHolidayRequest;
     private javax.swing.JButton btnViewRota;
     private javax.swing.JButton btnYourShifts;
