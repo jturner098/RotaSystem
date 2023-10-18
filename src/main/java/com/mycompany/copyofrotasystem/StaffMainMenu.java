@@ -193,7 +193,7 @@ public class StaffMainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnViewRotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewRotaActionPerformed
-        StaffRotaView srv = new StaffRotaView();
+        StaffRotaView srv = new StaffRotaView(user);
         srv.setVisible(true);
         this.setVisible(false);
         srv.SetName(firstName);
@@ -201,7 +201,7 @@ public class StaffMainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnViewRotaActionPerformed
 
     private void btnSubmitHolidayRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitHolidayRequestActionPerformed
-       HolidayRequestForm hrf = new HolidayRequestForm();
+       HolidayRequestForm hrf = new HolidayRequestForm(user);
        hrf.setVisible(true);
        setVisible(false);
        hrf.SetName(firstName);
@@ -209,7 +209,7 @@ public class StaffMainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSubmitHolidayRequestActionPerformed
 
     private void btnYourShiftsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnYourShiftsActionPerformed
-        YourShifts shifts = new YourShifts();
+        YourShifts shifts = new YourShifts(user);
         shifts.setVisible(true);
         this.setVisible(false);
         shifts.SetName(firstName);

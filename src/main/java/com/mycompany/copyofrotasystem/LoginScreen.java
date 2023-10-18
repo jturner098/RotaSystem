@@ -15,6 +15,7 @@ import java.sql.Statement;
  */
 public class LoginScreen extends javax.swing.JFrame {
     DAO db = new DAO();
+    User user;
     /**
      * Creates new form RotaSystemUI
      */

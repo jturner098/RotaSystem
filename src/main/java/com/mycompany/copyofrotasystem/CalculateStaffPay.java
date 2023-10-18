@@ -13,11 +13,13 @@ import java.sql.*;
 public class CalculateStaffPay extends javax.swing.JFrame {
     int staffID;
     String firstName;
+    static User user;
     /**
      * Creates new form CalculateStaffPay
      */
-    public CalculateStaffPay() {
+    public CalculateStaffPay(User user) {
         initComponents();
+        this.user = user;
     }
     
     public void SetName(String name) {
@@ -268,7 +270,7 @@ public class CalculateStaffPay extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGetStaffDetailsActionPerformed
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
-        StaffMainMenu smm = new StaffMainMenu();
+        StaffMainMenu smm = new StaffMainMenu(user);
         smm.setVisible(true);
         smm.SetName(firstName);
         smm.SetID(staffID);
@@ -307,7 +309,7 @@ public class CalculateStaffPay extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CalculateStaffPay().setVisible(true);
+                new CalculateStaffPay(user).setVisible(true);
             }
         });
     }

@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.copyofrotasystem;
+import static com.mycompany.copyofrotasystem.HolidayRequestForm.user;
 import java.sql.*;
 
 /**
@@ -35,14 +36,26 @@ public class DAO {
         return rs;
         }
     
-    public static ResultSet RotaShifts() throws SQLException {
-        String sql = "SELECT tblshift.shiftid, tblstaff.firstname, tblstaff.surname, tblshift.locationid, location, shiftdate, starttime, endtime FROM tblshift, tbllocation, tblstaff WHERE tblshift.locationid = tbllocation.locationid AND tblshift.staffid = tblstaff.staffid;";
+    public static ResultSet RotaShifts(String date) throws SQLException {
+        String sql = "SELECT tblshift.shiftid, tblstaff.firstname, tblstaff.surname, tblshift.locationid, location, shiftdate, starttime, endtime FROM tblshift, tbllocation, tblstaff WHERE tblshift.locationid = tbllocation.locationid AND tblshift.staffid = tblstaff.staffid AND shiftdate = '" + date + "';";
         
         Connection con = DriverManager.getConnection(CONN_URL + DB_NAME, USER, PASSWORD);
         System.out.println("Connection Made");
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery(sql);
         return rs; 
+    }
+    
+    public static int SubmitRequest(User user, String startDate, String endDate, String reason) throws SQLException {
+        
+        String sql = "INSERT INTO tbltimeoffrequests(staffid, requeststartdate, requestenddate, reason) VALUES('" + user.getID() + "', '" + startDate + "', '" + endDate + "', '" + reason + "');";
+        
+        
+        Connection con = DriverManager.getConnection(CONN_URL + DB_NAME, USER, PASSWORD);
+        System.out.println("Connection Made");
+        Statement st = con.createStatement();
+        int result = st.executeUpdate(sql);
+        return result;        
     }
     
     }

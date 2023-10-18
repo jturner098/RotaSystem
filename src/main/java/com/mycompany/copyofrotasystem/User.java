@@ -9,15 +9,15 @@ package com.mycompany.copyofrotasystem;
  * @author josephturner
  */
 public class User {
-    private int staffID;
-    private String firstName;
-    private String surname;
-    private String username;
-    private String password;
-    private int securityQID;
-    private String securityQAnswer;
-    private float rateOfPay;
-    private String userLevel;
+    private static int staffID;
+    private static String firstName;
+    private static String surname;
+    private static String username;
+    private static String password;
+    private static int securityQID;
+    private static String securityQAnswer;
+    private static float rateOfPay;
+    private static String userLevel;
     
     public User(int staffID, String firstName, String surname, String username, String password, int securityQID, String securityQAnswer, float rateOfPay, String userLevel) {
         this.staffID = staffID;
@@ -30,8 +30,12 @@ public class User {
         this.rateOfPay = rateOfPay;
         this.userLevel = userLevel;
     }
-    
+
     public String getFirstName() {
         return firstName;
+    }
+    
+    public int getID() {
+        return staffID;
     }
 }

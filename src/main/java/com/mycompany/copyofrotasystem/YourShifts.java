@@ -13,11 +13,13 @@ public class YourShifts extends javax.swing.JFrame {
 DAO db = new DAO();
 String firstName;
 int staffID;
+static User user;
     /**
      * Creates new form YourShifts
      */
-    public YourShifts() {
+    public YourShifts(User user) {
         initComponents();
+        this.user = user;
     }
     
     public void SetName(String name) {
@@ -130,7 +132,7 @@ int staffID;
     }// </editor-fold>//GEN-END:initComponents
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
-        StaffMainMenu smm = new StaffMainMenu();
+        StaffMainMenu smm = new StaffMainMenu(user);
         smm.setVisible(true);
         smm.SetName(firstName);
         smm.SetID(staffID);
@@ -189,7 +191,7 @@ int staffID;
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new YourShifts().setVisible(true);
+                new YourShifts(user).setVisible(true);
             }
         });
     }

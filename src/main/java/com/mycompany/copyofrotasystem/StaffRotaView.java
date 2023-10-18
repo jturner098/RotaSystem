@@ -5,6 +5,7 @@
 package com.mycompany.copyofrotasystem;
 
 import java.sql.*;
+import java.time.LocalDate;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -15,11 +16,16 @@ public class StaffRotaView extends javax.swing.JFrame {
     DAO db;
     String firstName;
     int staffID;
+    static User user;
+    LocalDate date;
     /**
      * Creates new form StaffRotaView
      */
-    public StaffRotaView() {
+    public StaffRotaView(User user) {
         initComponents();
+        this.user = user;
+        date = LocalDate.now();
+        DateField.setText(String.valueOf(date));
     }
     public void SetName(String name) {
         this.firstName = name;
@@ -51,7 +57,11 @@ public class StaffRotaView extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         RotaTable = new javax.swing.JTable();
         btnGenerateRota = new javax.swing.JButton();
-        BackButton = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
+        DateField = new javax.swing.JFormattedTextField();
+        jLabel1 = new javax.swing.JLabel();
+        btnForwardDate = new javax.swing.JButton();
+        btnBackDate = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -83,13 +93,32 @@ public class StaffRotaView extends javax.swing.JFrame {
             }
         });
 
-        BackButton.setBackground(new java.awt.Color(128, 191, 180));
-        BackButton.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
-        BackButton.setText("Back");
-        BackButton.setToolTipText("");
-        BackButton.addActionListener(new java.awt.event.ActionListener() {
+        btnBack.setBackground(new java.awt.Color(128, 191, 180));
+        btnBack.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        btnBack.setText("Back");
+        btnBack.setToolTipText("");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BackButtonActionPerformed(evt);
+                btnBackActionPerformed(evt);
+            }
+        });
+
+        DateField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+
+        jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        jLabel1.setText("Date:");
+
+        btnForwardDate.setText(">");
+        btnForwardDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnForwardDateActionPerformed(evt);
+            }
+        });
+
+        btnBackDate.setText("<");
+        btnBackDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackDateActionPerformed(evt);
             }
         });
 
@@ -105,29 +134,45 @@ public class StaffRotaView extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(261, 261, 261)
-                                .addComponent(Title))
+                                .addContainerGap()
+                                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(285, 285, 285)
-                                .addComponent(btnGenerateRota)))
+                                .addGap(263, 263, 263)
+                                .addComponent(btnBackDate)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnGenerateRota, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(DateField, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnForwardDate))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(261, 261, 261)
+                                .addComponent(Title)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(323, 323, 323))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
-                .addComponent(btnGenerateRota)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(DateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnForwardDate)
+                    .addComponent(btnBackDate))
                 .addGap(18, 18, 18)
-                .addComponent(BackButton, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE))
+                .addComponent(btnGenerateRota)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnBack, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -151,22 +196,10 @@ public class StaffRotaView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGenerateRotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateRotaActionPerformed
-        
-    }//GEN-LAST:event_btnGenerateRotaActionPerformed
-
-    private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
-        StaffMainMenu smm = new StaffMainMenu();
-        smm.setVisible(true);
-        smm.SetName(firstName);
-        smm.SetID(staffID);
-        smm.ShiftsHeader.setText(firstName + "'s upcoming shifts:");
-        smm.Title.setText("Welcome, " + firstName);
-        dispose();
-    }//GEN-LAST:event_BackButtonActionPerformed
-
-    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         try {
-            ResultSet rs = db.RotaShifts();   
+            DefaultTableModel dtm = (DefaultTableModel) RotaTable.getModel();
+            dtm.setRowCount(0);
+            ResultSet rs = db.RotaShifts((String) DateField.getText());   
             System.out.println(rs);
             while (rs.next()) {
                 String shiftID = rs.getString("shiftid");
@@ -179,17 +212,40 @@ public class StaffRotaView extends javax.swing.JFrame {
                 
                 String tableData[] = {shiftID, name, location, date, startTime, endTime};
                 
-                DefaultTableModel dtm = (DefaultTableModel) RotaTable.getModel();
                 dtm.addRow(tableData);
 
             }
             } catch(Exception e) {
                 
-        }/*
+        }        
+    }//GEN-LAST:event_btnGenerateRotaActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        StaffMainMenu smm = new StaffMainMenu(user);
+        smm.setVisible(true);
+        smm.SetName(firstName);
+        smm.SetID(staffID);
+        smm.ShiftsHeader.setText(firstName + "'s upcoming shifts:");
+        smm.Title.setText("Welcome, " + firstName);
+        dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+/*
         
 
         */
     }//GEN-LAST:event_formWindowActivated
+
+    private void btnBackDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackDateActionPerformed
+        date = date.plusDays(-1);
+        DateField.setText(String.valueOf(date));
+    }//GEN-LAST:event_btnBackDateActionPerformed
+
+    private void btnForwardDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForwardDateActionPerformed
+        date = date.plusDays(1);
+        DateField.setText(String.valueOf(date));
+    }//GEN-LAST:event_btnForwardDateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -221,7 +277,7 @@ public class StaffRotaView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StaffRotaView().setVisible(true);
+                new StaffRotaView(user).setVisible(true);
             }
         });
         
@@ -229,10 +285,14 @@ public class StaffRotaView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BackButton;
+    private javax.swing.JFormattedTextField DateField;
     javax.swing.JTable RotaTable;
     private javax.swing.JLabel Title;
+    private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnBackDate;
+    private javax.swing.JButton btnForwardDate;
     private javax.swing.JButton btnGenerateRota;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

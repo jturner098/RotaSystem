@@ -13,11 +13,13 @@ import java.sql.*;
 public class HolidayRequestForm extends javax.swing.JFrame {
     int staffID;
     String firstName;
+    static User user;
     /**
      * Creates new form HolidayRequestForm
      */
-    public HolidayRequestForm() {
+    public HolidayRequestForm(User user) {
         initComponents();
+        this.user = user;
     }
     
     public void SetName(String name) {
@@ -51,11 +53,11 @@ public class HolidayRequestForm extends javax.swing.JFrame {
         EndDate = new javax.swing.JLabel();
         Reason = new javax.swing.JLabel();
         btnSubmitHolidayRequest = new javax.swing.JButton();
-        StartDateField = new javax.swing.JTextField();
-        EndDateField = new javax.swing.JTextField();
         ReasonField = new javax.swing.JTextField();
         ErrorMessage = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        EndDateField = new javax.swing.JTextField();
+        StartDateField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(710, 520));
@@ -89,12 +91,6 @@ public class HolidayRequestForm extends javax.swing.JFrame {
             }
         });
 
-        StartDateField.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 13)); // NOI18N
-        StartDateField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-
-        EndDateField.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 13)); // NOI18N
-        EndDateField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-
         ReasonField.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 13)); // NOI18N
         ReasonField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         ReasonField.addActionListener(new java.awt.event.ActionListener() {
@@ -106,8 +102,8 @@ public class HolidayRequestForm extends javax.swing.JFrame {
         ErrorMessage.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         ErrorMessage.setForeground(new java.awt.Color(255, 51, 51));
 
-        jTextField1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 36)); // NOI18N
-        jTextField1.setText("Submit Holiday Request Form");
+        jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 36)); // NOI18N
+        jLabel1.setText("Submit Holiday Request Form");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -124,7 +120,7 @@ public class HolidayRequestForm extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(96, 96, 96)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(EndDate)
@@ -132,9 +128,9 @@ public class HolidayRequestForm extends javax.swing.JFrame {
                                             .addComponent(StartDate))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(StartDateField, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(EndDateField, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(ReasonField, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                            .addComponent(ReasonField, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(EndDateField, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(StartDateField, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                         .addGap(0, 54, Short.MAX_VALUE))
                     .addComponent(ErrorMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -142,30 +138,26 @@ public class HolidayRequestForm extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53)
+                .addComponent(jLabel1)
+                .addGap(48, 48, 48)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(StartDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(StartDateField, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(EndDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(EndDateField, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(28, 28, 28)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Reason)
-                            .addComponent(ReasonField, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(ErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
-                        .addComponent(btnSubmitHolidayRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(35, 35, 35)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(EndDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(EndDateField, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Reason)
+                    .addComponent(ReasonField, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSubmitHolidayRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -191,19 +183,21 @@ public class HolidayRequestForm extends javax.swing.JFrame {
             String startDate = StartDateField.getText();
             String endDate = EndDateField.getText();
             String reason = ReasonField.getText();
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/RotaSystem", "root", "root");
-            Statement st = con.createStatement();
-            String q = "INSERT INTO tblTimeOffRequests(StaffID, RequestStartDate, RequestEndDate, Reason) VALUES('" + GetID() + "', '" + startDate + "', '" + endDate + "', '" + reason + "');";
-            st.execute(q); 
+            if (StartDateField.getText().equals("") || EndDateField.getText().equals("") || ReasonField.getText().equals("")) {
+            ErrorMessage.setText("Error - All fields must be filled in in order to be submitted!");
+        } else {
+            int result = DAO.SubmitRequest(user, startDate, endDate, reason);
+            if (result == 1) {
             StartDateField.setText("");
             EndDateField.setText("");
             ReasonField.setText("");
-            
-                
-            con.close();
+            ErrorMessage.setText("Request sent!");
+            } else {
+                ErrorMessage.setText("Error whilst inserting into database!");
+            }
+            }
             } catch(Exception e) {
-                ErrorMessage.setText("Error while connecting to database - " + e);
+                ErrorMessage.setText("Database error - " + e);
                 
         }        
     }//GEN-LAST:event_btnSubmitHolidayRequestActionPerformed
@@ -213,7 +207,7 @@ public class HolidayRequestForm extends javax.swing.JFrame {
     }//GEN-LAST:event_ReasonFieldActionPerformed
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
-        StaffMainMenu smm = new StaffMainMenu();
+        StaffMainMenu smm = new StaffMainMenu(user);
         smm.setVisible(true);
         smm.SetName(firstName);
         smm.SetID(staffID);
@@ -252,7 +246,7 @@ public class HolidayRequestForm extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new HolidayRequestForm().setVisible(true);
+                new HolidayRequestForm(user).setVisible(true);
             }
         });
     }
@@ -267,7 +261,7 @@ public class HolidayRequestForm extends javax.swing.JFrame {
     private javax.swing.JLabel StartDate;
     private javax.swing.JTextField StartDateField;
     private javax.swing.JButton btnSubmitHolidayRequest;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
