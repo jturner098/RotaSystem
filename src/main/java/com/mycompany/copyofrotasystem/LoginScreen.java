@@ -195,14 +195,13 @@ public class LoginScreen extends javax.swing.JFrame {
                 String dbPassword = rs.getString("userpassword"); // Selects username and password from database
                 
                 if (dbUsername.equals(username) && dbPassword.equals(password)) { // If database username and password match user's entries
-                            User user = new User(rs.getInt("staffid"), rs.getString("firstname"), rs.getString("surname"), rs.getString("username"), rs.getString("userpassword"), rs.getInt("secqid"), rs.getString("secqanswer"), rs.getFloat("rateofpay"), rs.getString("userlevel"));
+                            User user = new User(rs.getInt("staffid"), rs.getString("firstname"), 
+                                    rs.getString("surname"), rs.getString("username"), 
+                                    rs.getString("userpassword"), rs.getInt("secqid"), 
+                                    rs.getString("secqanswer"), rs.getFloat("rateofpay"), 
+                                    rs.getString("userlevel"));
                             StaffMainMenu smm = new StaffMainMenu(user); // Create new Staff Main Menu
                             smm.setVisible(true); // Make Staff Main Menu visible
-                            /*smm.setName(rs.getString("firstname")); // Uses setter methods to store user's firstName and StaffID within the main menu
-                            smm.SetID(rs.getInt("staffid"));
-                            smm.ShiftsHeader.setText(rs.getString("firstname") + "'s upcoming shifts:");
-                            smm.Title.setText("Welcome, " + rs.getString("firstname"));
-                            dispose();*/
                 } else {
                     ErrorMessage.setText("Error: Login details incorrect - Please try again!"); // Displays when login credentials are incorrect
                 }

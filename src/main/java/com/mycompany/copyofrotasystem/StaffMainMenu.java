@@ -18,7 +18,7 @@ public class StaffMainMenu extends javax.swing.JFrame {
     DAO db = new DAO();
     String firstName;
     int staffID;
-    User user;
+    static User user;
     /**
      * Creates new form StaffMainMenu
      */
@@ -26,23 +26,6 @@ public class StaffMainMenu extends javax.swing.JFrame {
         initComponents();
         this.user = user;
     }
-    
-    public void SetName(String name) {
-        this.firstName = name;
-    }
-    
-    public String GetName() {
-        return firstName;
-    }
-    
-    public void SetID(int id) {
-        this.staffID = id;
-    }
-    
-    public int GetID() {
-        return staffID;
-    }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -71,9 +54,9 @@ public class StaffMainMenu extends javax.swing.JFrame {
             }
         });
 
-        ShiftsHeader.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 24)); // NOI18N
+        ShiftsHeader.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
         ShiftsHeader.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        ShiftsHeader.setText("[USER]'s shifts");
+        ShiftsHeader.setText("[USER]'s upcoming shifts");
 
         ShiftList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -92,11 +75,9 @@ public class StaffMainMenu extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(80, 80, 80)
-                        .addComponent(ShiftsHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
+                    .addComponent(ShiftsHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(11, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -193,27 +174,21 @@ public class StaffMainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnViewRotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewRotaActionPerformed
-        StaffRotaView srv = new StaffRotaView(user);
-        srv.setVisible(true);
-        this.setVisible(false);
-        srv.SetName(firstName);
-        srv.SetID(GetID());
+        StaffRotaView srv = new StaffRotaView(user); // When the view rota button is pressed, the screen is initialised, storing the user details in it
+        srv.setVisible(true); // The view rota screen becomes visible
+        dispose(); // The main menu will be closed. Should it need to be opened again, the back button can be pressed by the user
     }//GEN-LAST:event_btnViewRotaActionPerformed
 
     private void btnSubmitHolidayRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitHolidayRequestActionPerformed
-       HolidayRequestForm hrf = new HolidayRequestForm(user);
-       hrf.setVisible(true);
-       setVisible(false);
-       hrf.SetName(firstName);
-       hrf.SetID(GetID());
+       HolidayRequestForm hrf = new HolidayRequestForm(user); // When the submit holidy request button is pressed, the screen is initialised, storing the user details in it
+       hrf.setVisible(true); // The holiday request form becomes visible
+       dispose(); // The main menu will be closed. Should it need to be opened again, the back button can be pressed by the user
     }//GEN-LAST:event_btnSubmitHolidayRequestActionPerformed
 
     private void btnYourShiftsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnYourShiftsActionPerformed
-        YourShifts shifts = new YourShifts(user);
-        shifts.setVisible(true);
-        this.setVisible(false);
-        shifts.SetName(firstName);
-        shifts.SetID(GetID());
+        YourShifts shifts = new YourShifts(user); // When the your shifts button is pressed, the screen is initialised, storing the user details in it
+        shifts.setVisible(true); // The your shifts screen becomes visible
+        this.setVisible(false); // The main menu will be closed. Should it need to be opened again, the back button can be pressed by the user
     }//GEN-LAST:event_btnYourShiftsActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed

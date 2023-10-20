@@ -14,6 +14,7 @@ public class CalculateStaffPay extends javax.swing.JFrame {
     int staffID;
     String firstName;
     static User user;
+    DAO db;
     /**
      * Creates new form CalculateStaffPay
      */
@@ -22,21 +23,6 @@ public class CalculateStaffPay extends javax.swing.JFrame {
         this.user = user;
     }
     
-    public void SetName(String name) {
-        this.firstName = name;
-    }
-    
-    public String GetName() {
-        return firstName;
-    }
-    
-    public void SetID(int id) {
-        this.staffID = id;
-    }
-    
-    public int GetID() {
-        return staffID;
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -225,18 +211,11 @@ public class CalculateStaffPay extends javax.swing.JFrame {
 
     private void btnRefreshStaffListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshStaffListActionPerformed
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/RotaSystem", "root", "root");
-            Statement st = con.createStatement();
-            String q = "SELECT Surname, FirstName FROM tblStaff";
-            ResultSet rs = st.executeQuery (q);          
+            ResultSet rs = db.GenerateStaffList();          
             while (rs.next()) {
                 String name = rs.getString("FirstName") + " " + rs.getString("Surname");
                 StaffMemberField.addItem(name);
-            }
-            
-                
-            con.close();
+                }
             } catch(Exception e) {
                 
         }                // TODO add your handling code here:
@@ -250,18 +229,13 @@ public class CalculateStaffPay extends javax.swing.JFrame {
         String firstName = nameParts[0];
         String surname = nameParts[1];
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/RotaSystem", "root", "root");
-            Statement st = con.createStatement();
-            String q = "SELECT StartTime, EndTime, FirstName, Surname, tblShift.StaffID, RateOfPay FROM tblShift, tblStaff WHERE tblShift.StaffID = tblStaff.StaffID AND FirstName = '" + firstName + "' AND Surname = '" + surname + "';";
-            ResultSet rs = st.executeQuery (q); 
+            ResultSet rs = db.CalculateStaffPay(firstName, surname); 
             
             while (rs.next()) {
-                hoursWorked = hoursWorked + (rs.getFloat("EndTime") - rs.getFloat("StartTime"));
+                hoursWorked = hoursWorked + (rs.getFloat("endtime") - rs.getFloat("starttime"));
                 
             }
             rateOfPay = rs.getFloat("RateOfPay");
-            con.close();
             } catch(Exception e) {
                 
         }
@@ -272,8 +246,6 @@ public class CalculateStaffPay extends javax.swing.JFrame {
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
         StaffMainMenu smm = new StaffMainMenu(user);
         smm.setVisible(true);
-        smm.SetName(firstName);
-        smm.SetID(staffID);
         smm.ShiftsHeader.setText(firstName + "'s upcoming shifts:");
         smm.Title.setText("Welcome, " + firstName);
         dispose();

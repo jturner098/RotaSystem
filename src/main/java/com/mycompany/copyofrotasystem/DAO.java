@@ -16,34 +16,30 @@ public class DAO {
     private static final String USER = "2022d_JTurner";
     private static final String PASSWORD = "JBmz8nwJe63FmUcq";
     
-    public static ResultSet GetUserDetails() throws SQLException {
-        String sql = "SELECT * FROM tblstaff";
-
+    public static ResultSet ExecuteQuery(String sql) throws SQLException {
         Connection con = DriverManager.getConnection(CONN_URL + DB_NAME, USER, PASSWORD);
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery(sql);
-        return rs;
+        return rs;        
+    }
+    public static ResultSet GetUserDetails() throws SQLException {
+        String sql = "SELECT * FROM tblstaff";
+        return DAO.ExecuteQuery(sql);
      
     }
     
     public static ResultSet UserShifts() throws SQLException {
-        String sql = "SELECT tblshift.locationid, location, shiftdate, starttime, endtime FROM tblshift, tbllocation WHERE tblshift.locationid = tbllocation.locationid;";
-        
-        Connection con = DriverManager.getConnection(CONN_URL + DB_NAME, USER, PASSWORD);
-        System.out.println("Connection Made");
-        Statement st = con.createStatement();
-        ResultSet rs = st.executeQuery(sql);
-        return rs;
+        String sql = "SELECT tblshift.locationid, location, shiftdate, starttime, endtime "
+                + "FROM tblshift, tbllocation "
+                + "WHERE tblshift.locationid=tbllocation.locationid;";
+
+        return DAO.ExecuteQuery(sql);
         }
     
     public static ResultSet RotaShifts(String date) throws SQLException {
         String sql = "SELECT tblshift.shiftid, tblstaff.firstname, tblstaff.surname, tblshift.locationid, location, shiftdate, starttime, endtime FROM tblshift, tbllocation, tblstaff WHERE tblshift.locationid = tbllocation.locationid AND tblshift.staffid = tblstaff.staffid AND shiftdate = '" + date + "';";
         
-        Connection con = DriverManager.getConnection(CONN_URL + DB_NAME, USER, PASSWORD);
-        System.out.println("Connection Made");
-        Statement st = con.createStatement();
-        ResultSet rs = st.executeQuery(sql);
-        return rs; 
+        return DAO.ExecuteQuery(sql); 
     }
     
     public static int SubmitRequest(User user, String startDate, String endDate, String reason) throws SQLException {
@@ -56,6 +52,21 @@ public class DAO {
         Statement st = con.createStatement();
         int result = st.executeUpdate(sql);
         return result;        
+    }
+    
+    public static ResultSet GenerateStaffList() throws SQLException {
+        String sql = "SELECT surname, firstname FROM tblstaff;";
+        
+        return DAO.ExecuteQuery(sql);
+    }
+    
+    public static ResultSet CalculateStaffPay(String firstname, String surname) throws SQLException {
+        String sql = "SELECT starttime, endtime, firstname, surname, tblshift.staffid, rateofpay "
+                + "FROM tblshift, tblstaff "
+                + "WHERE FirstName = '" + firstname + "' AND Surname = '" + surname + "'"
+                + "AND tblshift.staffid = tblstaff.staffid;";
+
+        return DAO.ExecuteQuery(sql);
     }
     
     }

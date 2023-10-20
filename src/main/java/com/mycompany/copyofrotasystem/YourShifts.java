@@ -22,22 +22,6 @@ static User user;
         this.user = user;
     }
     
-    public void SetName(String name) {
-        this.firstName = name;
-    }
-    
-    public String GetName() {
-        return firstName;
-    }
-    
-    public void SetID(int id) {
-        this.staffID = id;
-    }
-    
-    public int GetID() {
-        return staffID;
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -134,8 +118,6 @@ static User user;
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
         StaffMainMenu smm = new StaffMainMenu(user);
         smm.setVisible(true);
-        smm.SetName(firstName);
-        smm.SetID(staffID);
         smm.ShiftsHeader.setText(firstName + "'s upcoming shifts:");
         smm.Title.setText("Welcome, " + firstName);
         dispose();
