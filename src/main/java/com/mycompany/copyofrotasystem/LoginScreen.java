@@ -177,7 +177,9 @@ public class LoginScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void btnCreateAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateAccountActionPerformed
-        // TODO add your handling code here:
+        CreateNewUser cnu = new CreateNewUser();
+        cnu.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnCreateAccountActionPerformed
 
     private void btnForgotPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForgotPasswordActionPerformed
