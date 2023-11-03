@@ -125,7 +125,7 @@ static User user;
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         try {
-            ResultSet rs = db.UserShifts();
+            ResultSet rs = db.UserShifts(user.getID());
             System.out.println(rs);
             while (rs.next()) {
                 String location = rs.getString("location");

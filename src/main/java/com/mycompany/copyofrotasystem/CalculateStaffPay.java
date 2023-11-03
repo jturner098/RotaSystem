@@ -47,10 +47,14 @@ public class CalculateStaffPay extends javax.swing.JFrame {
         NIContributionField = new javax.swing.JTextField();
         TotalPayField = new javax.swing.JTextField();
         btnPrintPayslip = new javax.swing.JButton();
-        btnRefreshStaffList = new javax.swing.JButton();
         BackButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         Title.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 36)); // NOI18N
         Title.setText("Calculate Staff Pay");
@@ -91,13 +95,6 @@ public class CalculateStaffPay extends javax.swing.JFrame {
         btnPrintPayslip.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnPrintPayslip.setText("Print Payslip");
 
-        btnRefreshStaffList.setText("Refresh Staff List");
-        btnRefreshStaffList.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRefreshStaffListActionPerformed(evt);
-            }
-        });
-
         BackButton.setBackground(new java.awt.Color(128, 191, 180));
         BackButton.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
         BackButton.setText("Back");
@@ -113,51 +110,50 @@ public class CalculateStaffPay extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(267, Short.MAX_VALUE)
-                .addComponent(btnGetStaffDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(261, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(180, 180, 180)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(StaffMember)
-                        .addGap(18, 18, 18)
-                        .addComponent(StaffMemberField, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(Title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(TotalPay)
-                            .addComponent(HoursWorked)
-                            .addComponent(RateOfPay)
-                            .addComponent(NIContribution)))
-                    .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnPrintPayslip)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(HoursWorkedField)
-                        .addComponent(RateOfPayField)
-                        .addComponent(NIContributionField)
-                        .addComponent(TotalPayField, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnRefreshStaffList, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(262, 262, 262))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 265, Short.MAX_VALUE)
+                                .addComponent(btnGetStaffDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(180, 180, 180)
+                                .addComponent(StaffMember)
+                                .addGap(18, 18, 18)
+                                .addComponent(StaffMemberField, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(TotalPay)
+                                            .addComponent(HoursWorked)
+                                            .addComponent(RateOfPay)
+                                            .addComponent(NIContribution)))
+                                    .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnPrintPayslip)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(HoursWorkedField)
+                                        .addComponent(RateOfPayField)
+                                        .addComponent(NIContributionField)
+                                        .addComponent(TotalPayField, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(180, 180, 180)
+                        .addComponent(Title)))
+                .addContainerGap(183, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(Title)
-                .addGap(26, 26, 26)
-                .addComponent(btnRefreshStaffList)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(StaffMember)
                     .addComponent(StaffMemberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -183,10 +179,11 @@ public class CalculateStaffPay extends javax.swing.JFrame {
                             .addComponent(TotalPay))
                         .addGap(18, 18, 18)
                         .addComponent(btnPrintPayslip, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
+                        .addContainerGap(43, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -202,28 +199,16 @@ public class CalculateStaffPay extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnRefreshStaffListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshStaffListActionPerformed
-        try {
-            ResultSet rs = db.GenerateStaffList();          
-            while (rs.next()) {
-                String name = rs.getString("FirstName") + " " + rs.getString("Surname");
-                StaffMemberField.addItem(name);
-                }
-            } catch(Exception e) {
-                
-        }                // TODO add your handling code here:
-    }//GEN-LAST:event_btnRefreshStaffListActionPerformed
-
     private void btnGetStaffDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetStaffDetailsActionPerformed
         float hoursWorked = 0;
         float rateOfPay = 0;
+        float NIContribution = 0;
         String staffName = (String) StaffMemberField.getSelectedItem();
         String[] nameParts = staffName.split(" ");
         String firstName = nameParts[0];
@@ -235,12 +220,23 @@ public class CalculateStaffPay extends javax.swing.JFrame {
                 hoursWorked = hoursWorked + (rs.getFloat("endtime") - rs.getFloat("starttime"));
                 
             }
-            rateOfPay = rs.getFloat("RateOfPay");
+            rateOfPay = rs.getFloat("rateofpay");
+            if (rateOfPay < 242) {
+                NIContribution = 0;
+            }
+            else if (rateOfPay > 242 && rateOfPay < 967) {
+                NIContribution = (float) ((rateOfPay - 242) * 0.12);
+            }
+            else {
+                NIContribution = (float) (93.24 + ((rateOfPay - 967) * 0.02));
+            }
             } catch(Exception e) {
                 
         }
             HoursWorkedField.setText(Float.toString(hoursWorked));
-            RateOfPayField.setText("£" + Float.toString(rateOfPay));        
+            RateOfPayField.setText("£" + Float.toString(rateOfPay));   
+            NIContributionField.setText("£" + Float.toString(NIContribution));
+            TotalPayField.setText("£" + Float.toString(rateOfPay - NIContribution));
     }//GEN-LAST:event_btnGetStaffDetailsActionPerformed
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
@@ -250,6 +246,18 @@ public class CalculateStaffPay extends javax.swing.JFrame {
         smm.Title.setText("Welcome, " + firstName);
         dispose();
     }//GEN-LAST:event_BackButtonActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        try {
+            ResultSet rs = db.GenerateStaffList();          
+            while (rs.next()) {
+                String name = rs.getString("firstname") + " " + rs.getString("surname");
+                StaffMemberField.addItem(name);
+                }
+            } catch(Exception e) {
+                
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -301,7 +309,6 @@ public class CalculateStaffPay extends javax.swing.JFrame {
     private javax.swing.JTextField TotalPayField;
     private javax.swing.JButton btnGetStaffDetails;
     private javax.swing.JButton btnPrintPayslip;
-    private javax.swing.JButton btnRefreshStaffList;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

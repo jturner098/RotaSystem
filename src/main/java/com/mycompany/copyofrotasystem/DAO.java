@@ -3,8 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.copyofrotasystem;
-import static com.mycompany.copyofrotasystem.HolidayRequestForm.user;
 import java.sql.*;
+import java.time.LocalDate;
 
 /**
  *
@@ -24,27 +24,46 @@ public class DAO {
     }
     public static ResultSet GetUserDetails() throws SQLException {
         String sql = "SELECT * FROM tblstaff";
+        
         return DAO.ExecuteQuery(sql);
-     
     }
-    
-    public static ResultSet UserShifts() throws SQLException {
-        String sql = "SELECT tblshift.locationid, location, shiftdate, starttime, endtime "
+   
+    public static ResultSet UpcomingShifts(int staffid) throws SQLException {
+        LocalDate date = LocalDate.now();
+        String sql = "SELECT staffid, tblshift.locationid, location, shiftdate, starttime, endtime "
                 + "FROM tblshift, tbllocation "
-                + "WHERE tblshift.locationid=tbllocation.locationid;";
+                + "WHERE staffid = '" + staffid + "' "
+                + "AND tblshift.locationid = tbllocation.locationid "
+                + "AND shiftdate BETWEEN '" + date + "' AND '" + (date.plusDays(7) + "'"
+                + "ORDER BY shiftdate ASC;");
+
+        return DAO.ExecuteQuery(sql);
+        }
+    
+    public static ResultSet UserShifts(int staffid) throws SQLException {
+        String sql = "SELECT staffid, tblshift.locationid, location, shiftdate, starttime, endtime "
+                + "FROM tblshift, tbllocation "
+                + "WHERE staffid = '" + staffid + "' "
+                + "AND tblshift.locationid = tbllocation.locationid"
+                + "ORDER BY shiftdate ASC;";
 
         return DAO.ExecuteQuery(sql);
         }
     
     public static ResultSet RotaShifts(String date) throws SQLException {
-        String sql = "SELECT tblshift.shiftid, tblstaff.firstname, tblstaff.surname, tblshift.locationid, location, shiftdate, starttime, endtime FROM tblshift, tbllocation, tblstaff WHERE tblshift.locationid = tbllocation.locationid AND tblshift.staffid = tblstaff.staffid AND shiftdate = '" + date + "';";
+        String sql = "SELECT tblshift.shiftid, tblstaff.firstname, tblstaff.surname, tblshift.locationid, location, shiftdate, starttime, endtime "
+                + "FROM tblshift, tbllocation, tblstaff "
+                + "WHERE tblshift.locationid = tbllocation.locationid "
+                + "AND tblshift.staffid = tblstaff.staffid "
+                + "AND shiftdate = '" + date + "';";
         
         return DAO.ExecuteQuery(sql); 
     }
     
     public static int SubmitRequest(User user, String startDate, String endDate, String reason) throws SQLException {
         
-        String sql = "INSERT INTO tbltimeoffrequests(staffid, requeststartdate, requestenddate, reason) VALUES('" + user.getID() + "', '" + startDate + "', '" + endDate + "', '" + reason + "');";
+        String sql = "INSERT INTO tbltimeoffrequests(staffid, requeststartdate, requestenddate, reason) "
+                + "VALUES('" + user.getID() + "', '" + startDate + "', '" + endDate + "', '" + reason + "');";
         
         
         Connection con = DriverManager.getConnection(CONN_URL + DB_NAME, USER, PASSWORD);
@@ -61,9 +80,9 @@ public class DAO {
     }
     
     public static ResultSet CalculateStaffPay(String firstname, String surname) throws SQLException {
-        String sql = "SELECT starttime, endtime, firstname, surname, tblshift.staffid, rateofpay "
+        String sql = "SELECT starttime, endtime, firstname, surname, staffid, rateofpay "
                 + "FROM tblshift, tblstaff "
-                + "WHERE FirstName = '" + firstname + "' AND Surname = '" + surname + "'"
+                + "WHERE firstname = '" + firstname + "' AND surname = '" + surname + "'"
                 + "AND tblshift.staffid = tblstaff.staffid;";
 
         return DAO.ExecuteQuery(sql);

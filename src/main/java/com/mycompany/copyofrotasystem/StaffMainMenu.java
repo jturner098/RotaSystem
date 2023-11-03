@@ -7,6 +7,7 @@ package com.mycompany.copyofrotasystem;
 
 import javax.swing.*;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
@@ -201,7 +202,7 @@ public class StaffMainMenu extends javax.swing.JFrame {
         Title.setText("Welcome, " + user.getFirstName());
         ShiftsHeader.setText(user.getFirstName() + "'s upcoming shifts");
         try {
-            ResultSet rs = db.UserShifts();
+            ResultSet rs = db.UpcomingShifts(user.getID());
             System.out.println(rs);
             while (rs.next()) {
                 String location = rs.getString("location");

@@ -5,6 +5,7 @@
 package com.mycompany.copyofrotasystem;
 
 import java.sql.*;
+import java.time.LocalDate;
 
 /**
  *
@@ -167,9 +168,12 @@ public class HolidayRequestForm extends javax.swing.JFrame {
             String startDate = StartDateField.getText();
             String endDate = EndDateField.getText();
             String reason = ReasonField.getText();
+            
             if (StartDateField.getText().equals("") || EndDateField.getText().equals("") || ReasonField.getText().equals("")) {
             ErrorMessage.setText("Error - All fields must be filled in in order to be submitted!");
-        } else {
+            }    
+            else {
+            
             int result = DAO.SubmitRequest(user, startDate, endDate, reason);
             if (result == 1) {
             StartDateField.setText("");
@@ -179,15 +183,16 @@ public class HolidayRequestForm extends javax.swing.JFrame {
             } else {
                 ErrorMessage.setText("Error whilst inserting into database!");
             }
+            
             }
-            } catch(Exception e) {
+        } catch(Exception e) {
                 ErrorMessage.setText("Database error - " + e);
                 
         }        
     }//GEN-LAST:event_btnSubmitHolidayRequestActionPerformed
 
     private void ReasonFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReasonFieldActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_ReasonFieldActionPerformed
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed

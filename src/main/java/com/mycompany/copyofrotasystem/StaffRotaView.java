@@ -27,21 +27,6 @@ public class StaffRotaView extends javax.swing.JFrame {
         date = LocalDate.now();
         DateField.setText(String.valueOf(date));
     }
-    public void SetName(String name) {
-        this.firstName = name;
-    }
-    
-    public String GetName() {
-        return firstName;
-    }
-    
-    public void SetID(int id) {
-        this.staffID = id;
-    }
-    
-    public int GetID() {
-        return staffID;
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
