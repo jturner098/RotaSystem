@@ -4,6 +4,7 @@
  */
 package com.mycompany.copyofrotasystem;
 
+import java.sql.ResultSet;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -11,12 +12,14 @@ import javax.swing.table.DefaultTableModel;
  * @author josephturner
  */
 public class CreateNewUser extends javax.swing.JFrame {
-
+        DAO db = new DAO();
     /**
      * Creates new form CreateNewUser
      */
     public CreateNewUser() {
         initComponents();
+
+        
     }
 
     /**
@@ -28,7 +31,7 @@ public class CreateNewUser extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jFrame2 = new javax.swing.JFrame();
+        NewUserHolidayForm = new javax.swing.JFrame();
         jPanel2 = new javax.swing.JPanel();
         StartDate = new javax.swing.JLabel();
         StartDateField = new javax.swing.JTextField();
@@ -53,17 +56,18 @@ public class CreateNewUser extends javax.swing.JFrame {
         subSecurityQuestion = new javax.swing.JLabel();
         PasswordRequirementBox = new javax.swing.JScrollPane();
         lblPasswordRequirement = new javax.swing.JTextArea();
-        jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        lblSecQuestion = new javax.swing.JLabel();
+        SecurityQuestionField = new javax.swing.JComboBox<>();
+        lblSecQAnswer = new javax.swing.JLabel();
+        SecQAnswerField = new javax.swing.JTextField();
+        subTimeOff = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         RequestList = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnCreateNewUser = new javax.swing.JButton();
+        ErrorMessage = new javax.swing.JLabel();
 
-        jFrame2.setSize(new java.awt.Dimension(398, 308));
+        NewUserHolidayForm.setSize(new java.awt.Dimension(398, 308));
 
         jPanel2.setSize(new java.awt.Dimension(386, 348));
 
@@ -139,24 +143,29 @@ public class CreateNewUser extends javax.swing.JFrame {
                 .addGap(93, 93, 93))
         );
 
-        javax.swing.GroupLayout jFrame2Layout = new javax.swing.GroupLayout(jFrame2.getContentPane());
-        jFrame2.getContentPane().setLayout(jFrame2Layout);
-        jFrame2Layout.setHorizontalGroup(
-            jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jFrame2Layout.createSequentialGroup()
+        javax.swing.GroupLayout NewUserHolidayFormLayout = new javax.swing.GroupLayout(NewUserHolidayForm.getContentPane());
+        NewUserHolidayForm.getContentPane().setLayout(NewUserHolidayFormLayout);
+        NewUserHolidayFormLayout.setHorizontalGroup(
+            NewUserHolidayFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(NewUserHolidayFormLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jFrame2Layout.setVerticalGroup(
-            jFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jFrame2Layout.createSequentialGroup()
+        NewUserHolidayFormLayout.setVerticalGroup(
+            NewUserHolidayFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(NewUserHolidayFormLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(32, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setPreferredSize(new java.awt.Dimension(900, 700));
 
@@ -185,23 +194,20 @@ public class CreateNewUser extends javax.swing.JFrame {
         subSecurityQuestion.setText("Security Question");
 
         lblPasswordRequirement.setEditable(false);
-        lblPasswordRequirement.setBackground(new java.awt.Color(242, 242, 242));
         lblPasswordRequirement.setColumns(20);
         lblPasswordRequirement.setRows(5);
         lblPasswordRequirement.setText("Your password must contain:\n- 8+ Characters\n- An uppercase character\n- A number\n- A special character");
         PasswordRequirementBox.setViewportView(lblPasswordRequirement);
 
-        jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        jLabel2.setText("Select a Question:");
+        lblSecQuestion.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        lblSecQuestion.setText("Select a Question:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        lblSecQAnswer.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        lblSecQAnswer.setText("Answer:");
+        lblSecQAnswer.setToolTipText("");
 
-        jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        jLabel3.setText("Answer:");
-        jLabel3.setToolTipText("");
-
-        jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
-        jLabel1.setText("Pre-existing Holidays and Time Off");
+        subTimeOff.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
+        subTimeOff.setText("Pre-existing Holidays and Time Off");
 
         RequestList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -222,9 +228,19 @@ public class CreateNewUser extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(128, 191, 180));
-        jButton2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        jButton2.setText("Create New User");
+        btnCreateNewUser.setBackground(new java.awt.Color(128, 191, 180));
+        btnCreateNewUser.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnCreateNewUser.setText("Create New User");
+        btnCreateNewUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateNewUserActionPerformed(evt);
+            }
+        });
+
+        ErrorMessage.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        ErrorMessage.setForeground(new java.awt.Color(255, 51, 51));
+        ErrorMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ErrorMessage.setToolTipText("");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -268,22 +284,27 @@ public class CreateNewUser extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(UsernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addComponent(lblSecQuestion)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(SecurityQuestionField, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(55, 55, 55)
-                        .addComponent(jLabel3)
+                        .addComponent(lblSecQAnswer)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(SecQAnswerField, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(92, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(319, 319, 319)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(subTimeOff)
                 .addGap(220, 220, 220))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(319, 319, 319)
+                        .addComponent(btnCreateNewUser, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(ErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 860, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -311,21 +332,21 @@ public class CreateNewUser extends javax.swing.JFrame {
                 .addComponent(subSecurityQuestion)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblSecQuestion)
+                    .addComponent(SecurityQuestionField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSecQAnswer)
+                    .addComponent(SecQAnswerField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
+                .addComponent(subTimeOff)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 35, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(39, 39, 39)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCreateNewUser, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -348,7 +369,7 @@ public class CreateNewUser extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        jFrame2.setVisible(true);
+        NewUserHolidayForm.setVisible(true);
         jPanel2.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -368,13 +389,82 @@ public class CreateNewUser extends javax.swing.JFrame {
                 String[] tableData = {startDate, endDate, reason};
                 DefaultTableModel dtm = (DefaultTableModel) RequestList.getModel();
                 dtm.addRow(tableData);
-                jFrame2.dispose();
+                NewUserHolidayForm.dispose();
             }
         } catch(Exception e) {
 
         }
     }//GEN-LAST:event_btnSubmitHolidayRequestActionPerformed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        try {
+            ResultSet rs = db.SecurityQuestions();
+            while (rs.next()) {
+                String question = rs.getString("securityquestion");
+                SecurityQuestionField.addItem(question);                
+            }
+ 
+        } catch(Exception e) {
+            
+        }
+        
+    }//GEN-LAST:event_formWindowOpened
+
+    private void btnCreateNewUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateNewUserActionPerformed
+    if (FirstNameField.getText().equals("")) {
+        ErrorMessage.setText("Error - First Name is missing!");
+    }
+    else if (SurnameField.getText().equals("")) {
+        ErrorMessage.setText("Error - Surname is missing!");
+    }
+    else if (UsernameField.getText().equals("")) {
+        ErrorMessage.setText("Error - Username is missing!");
+    }
+    else if (PasswordField.getText().equals("")) {
+        ErrorMessage.setText("Error - Password is missing!");
+    }
+    else if (!CheckPassword(PasswordField.getText())) {
+        ErrorMessage.setText("Error - Password does not meet requirements!");
+    }
+    else if (!(ConfirmPasswordField.getText().equals(""))) {
+        ErrorMessage.setText("Error - Passwords must match!");
+    }
+    else if (SecQAnswerField.getText().equals("")) {
+        ErrorMessage.setText("Error - Security Question Answer is missing!");
+    }
+    else {
+        
+    }
+    }//GEN-LAST:event_btnCreateNewUserActionPerformed
+    
+    private boolean CheckPassword(String password) {
+        Boolean uppercase = false;
+        Boolean number = false;
+        Boolean special = false;
+        Boolean length = false;
+        if (password.length() >= 8) {
+            length = true;
+        } else {
+            return false;
+        }
+        char[] characters = password.toCharArray();
+        for (char character : characters) {
+            if (Character.isUpperCase(character)) {
+                uppercase = true;
+            }
+            if (Character.isDigit(character)) {
+                number = true;
+            }
+            if (!Character.isLetterOrDigit(character)) {
+                special = true;
+            }
+        }
+        if (uppercase == true && number == true && special == true && length == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -414,36 +504,37 @@ public class CreateNewUser extends javax.swing.JFrame {
     private javax.swing.JPasswordField ConfirmPasswordField;
     private javax.swing.JLabel EndDate;
     private javax.swing.JTextField EndDateField;
+    private javax.swing.JLabel ErrorMessage;
     private javax.swing.JTextField FirstNameField;
+    private javax.swing.JFrame NewUserHolidayForm;
     private javax.swing.JPasswordField PasswordField;
     private javax.swing.JScrollPane PasswordRequirementBox;
     private javax.swing.JLabel Reason;
     private javax.swing.JTextField ReasonField;
     private javax.swing.JTable RequestList;
+    private javax.swing.JTextField SecQAnswerField;
+    private javax.swing.JComboBox<String> SecurityQuestionField;
     private javax.swing.JLabel StartDate;
     private javax.swing.JTextField StartDateField;
     private javax.swing.JTextField SurnameField;
     private javax.swing.JLabel Title;
     private javax.swing.JTextField UsernameField;
+    private javax.swing.JButton btnCreateNewUser;
     private javax.swing.JButton btnSubmitHolidayRequest;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JFrame jFrame2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblConfirmPassword;
     private javax.swing.JLabel lblFirstName;
     private javax.swing.JLabel lblPassword;
     private javax.swing.JTextArea lblPasswordRequirement;
+    private javax.swing.JLabel lblSecQAnswer;
+    private javax.swing.JLabel lblSecQuestion;
     private javax.swing.JLabel lblSurname;
     private javax.swing.JLabel lblUsername;
     private javax.swing.JLabel subPersonalDetails;
     private javax.swing.JLabel subSecurityQuestion;
+    private javax.swing.JLabel subTimeOff;
     // End of variables declaration//GEN-END:variables
 }

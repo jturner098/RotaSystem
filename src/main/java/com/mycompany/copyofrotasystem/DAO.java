@@ -88,6 +88,13 @@ public class DAO {
         return DAO.ExecuteQuery(sql);
     }
     
+    public static ResultSet SecurityQuestions() throws SQLException {
+        String sql = "SELECT securityquestion "
+                + "FROM tblsecurityquestion";
+        
+        return DAO.ExecuteQuery(sql);
+    }
+    
     }
 
     
