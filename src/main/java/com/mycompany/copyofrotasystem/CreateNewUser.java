@@ -12,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
  * @author josephturner
  */
 public class CreateNewUser extends javax.swing.JFrame {
-        DAO db = new DAO();
+    DAO db = new DAO();
     /**
      * Creates new form CreateNewUser
      */
@@ -433,7 +433,23 @@ public class CreateNewUser extends javax.swing.JFrame {
         ErrorMessage.setText("Error - Security Question Answer is missing!");
     }
     else {
-        
+        String SecQ = (String) SecurityQuestionField.getSelectedItem();
+        try {
+            int userSuccess = db.CreateUser(FirstNameField.getText(), SurnameField.getText(), UsernameField.getText(), PasswordField.getText(), SecQ, SecQAnswerField.getText());
+            if (userSuccess > 0) {
+                ErrorMessage.setText("User created!");
+                FirstNameField.setText("");
+                SurnameField.setText("");
+                UsernameField.setText("");
+                PasswordField.setText("");
+                ConfirmPasswordField.setText("");
+                SecQAnswerField.setText("");
+                
+                for (int i = 0; i < RequestList.getColumnCount(); i++) {
+                    
+                }
+            }
+        }
     }
     }//GEN-LAST:event_btnCreateNewUserActionPerformed
     

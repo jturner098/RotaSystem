@@ -95,6 +95,25 @@ public class DAO {
         return DAO.ExecuteQuery(sql);
     }
     
+    public static int CreateUser(String firstname, String surname, String username, String password, String secQ, String secQAnswer) throws SQLException{
+        int secqid = 0;
+        String sql = "SELECT securityquestionid " +
+                "FROM tblsecurityquestion " +
+                "WHERE securityquestion = '" + secQ + "';";
+        ResultSet rs = DAO.ExecuteQuery(sql);
+        
+        while (rs.next()) {
+            secqid = rs.getInt("securityquestionid");
+        }
+        sql = "INSERT INTO tblstaff(surname, firstname, username, userpassword, secqid, secqanswer, rateofpay, userlevel) " +
+                "VALUES ('" + surname + "', '" + firstname + "', '" + username + "', '" + password + "', " + secqid + ", '" + secQAnswer + "', 6.50, 'User';";
+        
+        Connection con = DriverManager.getConnection(CONN_URL + DB_NAME, USER, PASSWORD);
+        Statement st = con.createStatement();
+        int result = st.executeUpdate(sql);
+        return result; 
+    }
+    
     }
 
     
