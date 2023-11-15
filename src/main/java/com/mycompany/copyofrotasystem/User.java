@@ -30,6 +30,16 @@ public class User {
         this.rateOfPay = rateOfPay;
         this.userLevel = userLevel;
     }
+    
+    public User(int staffID, String firstName, String surname, String username, String password, int securityQID, String securityQAnswer) {
+        this.staffID = staffID;
+        this.firstName = firstName;
+        this.surname = surname;
+        this.username = username;
+        this.password = password;
+        this.securityQID = securityQID;
+        this.securityQAnswer = securityQAnswer;
+    }
 
     public String getFirstName() {
         return firstName;

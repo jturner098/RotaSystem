@@ -426,7 +426,7 @@ public class CreateNewUser extends javax.swing.JFrame {
     else if (!CheckPassword(PasswordField.getText())) {
         ErrorMessage.setText("Error - Password does not meet requirements!");
     }
-    else if (!(ConfirmPasswordField.getText().equals(""))) {
+    else if (!(ConfirmPasswordField.getText().equals(PasswordField.getText()))) {
         ErrorMessage.setText("Error - Passwords must match!");
     }
     else if (SecQAnswerField.getText().equals("")) {
@@ -436,19 +436,27 @@ public class CreateNewUser extends javax.swing.JFrame {
         String SecQ = (String) SecurityQuestionField.getSelectedItem();
         try {
             int userSuccess = db.CreateUser(FirstNameField.getText(), SurnameField.getText(), UsernameField.getText(), PasswordField.getText(), SecQ, SecQAnswerField.getText());
-            if (userSuccess > 0) {
-                ErrorMessage.setText("User created!");
-                FirstNameField.setText("");
-                SurnameField.setText("");
-                UsernameField.setText("");
-                PasswordField.setText("");
-                ConfirmPasswordField.setText("");
-                SecQAnswerField.setText("");
-                
-                for (int i = 0; i < RequestList.getColumnCount(); i++) {
+            if (userSuccess == 1) {
+               int staffID = db.ReturnStaffID(FirstNameField.getText(), SurnameField.getText());
+               int secQID = db.ReturnSecQID(SecQ);
+                User user = new User(staffID, FirstNameField.getText(), SurnameField.getText(), UsernameField.getText(), PasswordField.getText(), secQID, SecQAnswerField.getText());
+                for (int i = 0; i < RequestList.getRowCount() - 1; i++) {
+                    DefaultTableModel dtm = (DefaultTableModel)RequestList.getModel();
+                    String startDate = (dtm.getValueAt(i, 0).toString());
+                    String endDate = (dtm.getValueAt(i, 1).toString());
+                    String reason = (dtm.getValueAt(i, 2).toString());
+                    db.SubmitRequest(user, startDate, endDate, reason);
                     
                 }
+                LoginScreen ls = new LoginScreen();
+                ls.setVisible(true);
+                dispose();
+            } else {
+                ErrorMessage.setText("Error inserting into database!");
             }
+        } catch(Exception e) {
+            ErrorMessage.setText(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
     }//GEN-LAST:event_btnCreateNewUserActionPerformed

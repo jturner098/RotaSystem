@@ -23,7 +23,7 @@ public class DAO {
         return rs;        
     }
     public static ResultSet GetUserDetails() throws SQLException {
-        String sql = "SELECT * FROM tblstaff";
+        String sql = "SELECT * FROM tblstaff;";
         
         return DAO.ExecuteQuery(sql);
     }
@@ -82,7 +82,7 @@ public class DAO {
     public static ResultSet CalculateStaffPay(String firstname, String surname) throws SQLException {
         String sql = "SELECT starttime, endtime, firstname, surname, staffid, rateofpay "
                 + "FROM tblshift, tblstaff "
-                + "WHERE firstname = '" + firstname + "' AND surname = '" + surname + "'"
+                + "WHERE firstname = '" + firstname + "' AND surname = '" + surname + "' "
                 + "AND tblshift.staffid = tblstaff.staffid;";
 
         return DAO.ExecuteQuery(sql);
@@ -90,12 +90,23 @@ public class DAO {
     
     public static ResultSet SecurityQuestions() throws SQLException {
         String sql = "SELECT securityquestion "
-                + "FROM tblsecurityquestion";
+                + "FROM tblsecurityquestion;";
         
         return DAO.ExecuteQuery(sql);
     }
     
     public static int CreateUser(String firstname, String surname, String username, String password, String secQ, String secQAnswer) throws SQLException{
+        int secqid = DAO.ReturnSecQID(secQ);
+        String sql = "INSERT INTO tblstaff(surname, firstname, username, userpassword, secqid, secqanswer, rateofpay, userlevel) " +
+                "VALUES ('" + surname + "', '" + firstname + "', '" + username + "', '" + password + "', " + secqid + ", '" + secQAnswer + "', 6.50, 'Staff');";
+        
+        Connection con = DriverManager.getConnection(CONN_URL + DB_NAME, USER, PASSWORD);
+        Statement st = con.createStatement();
+        int result = st.executeUpdate(sql);
+        return result; 
+    }
+
+    public static int ReturnSecQID(String secQ) throws SQLException{
         int secqid = 0;
         String sql = "SELECT securityquestionid " +
                 "FROM tblsecurityquestion " +
@@ -105,14 +116,19 @@ public class DAO {
         while (rs.next()) {
             secqid = rs.getInt("securityquestionid");
         }
-        sql = "INSERT INTO tblstaff(surname, firstname, username, userpassword, secqid, secqanswer, rateofpay, userlevel) " +
-                "VALUES ('" + surname + "', '" + firstname + "', '" + username + "', '" + password + "', " + secqid + ", '" + secQAnswer + "', 6.50, 'User';";
-        
-        Connection con = DriverManager.getConnection(CONN_URL + DB_NAME, USER, PASSWORD);
-        Statement st = con.createStatement();
-        int result = st.executeUpdate(sql);
-        return result; 
+        return secqid;
     }
+    
+    public static int ReturnStaffID(String firstName, String surname) throws SQLException{
+         int staffid = 0;
+         ResultSet rs = DAO.ExecuteQuery("SELECT staffid FROM tblstaff WHERE firstname = '" + firstName + "' AND surname = '" + surname + "';");
+         while (rs.next()) {
+            staffid = rs.getInt("staffid");
+         }
+         
+         return staffid;
+    }
+
     
     }
 
