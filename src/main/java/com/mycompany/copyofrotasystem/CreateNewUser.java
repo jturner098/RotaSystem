@@ -5,6 +5,9 @@
 package com.mycompany.copyofrotasystem;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -66,6 +69,7 @@ public class CreateNewUser extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         btnCreateNewUser = new javax.swing.JButton();
         ErrorMessage = new javax.swing.JLabel();
+        BackButton = new javax.swing.JButton();
 
         NewUserHolidayForm.setSize(new java.awt.Dimension(398, 308));
 
@@ -242,6 +246,17 @@ public class CreateNewUser extends javax.swing.JFrame {
         ErrorMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         ErrorMessage.setToolTipText("");
 
+        BackButton.setBackground(new java.awt.Color(128, 191, 180));
+        BackButton.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        BackButton.setText("Back");
+        BackButton.setToolTipText("");
+        BackButton.setPreferredSize(new java.awt.Dimension(103, 54));
+        BackButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BackButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -299,7 +314,9 @@ public class CreateNewUser extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(319, 319, 319)
+                        .addContainerGap()
+                        .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(210, 210, 210)
                         .addComponent(btnCreateNewUser, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(19, 19, 19)
@@ -337,15 +354,20 @@ public class CreateNewUser extends javax.swing.JFrame {
                     .addComponent(lblSecQAnswer)
                     .addComponent(SecQAnswerField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(subTimeOff)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCreateNewUser, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(subTimeOff)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCreateNewUser, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -420,46 +442,58 @@ public class CreateNewUser extends javax.swing.JFrame {
     else if (UsernameField.getText().equals("")) {
         ErrorMessage.setText("Error - Username is missing!");
     }
-    else if (PasswordField.getText().equals("")) {
-        ErrorMessage.setText("Error - Password is missing!");
-    }
-    else if (!CheckPassword(PasswordField.getText())) {
-        ErrorMessage.setText("Error - Password does not meet requirements!");
-    }
-    else if (!(ConfirmPasswordField.getText().equals(PasswordField.getText()))) {
-        ErrorMessage.setText("Error - Passwords must match!");
-    }
-    else if (SecQAnswerField.getText().equals("")) {
-        ErrorMessage.setText("Error - Security Question Answer is missing!");
-    }
-    else {
-        String SecQ = (String) SecurityQuestionField.getSelectedItem();
-        try {
-            int userSuccess = db.CreateUser(FirstNameField.getText(), SurnameField.getText(), UsernameField.getText(), PasswordField.getText(), SecQ, SecQAnswerField.getText());
-            if (userSuccess == 1) {
-               int staffID = db.ReturnStaffID(FirstNameField.getText(), SurnameField.getText());
-               int secQID = db.ReturnSecQID(SecQ);
-                User user = new User(staffID, FirstNameField.getText(), SurnameField.getText(), UsernameField.getText(), PasswordField.getText(), secQID, SecQAnswerField.getText());
-                for (int i = 0; i < RequestList.getRowCount() - 1; i++) {
-                    DefaultTableModel dtm = (DefaultTableModel)RequestList.getModel();
-                    String startDate = (dtm.getValueAt(i, 0).toString());
-                    String endDate = (dtm.getValueAt(i, 1).toString());
-                    String reason = (dtm.getValueAt(i, 2).toString());
-                    db.SubmitRequest(user, startDate, endDate, reason);
-                    
-                }
-                LoginScreen ls = new LoginScreen();
-                ls.setVisible(true);
-                dispose();
-            } else {
-                ErrorMessage.setText("Error inserting into database!");
-            }
-        } catch(Exception e) {
-            ErrorMessage.setText(e.getMessage());
-            System.out.println(e.getMessage());
+    else try {
+        if (db.CheckUsernames(UsernameField.getText()) == true) {
+            ErrorMessage.setText("Error - Username is already in use!");
         }
+        else if (PasswordField.getText().equals("")) {
+            ErrorMessage.setText("Error - Password is missing!");
+        }
+        else if (!CheckPassword(PasswordField.getText())) {
+            ErrorMessage.setText("Error - Password does not meet requirements!");
+        }
+        else if (!(ConfirmPasswordField.getText().equals(PasswordField.getText()))) {
+            ErrorMessage.setText("Error - Passwords must match!");
+        }
+        else if (SecQAnswerField.getText().equals("")) {
+            ErrorMessage.setText("Error - Security Question Answer is missing!");
+        }
+        else {
+            String SecQ = (String) SecurityQuestionField.getSelectedItem();
+            try {
+                int userSuccess = db.CreateUser(FirstNameField.getText(), SurnameField.getText(), UsernameField.getText(), PasswordField.getText(), SecQ, SecQAnswerField.getText());
+                if (userSuccess == 1) {
+                    int staffID = db.ReturnStaffID(FirstNameField.getText(), SurnameField.getText());
+                    int secQID = db.ReturnSecQID(SecQ);
+                    User user = new User(staffID, FirstNameField.getText(), SurnameField.getText(), UsernameField.getText(), PasswordField.getText(), secQID, SecQAnswerField.getText());
+                    for (int i = 0; i < RequestList.getRowCount() - 1; i++) {
+                        DefaultTableModel dtm = (DefaultTableModel)RequestList.getModel();
+                        String startDate = (dtm.getValueAt(i, 0).toString());
+                        String endDate = (dtm.getValueAt(i, 1).toString());
+                        String reason = (dtm.getValueAt(i, 2).toString());
+                        db.SubmitRequest(user, startDate, endDate, reason);
+                        
+                    }
+                    LoginScreen ls = new LoginScreen();
+                    ls.setVisible(true);
+                    dispose();
+                } else {
+                    ErrorMessage.setText("Error inserting into database!");
+                }
+            } catch(Exception e) {
+                ErrorMessage.setText(e.getMessage());
+                System.out.println(e.getMessage());
+            }
+        }
+    } catch (SQLException ex) {
+        Logger.getLogger(CreateNewUser.class.getName()).log(Level.SEVERE, null, ex);
     }
     }//GEN-LAST:event_btnCreateNewUserActionPerformed
+
+    private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
+        LoginScreen ls = new LoginScreen();
+        this.dispose();
+    }//GEN-LAST:event_BackButtonActionPerformed
     
     private boolean CheckPassword(String password) {
         Boolean uppercase = false;
@@ -525,6 +559,7 @@ public class CreateNewUser extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BackButton;
     private javax.swing.JPasswordField ConfirmPasswordField;
     private javax.swing.JLabel EndDate;
     private javax.swing.JTextField EndDateField;

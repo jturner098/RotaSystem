@@ -128,6 +128,26 @@ public class DAO {
          
          return staffid;
     }
+    
+    public static boolean CheckUsernames(String username) throws SQLException{
+        boolean matching = false;
+        ResultSet rs = DAO.ExecuteQuery("SELECT username FROM tblstaff;");
+        while (rs.next()) {
+            String dbUser = rs.getString("username");
+            if (dbUser.equals(username)) {
+                matching = true;      
+            }
+        }
+        return matching;
+    }
+    
+    public static ResultSet ReturnSecQ(String username)  throws SQLException {
+        String sql = "SELECT secqid, securityquestion, secqanswer "
+                + "FROM tblstaff, tblsecurityquestion "
+                + "WHERE tblstaff.username = '" + username + "' "
+                + "AND tblstaff.secqid = tblsecurityquestion.securityquestionid;";
+                return DAO.ExecuteQuery(sql);
+    }
 
     
     }

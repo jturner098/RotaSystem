@@ -183,7 +183,9 @@ public class LoginScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCreateAccountActionPerformed
 
     private void btnForgotPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForgotPasswordActionPerformed
-        // TODO add your handling code here:
+        ForgotPassword fp = new ForgotPassword();
+        fp.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnForgotPasswordActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
