@@ -66,7 +66,7 @@ public class CreateNewUser extends javax.swing.JFrame {
         subTimeOff = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         RequestList = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        btnAddNewHoliday = new javax.swing.JButton();
         btnCreateNewUser = new javax.swing.JButton();
         ErrorMessage = new javax.swing.JLabel();
         BackButton = new javax.swing.JButton();
@@ -223,12 +223,12 @@ public class CreateNewUser extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(RequestList);
 
-        jButton1.setBackground(new java.awt.Color(128, 191, 180));
-        jButton1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
-        jButton1.setText("Add New Holiday");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAddNewHoliday.setBackground(new java.awt.Color(128, 191, 180));
+        btnAddNewHoliday.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
+        btnAddNewHoliday.setText("Add New Holiday");
+        btnAddNewHoliday.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAddNewHolidayActionPerformed(evt);
             }
         });
 
@@ -266,7 +266,7 @@ public class CreateNewUser extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(66, 66, 66)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnAddNewHoliday, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblPassword)
@@ -359,7 +359,7 @@ public class CreateNewUser extends javax.swing.JFrame {
                         .addComponent(subTimeOff)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                            .addComponent(btnAddNewHoliday, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(ErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -390,10 +390,10 @@ public class CreateNewUser extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnAddNewHolidayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddNewHolidayActionPerformed
         NewUserHolidayForm.setVisible(true);
         jPanel2.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnAddNewHolidayActionPerformed
 
     private void ReasonFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReasonFieldActionPerformed
 
@@ -578,9 +578,9 @@ public class CreateNewUser extends javax.swing.JFrame {
     private javax.swing.JTextField SurnameField;
     private javax.swing.JLabel Title;
     private javax.swing.JTextField UsernameField;
+    private javax.swing.JButton btnAddNewHoliday;
     private javax.swing.JButton btnCreateNewUser;
     private javax.swing.JButton btnSubmitHolidayRequest;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

@@ -148,6 +148,17 @@ public class DAO {
                 + "AND tblstaff.secqid = tblsecurityquestion.securityquestionid;";
                 return DAO.ExecuteQuery(sql);
     }
+    
+    public static int ChangePassword(String username, String password) throws SQLException {
+        String sql = "UPDATE tblstaff "
+                + "SET password = '" + password + "' "
+                + "WHERE username = '" + username + "';";
+        
+        Connection con = DriverManager.getConnection(CONN_URL + DB_NAME, USER, PASSWORD);
+        Statement st = con.createStatement();
+        int result = st.executeUpdate(sql);
+        return result;             
+    }
 
     
     }
