@@ -161,8 +161,8 @@ public class DAO {
     }
     
     public static ResultSet NewRequests() throws SQLException {
-        String sql = "SELECT staffid, firstname, surname tbltimeoffrequests.requestid, startdate, enddate, reason "
-                + "FROM tblshift, tbltimeoffrequests "
+        String sql = "SELECT requestid, tblstaff.staffid, firstname, surname, tbltimeoffrequests.requestid, requeststartdate, requestenddate, reason "
+                + "FROM tblstaff, tbltimeoffrequests "
                 + "WHERE tblstaff.staffid = tbltimeoffrequests.requestid "
                 + "ORDER BY requestid DESC;";
 
