@@ -204,8 +204,13 @@ public class LoginScreen extends javax.swing.JFrame {
                                     rs.getString("userpassword"), rs.getInt("secqid"), 
                                     rs.getString("secqanswer"), rs.getFloat("rateofpay"), 
                                     rs.getString("userlevel"));
-                            StaffMainMenu smm = new StaffMainMenu(user); // Create new Staff Main Menu
-                            smm.setVisible(true); // Make Staff Main Menu visible
+                            if (user.getUserLevel().equals("Staff")) {
+                                StaffMainMenu smm = new StaffMainMenu(user); // Create new Staff Main Menu
+                                smm.setVisible(true); // Make Staff Main Menu visible    
+                            } else {
+                                ManagerMainMenu mmm = new ManagerMainMenu(user);
+                                mmm.setVisible(true);
+                            }
                 } else {
                     ErrorMessage.setText("Error: Login details incorrect - Please try again!"); // Displays when login credentials are incorrect
                 }

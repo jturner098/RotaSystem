@@ -49,4 +49,8 @@ public class User {
         return staffID;
     }
     
+    public String getUserLevel() {
+        return userLevel;
+    }
+    
 }

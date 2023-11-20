@@ -151,7 +151,7 @@ public class DAO {
     
     public static int ChangePassword(String username, String password) throws SQLException {
         String sql = "UPDATE tblstaff "
-                + "SET password = '" + password + "' "
+                + "SET userpassword = '" + password + "' "
                 + "WHERE username = '" + username + "';";
         
         Connection con = DriverManager.getConnection(CONN_URL + DB_NAME, USER, PASSWORD);
@@ -159,6 +159,17 @@ public class DAO {
         int result = st.executeUpdate(sql);
         return result;             
     }
+    
+    public static ResultSet NewRequests() throws SQLException {
+        String sql = "SELECT staffid, firstname, surname tbltimeoffrequests.requestid, startdate, enddate, reason "
+                + "FROM tblshift, tbltimeoffrequests "
+                + "WHERE tblstaff.staffid = tbltimeoffrequests.requestid "
+                + "ORDER BY requestid DESC;";
+
+        return DAO.ExecuteQuery(sql);
+    }
+
+
 
     
     }
