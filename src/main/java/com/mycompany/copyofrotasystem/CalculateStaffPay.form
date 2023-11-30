@@ -66,14 +66,11 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="1" attributes="0">
-                                              <Component id="TotalPay" min="-2" max="-2" attributes="0"/>
-                                              <Component id="HoursWorked" alignment="1" min="-2" max="-2" attributes="0"/>
-                                              <Component id="RateOfPay" alignment="1" min="-2" max="-2" attributes="0"/>
-                                              <Component id="NIContribution" alignment="1" min="-2" max="-2" attributes="0"/>
-                                          </Group>
+                                      <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                                          <Component id="TotalPay" min="-2" max="-2" attributes="0"/>
+                                          <Component id="HoursWorked" alignment="1" min="-2" max="-2" attributes="0"/>
+                                          <Component id="RateOfPay" alignment="1" min="-2" max="-2" attributes="0"/>
+                                          <Component id="NIContribution" alignment="1" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Component id="BackButton" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>

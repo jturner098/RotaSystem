@@ -44,7 +44,7 @@ public class DAO {
         String sql = "SELECT staffid, tblshift.locationid, location, shiftdate, starttime, endtime "
                 + "FROM tblshift, tbllocation "
                 + "WHERE staffid = '" + staffid + "' "
-                + "AND tblshift.locationid = tbllocation.locationid"
+                + "AND tblshift.locationid = tbllocation.locationid "
                 + "ORDER BY shiftdate ASC;";
 
         return DAO.ExecuteQuery(sql);
@@ -74,15 +74,15 @@ public class DAO {
     }
     
     public static ResultSet GenerateStaffList() throws SQLException {
-        String sql = "SELECT surname, firstname FROM tblstaff;";
+        String sql = "SELECT staffid, surname, firstname FROM tblstaff;";
         
         return DAO.ExecuteQuery(sql);
     }
     
-    public static ResultSet CalculateStaffPay(String firstname, String surname) throws SQLException {
-        String sql = "SELECT starttime, endtime, firstname, surname, staffid, rateofpay "
+    public static ResultSet CalculateStaffPay(int staffID) throws SQLException {
+        String sql = "SELECT starttime, endtime, firstname, surname, tblstaff.staffid, rateofpay "
                 + "FROM tblshift, tblstaff "
-                + "WHERE firstname = '" + firstname + "' AND surname = '" + surname + "' "
+                + "WHERE tblstaff.staffid = " + staffID + " "
                 + "AND tblshift.staffid = tblstaff.staffid;";
 
         return DAO.ExecuteQuery(sql);
@@ -163,10 +163,51 @@ public class DAO {
     public static ResultSet NewRequests() throws SQLException {
         String sql = "SELECT requestid, tblstaff.staffid, firstname, surname, tbltimeoffrequests.requestid, requeststartdate, requestenddate, reason "
                 + "FROM tblstaff, tbltimeoffrequests "
-                + "WHERE tblstaff.staffid = tbltimeoffrequests.requestid "
+                + "WHERE tblstaff.staffid = tbltimeoffrequests.staffid "
                 + "ORDER BY requestid DESC;";
 
         return DAO.ExecuteQuery(sql);
+    }
+    
+    
+    public static float CalculateHoursWorked(String startTime, String endTime) {
+        String[] startTimeParts = startTime.split(":");
+        String[] endTimeParts = endTime.split(":");
+        
+        float startTimeHours = Integer.valueOf(startTimeParts[0]) + (Integer.valueOf(startTimeParts[1]) / 60);
+        float endTimeHours = Integer.valueOf(endTimeParts[0]) + (Integer.valueOf(endTimeParts[1]) / 60);
+        float hoursWorked = endTimeHours - startTimeHours;
+        return hoursWorked;
+    }
+    
+    public static ResultSet GenerateLocations() throws SQLException {
+        String sql = "SELECT * FROM tbllocation";
+        
+        return DAO.ExecuteQuery(sql);
+    }
+    
+    public static ResultSet UpcomingHoliday(int staffID) throws SQLException {
+        LocalDate date = LocalDate.now(); 
+        String sql = "SELECT staffid, requeststartdate, requestenddate, reason "
+                + "FROM tbltimeoffrequests "
+                + "WHERE requeststatus = 'Approved' "
+                + "AND staffid = " + staffID + " "
+                + "AND requeststartdate BETWEEN '" + date + "' AND '" + date.plusDays(30) + "';";
+        
+        return DAO.ExecuteQuery(sql);
+    }
+    
+        public static int SubmitShift(int staffID, int locationID, String date, String startTime, String endTime) throws SQLException {
+        
+        String sql = "INSERT INTO tblshift(staffid, locationid, starttime, endtime, shiftdate) "
+                + "VALUES('" + staffID + "', '" + locationID + "', '" + startTime + "', '" + endTime + "', '" + date + "');";
+        
+        
+        Connection con = DriverManager.getConnection(CONN_URL + DB_NAME, USER, PASSWORD);
+        System.out.println("Connection Made");
+        Statement st = con.createStatement();
+        int result = st.executeUpdate(sql);
+        return result;        
     }
 
 

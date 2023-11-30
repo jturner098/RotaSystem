@@ -206,10 +206,12 @@ public class LoginScreen extends javax.swing.JFrame {
                                     rs.getString("userlevel"));
                             if (user.getUserLevel().equals("Staff")) {
                                 StaffMainMenu smm = new StaffMainMenu(user); // Create new Staff Main Menu
-                                smm.setVisible(true); // Make Staff Main Menu visible    
+                                smm.setVisible(true);
+                                dispose();// Make Staff Main Menu visible    
                             } else {
                                 ManagerMainMenu mmm = new ManagerMainMenu(user);
                                 mmm.setVisible(true);
+                                dispose();
                             }
                 } else {
                     ErrorMessage.setText("Error: Login details incorrect - Please try again!"); // Displays when login credentials are incorrect

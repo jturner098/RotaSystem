@@ -208,27 +208,34 @@ public class CalculateStaffPay extends javax.swing.JFrame {
     private void btnGetStaffDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetStaffDetailsActionPerformed
         float hoursWorked = 0;
         float rateOfPay = 0;
+        float pay = 0;
         float NIContribution = 0;
         String staffName = (String) StaffMemberField.getSelectedItem();
         String[] nameParts = staffName.split(" ");
-        String firstName = nameParts[0];
-        String surname = nameParts[1];
+        int staffID = Integer.valueOf(nameParts[0]);
+        String firstName = nameParts[2];
+        String surname = nameParts[3];
         try {
-            ResultSet rs = db.CalculateStaffPay(firstName, surname); 
-            
+            ResultSet rs = db.CalculateStaffPay(staffID); 
+            rateOfPay = rs.getFloat("rateofpay");
             while (rs.next()) {
-                hoursWorked = hoursWorked + (rs.getFloat("endtime") - rs.getFloat("starttime"));
+                String startTime = rs.getString("starttime");
+                String endTime = rs.getString("endtime");
+                float shiftHours = db.CalculateHoursWorked(startTime, endTime);
+                System.out.println(shiftHours);
+                hoursWorked = hoursWorked + shiftHours;
+                pay = pay + (rateOfPay * hoursWorked);
                 
             }
-            rateOfPay = rs.getFloat("rateofpay");
-            if (rateOfPay < 242) {
+
+            if (pay < 242) {
                 NIContribution = 0;
             }
-            else if (rateOfPay > 242 && rateOfPay < 967) {
-                NIContribution = (float) ((rateOfPay - 242) * 0.12);
+            else if (pay > 242 && pay < 967) {
+                NIContribution = (float) ((pay - 242) * 0.12);
             }
             else {
-                NIContribution = (float) (93.24 + ((rateOfPay - 967) * 0.02));
+                NIContribution = (float) (93.24 + ((pay - 967) * 0.02));
             }
             } catch(Exception e) {
                 
@@ -236,7 +243,7 @@ public class CalculateStaffPay extends javax.swing.JFrame {
             HoursWorkedField.setText(Float.toString(hoursWorked));
             RateOfPayField.setText("£" + Float.toString(rateOfPay));   
             NIContributionField.setText("£" + Float.toString(NIContribution));
-            TotalPayField.setText("£" + Float.toString(rateOfPay - NIContribution));
+            TotalPayField.setText("£" + Float.toString(pay - NIContribution));
     }//GEN-LAST:event_btnGetStaffDetailsActionPerformed
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
@@ -251,7 +258,7 @@ public class CalculateStaffPay extends javax.swing.JFrame {
         try {
             ResultSet rs = db.GenerateStaffList();          
             while (rs.next()) {
-                String name = rs.getString("firstname") + " " + rs.getString("surname");
+                String name = rs.getInt("staffid") + " - " + rs.getString("firstname") + " " + rs.getString("surname");
                 StaffMemberField.addItem(name);
                 }
             } catch(Exception e) {
