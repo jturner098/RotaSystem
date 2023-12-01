@@ -41,7 +41,7 @@ public class DAO {
         }
     
     public static ResultSet UserShifts(int staffid) throws SQLException {
-        String sql = "SELECT staffid, tblshift.locationid, location, shiftdate, starttime, endtime "
+        String sql = "SELECT shiftid, staffid, tblshift.locationid, location, shiftdate, starttime, endtime "
                 + "FROM tblshift, tbllocation "
                 + "WHERE staffid = '" + staffid + "' "
                 + "AND tblshift.locationid = tbllocation.locationid "
@@ -207,8 +207,52 @@ public class DAO {
         System.out.println("Connection Made");
         Statement st = con.createStatement();
         int result = st.executeUpdate(sql);
+
         return result;        
     }
+        
+        public static int UpdateShift(String[] shift) throws SQLException {
+        for (int i = 0; i < shift.length; i++) {
+            System.out.println(shift[i]);
+        }
+        int locationID = DAO.ReturnLocationID(shift[4]);
+        String sql = "UPDATE tblshift "
+                + "SET shiftdate = '" + shift[1] + "', starttime = '" + shift[2] + "', endtime = '" + shift[3] + "', locationid = '" + locationID + "' "
+                + "WHERE shiftid = '" + shift[0] + "';";
+        
+        
+        Connection con = DriverManager.getConnection(CONN_URL + DB_NAME, USER, PASSWORD);
+        System.out.println("Connection Made");
+        Statement st = con.createStatement();
+        int result = st.executeUpdate(sql);
+
+        return result;              
+        }
+        
+        public static int ReturnLocationID(String location) throws SQLException{
+        int secqid = 0;
+        String sql = "SELECT locationid " +
+                "FROM tbllocation " +
+                "WHERE location = '" + location + "';";
+        ResultSet rs = DAO.ExecuteQuery(sql);
+        
+        while (rs.next()) {
+            secqid = rs.getInt("locationid");
+        }
+        return secqid;
+    }
+        
+        public static ResultSet GetRequests() throws SQLException {
+        String sql = "SELECT requestid, tblstaff.staffid, firstname, surname, tbltimeoffrequests.requestid, requeststartdate, "
+                + "requestenddate, reason, requeststatus "
+                + "FROM tblstaff, tbltimeoffrequests "
+                + "WHERE tblstaff.staffid = tbltimeoffrequests.staffid "
+                + "AND requeststatus = '';";
+                
+
+        return DAO.ExecuteQuery(sql);
+    }
+        
 
 
 

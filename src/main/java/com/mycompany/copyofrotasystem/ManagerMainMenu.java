@@ -197,9 +197,9 @@ public class ManagerMainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCalculateStaffPayActionPerformed
 
     private void btnReviewHolidayRequestsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReviewHolidayRequestsActionPerformed
-        YourShifts shifts = new YourShifts(user); // When the your shifts button is pressed, the screen is initialised, storing the user details in it
-        shifts.setVisible(true); // The your shifts screen becomes visible
-        this.setVisible(false); // The main menu will be closed. Should it need to be opened again, the back button can be pressed by the user
+        ReviewHolidayRequests rhr = new ReviewHolidayRequests(user); // When the your shifts button is pressed, the screen is initialised, storing the user details in it
+        rhr.setVisible(true); // The your shifts screen becomes visible
+        this.dispose(); // The main menu will be closed. Should it need to be opened again, the back button can be pressed by the user
     }//GEN-LAST:event_btnReviewHolidayRequestsActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed

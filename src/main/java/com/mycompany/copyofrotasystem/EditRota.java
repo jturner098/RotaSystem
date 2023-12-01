@@ -50,7 +50,7 @@ public class EditRota extends javax.swing.JFrame {
         lblEndTime = new javax.swing.JLabel();
         EndTimeField = new javax.swing.JTextField();
         btnSubmitNewShift = new javax.swing.JButton();
-        ErrorMessage = new javax.swing.JLabel();
+        ShiftErrorMessage = new javax.swing.JLabel();
         Title = new javax.swing.JLabel();
         StaffMember = new javax.swing.JLabel();
         StaffMemberField = new javax.swing.JComboBox<>();
@@ -59,7 +59,8 @@ public class EditRota extends javax.swing.JFrame {
         ShiftTable = new javax.swing.JTable();
         btnConfirmChanges = new javax.swing.JButton();
         btnAddNewShift = new javax.swing.JButton();
-        btnLoadShifts = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        ErrorMessage = new javax.swing.JLabel();
 
         AddNewShift.setSize(new java.awt.Dimension(693, 541));
         AddNewShift.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -102,17 +103,11 @@ public class EditRota extends javax.swing.JFrame {
         lblDate.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         lblDate.setText("Date:");
 
-        DateField.setText("jTextField1");
-
         lblStartTime.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         lblStartTime.setText("Start Time:");
 
-        StartTimeField.setText("jTextField2");
-
         lblEndTime.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         lblEndTime.setText("End Time:");
-
-        EndTimeField.setText("jTextField3");
 
         btnSubmitNewShift.setBackground(new java.awt.Color(128, 191, 180));
         btnSubmitNewShift.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
@@ -123,9 +118,9 @@ public class EditRota extends javax.swing.JFrame {
             }
         });
 
-        ErrorMessage.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        ErrorMessage.setForeground(new java.awt.Color(255, 51, 0));
-        ErrorMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ShiftErrorMessage.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        ShiftErrorMessage.setForeground(new java.awt.Color(255, 51, 0));
+        ShiftErrorMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -175,7 +170,7 @@ public class EditRota extends javax.swing.JFrame {
                         .addGap(0, 9, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addComponent(ErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ShiftErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
@@ -207,7 +202,7 @@ public class EditRota extends javax.swing.JFrame {
                     .addComponent(lblEndTime)
                     .addComponent(EndTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                .addComponent(ErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ShiftErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSubmitNewShift, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15))
@@ -236,8 +231,7 @@ public class EditRota extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(620, 463));
-        setSize(new java.awt.Dimension(620, 463));
+        setSize(new java.awt.Dimension(620, 485));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -261,21 +255,38 @@ public class EditRota extends javax.swing.JFrame {
         btnBack.setBackground(new java.awt.Color(128, 191, 180));
         btnBack.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         ShiftTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Date", "Start Time", "End Time", "Location"
+                "ShiftID", "Date", "Start Time", "End Time", "Location"
             }
-        ));
-        ShiftTable.setEnabled(false);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(ShiftTable);
 
         btnConfirmChanges.setBackground(new java.awt.Color(128, 191, 180));
         btnConfirmChanges.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnConfirmChanges.setText("Confirm Changes");
+        btnConfirmChanges.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmChangesActionPerformed(evt);
+            }
+        });
 
         btnAddNewShift.setBackground(new java.awt.Color(128, 191, 180));
         btnAddNewShift.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
@@ -286,44 +297,48 @@ public class EditRota extends javax.swing.JFrame {
             }
         });
 
-        btnLoadShifts.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        btnLoadShifts.setText("Load Shifts");
-        btnLoadShifts.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLoadShiftsActionPerformed(evt);
-            }
-        });
+        jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        jLabel1.setText("To make changes to a shift, edit the field and select 'Confirm Changes'.");
+
+        ErrorMessage.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        ErrorMessage.setForeground(new java.awt.Color(255, 51, 0));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(77, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(65, 65, 65))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(205, 205, 205)
-                                .addComponent(Title))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(118, 118, 118)
-                                .addComponent(StaffMember)
-                                .addGap(47, 47, 47)
-                                .addComponent(StaffMemberField, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnLoadShifts)
-                                .addGap(113, 113, 113)))
-                        .addGap(0, 148, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(80, 80, 80)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(205, 205, 205)
+                                        .addComponent(Title))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(118, 118, 118)
+                                        .addComponent(StaffMember)
+                                        .addGap(47, 47, 47)
+                                        .addComponent(StaffMemberField, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(91, 91, 91)
                         .addComponent(btnAddNewShift, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnConfirmChanges)
-                        .addGap(72, 72, 72)))
-                .addContainerGap())
+                        .addGap(87, 87, 87))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(ErrorMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -334,15 +349,17 @@ public class EditRota extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(StaffMember)
                     .addComponent(StaffMemberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnLoadShifts)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(ErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnConfirmChanges, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
-                    .addComponent(btnAddNewShift, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE))
-                .addGap(28, 28, 28)
+                    .addComponent(btnAddNewShift, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+                    .addComponent(btnConfirmChanges, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -375,11 +392,12 @@ public class EditRota extends javax.swing.JFrame {
             try {            
             ResultSet rs = db.UserShifts(staffID);
             while (rs.next()) {
+                String shiftID = rs.getString("shiftID");
                 String location = rs.getString("location");
                 String date = rs.getString("shiftdate");
                 String startTime = rs.getString("starttime");
                 String endTime = rs.getString("endtime");
-                String[] tableData = {date, startTime, endTime, location};
+                String[] tableData = {shiftID, date, startTime, endTime, location};
 
                 dtm.addRow(tableData);
         }
@@ -387,10 +405,6 @@ public class EditRota extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_StaffMemberFieldActionPerformed
-
-    private void btnLoadShiftsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadShiftsActionPerformed
-
-    }//GEN-LAST:event_btnLoadShiftsActionPerformed
 
     private void AddNewShiftWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_AddNewShiftWindowOpened
             DefaultTableModel dtm = (DefaultTableModel) UpcomingHolidayTable.getModel();   
@@ -475,22 +489,47 @@ public class EditRota extends javax.swing.JFrame {
             String endTime = EndTimeField.getText();
             
             if (date.equals("") || startTime.equals("") || endTime.equals("")) {
-            ErrorMessage.setText("Error - All fields must be filled in in order to be submitted!");
+            ShiftErrorMessage.setText("Error - All fields must be filled in in order to be submitted!");
             } else {
-                int result = DAO.SubmitShift(staffID, locationID, startTime, endTime, date);
+                int result = DAO.SubmitShift(staffID, locationID, date, startTime, endTime);
                 if (result == 1) {
                     DateField.setText("");
                     StartTimeField.setText("");
                     EndTimeField.setText("");
-                    ErrorMessage.setText("Request sent!");
+                    ShiftErrorMessage.setText("Request sent!");
                 } else {
-                    ErrorMessage.setText("Error whilst inserting into database!");
+                    ShiftErrorMessage.setText("Error whilst inserting into database!");
                 }
             }
         } catch(Exception e) {
-            
+            ShiftErrorMessage.setText(e.getMessage());
         }        
     }//GEN-LAST:event_btnSubmitNewShiftActionPerformed
+
+    private void btnConfirmChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmChangesActionPerformed
+                    for (int i = 0; i < ShiftTable.getRowCount(); i++) {
+                        DefaultTableModel dtm = (DefaultTableModel)ShiftTable.getModel();
+                        String shiftID = (dtm.getValueAt(i, 0).toString());
+                        String date = (dtm.getValueAt(i, 1).toString());
+                        String startTime = (dtm.getValueAt(i, 2).toString());
+                        String endTime = (dtm.getValueAt(i, 3).toString());
+                        String location = (dtm.getValueAt(i,4).toString());
+                        String[] shift = {shiftID, date, startTime, endTime, location};
+                        try {
+                            int result = db.UpdateShift(shift);
+                        } catch(Exception e) {
+                            ErrorMessage.setText(e.getMessage());
+                        }
+                        
+                        
+                    }        // TODO add your handling code here:
+    }//GEN-LAST:event_btnConfirmChangesActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        ManagerMainMenu mmm = new ManagerMainMenu(user);
+        mmm.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
 
     /**
      * @param args the command line arguments
@@ -533,6 +572,7 @@ public class EditRota extends javax.swing.JFrame {
     private javax.swing.JTextField EndTimeField;
     private javax.swing.JLabel ErrorMessage;
     private javax.swing.JComboBox<String> LocationField;
+    private javax.swing.JLabel ShiftErrorMessage;
     private javax.swing.JTable ShiftTable;
     private javax.swing.JLabel StaffMember;
     private javax.swing.JLabel StaffMember1;
@@ -544,8 +584,8 @@ public class EditRota extends javax.swing.JFrame {
     private javax.swing.JButton btnAddNewShift;
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnConfirmChanges;
-    private javax.swing.JButton btnLoadShifts;
     private javax.swing.JButton btnSubmitNewShift;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
