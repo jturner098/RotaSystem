@@ -17,8 +17,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class StaffMainMenu extends javax.swing.JFrame {
     DAO db = new DAO();
-    String firstName;
-    int staffID;
     static User user;
     /**
      * Creates new form StaffMainMenu
@@ -46,12 +44,17 @@ public class StaffMainMenu extends javax.swing.JFrame {
         btnYourShifts = new javax.swing.JButton();
         btnSubmitHolidayRequest = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(710, 520));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -104,7 +107,7 @@ public class StaffMainMenu extends javax.swing.JFrame {
         });
 
         btnYourShifts.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 24)); // NOI18N
-        btnYourShifts.setText("Your Shifts");
+        btnYourShifts.setText("Your Calendar");
         btnYourShifts.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnYourShiftsActionPerformed(evt);
@@ -128,6 +131,10 @@ public class StaffMainMenu extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/copyofrotasystem/images/Bayside_Cabin_-_Logo__3_-removebg-preview.png"))); // NOI18N
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/copyofrotasystem/images/Bayside_Cabin_-_Wordart__1_-removebg-preview.png"))); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -146,15 +153,25 @@ public class StaffMainMenu extends javax.swing.JFrame {
                                 .addComponent(btnYourShifts, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(btnLogout, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(174, 174, 174)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(Title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(Title, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -187,9 +204,9 @@ public class StaffMainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSubmitHolidayRequestActionPerformed
 
     private void btnYourShiftsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnYourShiftsActionPerformed
-        YourShifts shifts = new YourShifts(user); // When the your shifts button is pressed, the screen is initialised, storing the user details in it
-        shifts.setVisible(true); // The your shifts screen becomes visible
-        this.setVisible(false); // The main menu will be closed. Should it need to be opened again, the back button can be pressed by the user
+        YourCalendar calendar = new YourCalendar(user); // When the your shifts button is pressed, the screen is initialised, storing the user details in it
+        calendar.setVisible(true); // The your shifts screen becomes visible
+        dispose(); // The main menu will be closed. Should it need to be opened again, the back button can be pressed by the user
     }//GEN-LAST:event_btnYourShiftsActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
@@ -199,6 +216,10 @@ public class StaffMainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+
+    }//GEN-LAST:event_formWindowActivated
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         Title.setText("Welcome, " + user.getFirstName());
         ShiftsHeader.setText(user.getFirstName() + "'s upcoming shifts");
         try {
@@ -217,8 +238,8 @@ public class StaffMainMenu extends javax.swing.JFrame {
         }
         } catch(Exception e) {
             
-        } 
-    }//GEN-LAST:event_formWindowActivated
+        }
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -241,6 +262,8 @@ public class StaffMainMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnSubmitHolidayRequest;
     private javax.swing.JButton btnViewRota;
     private javax.swing.JButton btnYourShifts;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     public javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables

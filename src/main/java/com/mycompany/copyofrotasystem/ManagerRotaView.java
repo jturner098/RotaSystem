@@ -111,6 +111,11 @@ public class ManagerRotaView extends javax.swing.JFrame {
         btnEditRota.setBackground(new java.awt.Color(128, 191, 180));
         btnEditRota.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         btnEditRota.setText("Edit Rota");
+        btnEditRota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditRotaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -235,6 +240,12 @@ public class ManagerRotaView extends javax.swing.JFrame {
         date = date.plusDays(1);
         DateField.setText(String.valueOf(date));
     }//GEN-LAST:event_btnForwardDateActionPerformed
+
+    private void btnEditRotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditRotaActionPerformed
+        EditRota er = new EditRota(user);
+        er.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnEditRotaActionPerformed
 
     /**
      * @param args the command line arguments

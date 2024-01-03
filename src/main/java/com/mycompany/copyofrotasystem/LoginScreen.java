@@ -42,6 +42,8 @@ public class LoginScreen extends javax.swing.JFrame {
         btnForgotPassword = new javax.swing.JButton();
         btnLogin = new javax.swing.JButton();
         ErrorMessage = new javax.swing.JLabel();
+        Logo = new javax.swing.JLabel();
+        Wordart = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -94,6 +96,10 @@ public class LoginScreen extends javax.swing.JFrame {
         ErrorMessage.setForeground(new java.awt.Color(255, 51, 51));
         ErrorMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
+        Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/copyofrotasystem/images/Bayside Cabin - Logo (3).jpg"))); // NOI18N
+
+        Wordart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/copyofrotasystem/images/Bayside Cabin - Wordart (1).jpg"))); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -120,19 +126,29 @@ public class LoginScreen extends javax.swing.JFrame {
                                 .addComponent(btnForgotPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(43, 43, 43)
                                 .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(ErrorMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(ErrorMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(257, 257, 257)
+                        .addComponent(Logo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Wordart)))
                 .addContainerGap(14, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(Title)
-                .addGap(125, 125, 125))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(62, 62, 62)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Logo)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(Wordart)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Title)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(UsernameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Username))
@@ -189,6 +205,7 @@ public class LoginScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_btnForgotPasswordActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        int check = 0;
         ErrorMessage.setText(null);
         String username = UsernameField.getText(); // Gets user's username entry from the username field
         String password = PasswordField.getText(); // Gets user's password entry from the password field
@@ -199,6 +216,7 @@ public class LoginScreen extends javax.swing.JFrame {
                 String dbPassword = rs.getString("userpassword"); // Selects username and password from database
                 
                 if (dbUsername.equals(username) && dbPassword.equals(password)) { // If database username and password match user's entries
+                            check = 1;
                             User user = new User(rs.getInt("staffid"), rs.getString("firstname"), 
                                     rs.getString("surname"), rs.getString("username"), 
                                     rs.getString("userpassword"), rs.getInt("secqid"), 
@@ -214,11 +232,15 @@ public class LoginScreen extends javax.swing.JFrame {
                                 dispose();
                             }
                 } else {
-                    ErrorMessage.setText("Error: Login details incorrect - Please try again!"); // Displays when login credentials are incorrect
+                    check = 0;
                 }
             }
+            
+            if (check == 0) {
+                    ErrorMessage.setText("Error: Login details incorrect - Please try again!"); // Displays when login credentials are incorrect
+            }
         } catch(Exception e) {
-            ErrorMessage.setText("Error while connecting to database - " + e); // Displays when there is a problem with the database
+            ErrorMessage.setText("Database Error - " + e); // Displays when there is a problem with the database
         }  
     }//GEN-LAST:event_btnLoginActionPerformed
 
@@ -262,11 +284,13 @@ public class LoginScreen extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ErrorMessage;
+    private javax.swing.JLabel Logo;
     private javax.swing.JLabel Password;
     private javax.swing.JPasswordField PasswordField;
     private javax.swing.JLabel Title;
     private javax.swing.JLabel Username;
     private javax.swing.JTextField UsernameField;
+    private javax.swing.JLabel Wordart;
     private javax.swing.JButton btnCreateAccount;
     private javax.swing.JButton btnForgotPassword;
     private javax.swing.JButton btnLogin;

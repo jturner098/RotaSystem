@@ -50,6 +50,17 @@ public class DAO {
         return DAO.ExecuteQuery(sql);
         }
     
+    public static ResultSet UserShiftsBetweenDates(int staffid, String startDate, String endDate) throws SQLException {
+        String sql = "SELECT shiftid, staffid, tblshift.locationid, location, shiftdate, starttime, endtime "
+                + "FROM tblshift, tbllocation "
+                + "WHERE staffid = '" + staffid + "' "
+                + "AND tblshift.locationid = tbllocation.locationid "
+                + "AND shiftdate BETWEEN '" + startDate + "' AND '" + endDate + "' "
+                + "ORDER BY shiftdate ASC;";
+
+        return DAO.ExecuteQuery(sql);
+        }
+    
     public static ResultSet RotaShifts(String date) throws SQLException {
         String sql = "SELECT tblshift.shiftid, tblstaff.firstname, tblstaff.surname, tblshift.locationid, location, shiftdate, starttime, endtime "
                 + "FROM tblshift, tbllocation, tblstaff "
@@ -128,6 +139,7 @@ public class DAO {
          
          return staffid;
     }
+    
     
     public static boolean CheckUsernames(String username) throws SQLException{
         boolean matching = false;
@@ -212,9 +224,6 @@ public class DAO {
     }
         
         public static int UpdateShift(String[] shift) throws SQLException {
-        for (int i = 0; i < shift.length; i++) {
-            System.out.println(shift[i]);
-        }
         int locationID = DAO.ReturnLocationID(shift[4]);
         String sql = "UPDATE tblshift "
                 + "SET shiftdate = '" + shift[1] + "', starttime = '" + shift[2] + "', endtime = '" + shift[3] + "', locationid = '" + locationID + "' "
@@ -253,8 +262,33 @@ public class DAO {
         return DAO.ExecuteQuery(sql);
     }
         
+        public static int DeleteRequest(int requestID) throws SQLException {
+            String sql = "DELETE FROM tbltimeoffrequests "
+                    + "WHERE requestid = '" + requestID + "';";
+            
+            Connection con = DriverManager.getConnection(CONN_URL + DB_NAME, USER, PASSWORD);
+            System.out.println("Connection Made");
+            Statement st = con.createStatement();
+            int result = st.executeUpdate(sql);
 
+        return result; 
+        }
+        
+        public static int UpdateRequest(String[] request) throws SQLException {
+        String sql = "UPDATE tbltimeoffrequests "
+                + "SET staffid = '" + request[1] + "', requeststartdate = '" + request[2] 
+                + "', requestenddate = '" + request[3] + "', reason = '" + request[4] + "', requeststatus = '" + request[5] + "' "
+                + "WHERE requestid = '" + request[0] + "';";
+        
+        Connection con = DriverManager.getConnection(CONN_URL + DB_NAME, USER, PASSWORD);
+        System.out.println("Connection Made");
+        Statement st = con.createStatement();
+        int result = st.executeUpdate(sql);
 
+        return result; 
+        }
+        
+        
 
     
     }

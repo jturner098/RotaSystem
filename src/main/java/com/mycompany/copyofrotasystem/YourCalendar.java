@@ -4,6 +4,7 @@
  */
 package com.mycompany.copyofrotasystem;
 import java.sql.*;
+import java.time.LocalDate;
 import javax.swing.table.DefaultTableModel;
 /**
  *
@@ -14,12 +15,18 @@ DAO db = new DAO();
 String firstName;
 int staffID;
 static User user;
+LocalDate startDate;
+LocalDate endDate;
     /**
      * Creates new form YourShifts
      */
     public YourCalendar(User user) {
         initComponents();
         this.user = user;
+        startDate = LocalDate.now();
+        endDate = LocalDate.now();
+        StartDateField.setText(String.valueOf(startDate));
+        EndDateField.setText(String.valueOf(endDate));
     }
 
     /**
@@ -40,6 +47,16 @@ static User user;
         ShiftTable = new javax.swing.JTable();
         ShiftTableHeader = new javax.swing.JLabel();
         HolidayTableHeader = new javax.swing.JLabel();
+        btnShowAllShifts = new javax.swing.JButton();
+        StartDate = new javax.swing.JLabel();
+        btnForwardDate = new javax.swing.JButton();
+        StartDateField = new javax.swing.JTextField();
+        btnBackDate = new javax.swing.JButton();
+        EndDate = new javax.swing.JLabel();
+        btnBackDate1 = new javax.swing.JButton();
+        EndDateField = new javax.swing.JTextField();
+        btnForwardDate1 = new javax.swing.JButton();
+        btnShowShifts = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -64,14 +81,14 @@ static User user;
 
             },
             new String [] {
-                "Date", "Start Time", "End Time", "Location"
+                "Start Date", "End Date", "Reason"
             }
         ));
         HolidayTable.setEnabled(false);
         jScrollPane1.setViewportView(HolidayTable);
 
         jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 36)); // NOI18N
-        jLabel1.setText("Your Shifts");
+        jLabel1.setText("Your Calendar");
 
         ShiftTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -90,10 +107,95 @@ static User user;
         HolidayTableHeader.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         HolidayTableHeader.setText("Holiday:");
 
+        btnShowAllShifts.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 13)); // NOI18N
+        btnShowAllShifts.setText("Show All Shifts");
+        btnShowAllShifts.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShowAllShiftsActionPerformed(evt);
+            }
+        });
+
+        StartDate.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        StartDate.setText("Start Date:");
+
+        btnForwardDate.setText(">");
+        btnForwardDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnForwardDateActionPerformed(evt);
+            }
+        });
+
+        StartDateField.setText("jTextField1");
+        StartDateField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StartDateFieldActionPerformed(evt);
+            }
+        });
+
+        btnBackDate.setText("<");
+        btnBackDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackDateActionPerformed(evt);
+            }
+        });
+
+        EndDate.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        EndDate.setText("End Date:");
+
+        btnBackDate1.setText("<");
+        btnBackDate1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackDate1ActionPerformed(evt);
+            }
+        });
+
+        EndDateField.setText("jTextField1");
+
+        btnForwardDate1.setText(">");
+        btnForwardDate1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnForwardDate1ActionPerformed(evt);
+            }
+        });
+
+        btnShowShifts.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        btnShowShifts.setText("Show Shifts");
+        btnShowShifts.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShowShiftsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(StartDate)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnBackDate)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(StartDateField, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnForwardDate)
+                .addGap(18, 18, 18)
+                .addComponent(btnBackDate1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(EndDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(EndDateField, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnForwardDate1)
+                        .addGap(28, 28, 28)
+                        .addComponent(btnShowShifts)
+                        .addGap(27, 27, 27)
+                        .addComponent(btnShowAllShifts)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -102,41 +204,50 @@ static User user;
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(2, 2, 2)
                         .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 587, Short.MAX_VALUE)))
+                        .addGap(0, 587, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(HolidayTableHeader)
+                                    .addComponent(ShiftTableHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ShiftTableHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(HolidayTableHeader))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(249, 249, 249))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
-                    .addContainerGap()))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(21, 21, 21)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
                 .addComponent(ShiftTableHeader)
-                .addGap(177, 177, 177)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(StartDate)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnForwardDate)
+                            .addComponent(btnBackDate)
+                            .addComponent(StartDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(EndDate)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnForwardDate1)
+                            .addComponent(btnBackDate1)
+                            .addComponent(EndDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnShowShifts)
+                            .addComponent(btnShowAllShifts))))
+                .addGap(12, 12, 12)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
                 .addComponent(HolidayTableHeader)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(88, 88, 88)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(255, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -169,7 +280,8 @@ static User user;
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         try {
             ResultSet rs = db.UserShifts(user.getID());
-            System.out.println(rs);
+            DefaultTableModel dtm = (DefaultTableModel) ShiftTable.getModel();
+            dtm.setRowCount(0);
             while (rs.next()) {
                 String location = rs.getString("location");
                 String date = rs.getString("shiftdate");
@@ -178,13 +290,99 @@ static User user;
                 String tableData[] = {date, startTime, endTime, location};
                 
                 
-                DefaultTableModel dtm = (DefaultTableModel) HolidayTable.getModel();
+                dtm = (DefaultTableModel) ShiftTable.getModel();
                 dtm.addRow(tableData);
         }
         } catch(Exception e) {
             
         }
+        
+        try { 
+            ResultSet rs = db.UpcomingHoliday(user.getID());
+            DefaultTableModel dtm = (DefaultTableModel) HolidayTable.getModel();
+            dtm.setRowCount(0);
+            while (rs.next()) {
+                String startDate = rs.getString("requeststartdate");
+                String endDate = rs.getString("requestenddate");
+                String reason = rs.getString("reason");
+                String tableData[] = {startDate, endDate, reason};
+                
+                
+                dtm = (DefaultTableModel) HolidayTable.getModel();
+                dtm.addRow(tableData);            
+        }
+        } catch(Exception e) {
+            
+        }
     }//GEN-LAST:event_formWindowActivated
+
+    private void btnShowAllShiftsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowAllShiftsActionPerformed
+        try {
+            ResultSet rs = db.UserShifts(user.getID());
+            DefaultTableModel dtm = (DefaultTableModel) ShiftTable.getModel();
+            dtm.setRowCount(0);
+            while (rs.next()) {
+                String location = rs.getString("location");
+                String date = rs.getString("shiftdate");
+                String startTime = rs.getString("starttime");
+                String endTime = rs.getString("endtime");
+                String tableData[] = {date, startTime, endTime, location};
+                
+                
+                dtm = (DefaultTableModel) ShiftTable.getModel();
+                dtm.addRow(tableData);
+        }
+        } catch(Exception e) {
+            
+        }
+    }//GEN-LAST:event_btnShowAllShiftsActionPerformed
+
+    private void btnForwardDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForwardDateActionPerformed
+        startDate = startDate.plusDays(1);
+        StartDateField.setText(String.valueOf(startDate));
+    }//GEN-LAST:event_btnForwardDateActionPerformed
+
+    private void btnBackDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackDateActionPerformed
+        startDate = startDate.plusDays(-1);
+        StartDateField.setText(String.valueOf(startDate));
+    }//GEN-LAST:event_btnBackDateActionPerformed
+
+    private void btnBackDate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackDate1ActionPerformed
+        endDate = endDate.plusDays(-1);
+        EndDateField.setText(String.valueOf(endDate));
+    }//GEN-LAST:event_btnBackDate1ActionPerformed
+
+    private void btnForwardDate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForwardDate1ActionPerformed
+        endDate = endDate.plusDays(1);
+        EndDateField.setText(String.valueOf(endDate));
+    }//GEN-LAST:event_btnForwardDate1ActionPerformed
+
+    private void btnShowShiftsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowShiftsActionPerformed
+        try {
+            ResultSet rs = db.UserShiftsBetweenDates(user.getID(), StartDateField.getText(), EndDateField.getText());
+            
+            DefaultTableModel dtm = (DefaultTableModel) ShiftTable.getModel();
+            dtm.setRowCount(0);
+
+            while (rs.next()) {
+                String location = rs.getString("location");
+                String date = rs.getString("shiftdate");
+                String startTime = rs.getString("starttime");
+                String endTime = rs.getString("endtime");
+                String tableData[] = {date, startTime, endTime, location};
+                
+                
+                dtm = (DefaultTableModel) ShiftTable.getModel();
+                dtm.addRow(tableData);
+        }
+        } catch(Exception e) {
+            
+        }
+    }//GEN-LAST:event_btnShowShiftsActionPerformed
+
+    private void StartDateFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartDateFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_StartDateFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -224,10 +422,20 @@ static User user;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BackButton;
+    private javax.swing.JLabel EndDate;
+    private javax.swing.JTextField EndDateField;
     private javax.swing.JTable HolidayTable;
     private javax.swing.JLabel HolidayTableHeader;
     private javax.swing.JTable ShiftTable;
     private javax.swing.JLabel ShiftTableHeader;
+    private javax.swing.JLabel StartDate;
+    private javax.swing.JTextField StartDateField;
+    private javax.swing.JButton btnBackDate;
+    private javax.swing.JButton btnBackDate1;
+    private javax.swing.JButton btnForwardDate;
+    private javax.swing.JButton btnForwardDate1;
+    private javax.swing.JButton btnShowAllShifts;
+    private javax.swing.JButton btnShowShifts;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
