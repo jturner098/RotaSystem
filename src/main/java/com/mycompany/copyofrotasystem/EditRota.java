@@ -796,9 +796,9 @@ public class EditRota extends javax.swing.JFrame {
         int staffQuantity = Integer.valueOf(StaffQuantityField.getText());
         System.out.println(staffQuantity);
         String date = DateField1.getText();
-        int staffWorking = dtm.getRowCount();
+
         try {
-            GenerateRota(staffWorking,staffQuantity, date);
+            GenerateRota(staffQuantity, date);
         } catch (Exception e) {
             GenerateErrorMessage.setText(e.getMessage());
             System.out.println(e.getMessage());
@@ -806,8 +806,11 @@ public class EditRota extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnGenerateRota1ActionPerformed
     
-    private void GenerateRota(int staffWorking, int staffQuantity, String date) throws SQLException {
+    private void GenerateRota(int staffQuantity, String date) throws SQLException {
         ResultSet rs;
+        rs = db.ExecuteQuery("SELECT COUNT(staffid) FROM tblshift WHERE shiftdate = '" + date + "';");
+        rs.next();
+        int staffWorking = rs.getInt(1);
         DefaultTableModel dtm = (DefaultTableModel) RotaTable.getModel(); 
         dtm.setRowCount(0); 
         
@@ -830,7 +833,6 @@ public class EditRota extends javax.swing.JFrame {
                 rs = db.ExecuteQuery("SELECT COUNT(staffid) AS total FROM tblstaff WHERE userlevel != 'Manager';");
                 rs.next();
                 int total = rs.getInt("total");
-                System.out.println(total);
                 
                 for (int i = 0; i<staffQuantity-staffWorking; i++) {
 
@@ -867,7 +869,7 @@ public class EditRota extends javax.swing.JFrame {
          if (check == true) {
             GenerateErrorMessage.setText("Generation Completed");    
          } else {
-            GenerateRota(staffWorking, staffQuantity, date);   
+            GenerateRota(staffQuantity, date);   
          }
     }
     
@@ -884,7 +886,7 @@ public class EditRota extends javax.swing.JFrame {
         
                 
         for (int i = 0; i < staffQuantity - 1; i++) {
-                    if (dtm.getValueAt(i, 0).equals(staffMember)) {
+                    if (dtm.getValueAt(i, 0).toString().equals(staffMember)) {
                         duplicate = true;
                     }
                     if (dtm.getValueAt(i, 2).equals("08:00")) {
@@ -900,11 +902,7 @@ public class EditRota extends javax.swing.JFrame {
                         waiting = true;
                     }               
         }
-        System.out.println("\n" + duplicate);
-        System.out.println(earlyStart);
-        System.out.println(lateFinish);
-        System.out.println(kitchen);
-        System.out.println(waiting);
+
         if (duplicate == true) {
             return false;
         } 
