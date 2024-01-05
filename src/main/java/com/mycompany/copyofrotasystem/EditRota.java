@@ -4,8 +4,10 @@
  */
 package com.mycompany.copyofrotasystem;
 
-import static com.mycompany.copyofrotasystem.YourCalendar.user;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.Random;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -15,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 public class EditRota extends javax.swing.JFrame {
     DAO db = new DAO();
     static User user;
+    LocalDate date;
 
     /**
      * Creates new form EditRota
@@ -22,6 +25,8 @@ public class EditRota extends javax.swing.JFrame {
     public EditRota(User user) {
         initComponents();
         this.user = user;
+        date = LocalDate.now();
+        DateField1.setText(String.valueOf(date));
     }
 
     /**
@@ -51,6 +56,23 @@ public class EditRota extends javax.swing.JFrame {
         EndTimeField = new javax.swing.JTextField();
         btnSubmitNewShift = new javax.swing.JButton();
         ShiftErrorMessage = new javax.swing.JLabel();
+        btnAddShiftBack = new javax.swing.JButton();
+        GenerateRota = new javax.swing.JFrame();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        btnBackDate = new javax.swing.JButton();
+        DateField1 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        btnForwardDate = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        RotaTable = new javax.swing.JTable();
+        btnGenerateRota1 = new javax.swing.JButton();
+        GenerateErrorMessage = new javax.swing.JLabel();
+        lblStaffAmount = new javax.swing.JLabel();
+        StaffQuantityField = new javax.swing.JTextField();
+        btnBackDate1 = new javax.swing.JButton();
+        btnForwardDate1 = new javax.swing.JButton();
+        btnSaveGeneratedRota = new javax.swing.JButton();
         Title = new javax.swing.JLabel();
         StaffMember = new javax.swing.JLabel();
         StaffMemberField = new javax.swing.JComboBox<>();
@@ -61,6 +83,7 @@ public class EditRota extends javax.swing.JFrame {
         btnAddNewShift = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         ErrorMessage = new javax.swing.JLabel();
+        btnGenerateRota = new javax.swing.JButton();
 
         AddNewShift.setSize(new java.awt.Dimension(693, 541));
         AddNewShift.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -122,6 +145,15 @@ public class EditRota extends javax.swing.JFrame {
         ShiftErrorMessage.setForeground(new java.awt.Color(255, 51, 0));
         ShiftErrorMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
+        btnAddShiftBack.setBackground(new java.awt.Color(128, 191, 180));
+        btnAddShiftBack.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnAddShiftBack.setText("Back");
+        btnAddShiftBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddShiftBackActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -148,26 +180,27 @@ public class EditRota extends javax.swing.JFrame {
                         .addComponent(EndTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnAddShiftBack, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSubmitNewShift)
                 .addGap(224, 224, 224))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 666, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 9, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblAddNewShift)
-                                .addGap(183, 183, 183))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(StaffMember1)
                                 .addGap(18, 18, 18)
                                 .addComponent(StaffMemberField1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(159, 159, 159))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 666, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 9, Short.MAX_VALUE))))
+                                .addGap(159, 159, 159))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblAddNewShift)
+                                .addGap(213, 213, 213))))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(ShiftErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -189,23 +222,29 @@ public class EditRota extends javax.swing.JFrame {
                     .addComponent(StaffMember1))
                 .addGap(45, 45, 45)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblLocation)
-                    .addComponent(LocationField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblDate)
-                    .addComponent(DateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblStartTime)
-                    .addComponent(StartTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblEndTime)
-                    .addComponent(EndTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                .addComponent(ShiftErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnSubmitNewShift, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblLocation)
+                            .addComponent(LocationField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblDate)
+                            .addComponent(DateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblStartTime)
+                            .addComponent(StartTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblEndTime)
+                            .addComponent(EndTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                        .addComponent(ShiftErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSubmitNewShift, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAddShiftBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(106, 106, 106)
@@ -227,6 +266,193 @@ public class EditRota extends javax.swing.JFrame {
             .addGroup(AddNewShiftLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        GenerateRota.setSize(new java.awt.Dimension(554, 616));
+
+        jPanel2.setSize(new java.awt.Dimension(542, 604));
+
+        jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 36)); // NOI18N
+        jLabel2.setText("Generate Rota");
+
+        btnBackDate.setText("<");
+        btnBackDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackDateActionPerformed(evt);
+            }
+        });
+
+        DateField1.setText("jTextField1");
+        DateField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DateField1ActionPerformed(evt);
+            }
+        });
+        DateField1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                DateField1PropertyChange(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        jLabel3.setText("Date:");
+
+        btnForwardDate.setText(">");
+        btnForwardDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnForwardDateActionPerformed(evt);
+            }
+        });
+
+        RotaTable.setAutoCreateRowSorter(true);
+        RotaTable.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 13)); // NOI18N
+        RotaTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Staff Member", "Location", "Start Time", "End Time"
+            }
+        ));
+        jScrollPane3.setViewportView(RotaTable);
+
+        btnGenerateRota1.setBackground(new java.awt.Color(128, 191, 180));
+        btnGenerateRota1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        btnGenerateRota1.setText("Generate Rota");
+        btnGenerateRota1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerateRota1ActionPerformed(evt);
+            }
+        });
+
+        GenerateErrorMessage.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        GenerateErrorMessage.setForeground(new java.awt.Color(255, 0, 0));
+        GenerateErrorMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        lblStaffAmount.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        lblStaffAmount.setText("Number of Staff Working:");
+
+        StaffQuantityField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        StaffQuantityField.setText("5");
+
+        btnBackDate1.setText("<");
+        btnBackDate1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackDate1ActionPerformed(evt);
+            }
+        });
+
+        btnForwardDate1.setText(">");
+        btnForwardDate1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnForwardDate1ActionPerformed(evt);
+            }
+        });
+
+        btnSaveGeneratedRota.setBackground(new java.awt.Color(128, 191, 180));
+        btnSaveGeneratedRota.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        btnSaveGeneratedRota.setText("Save Generated Rota");
+        btnSaveGeneratedRota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveGeneratedRotaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSaveGeneratedRota)
+                    .addComponent(btnGenerateRota1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(176, 176, 176))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(156, 156, 156)
+                        .addComponent(jLabel2)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(69, 69, 69))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(btnBackDate)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(DateField1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnForwardDate)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(btnBackDate1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(StaffQuantityField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnForwardDate1)
+                                .addGap(86, 86, 86))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(lblStaffAmount)
+                                .addGap(31, 31, 31))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(GenerateErrorMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(6, 6, 6))))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(lblStaffAmount))
+                .addGap(3, 3, 3)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnForwardDate)
+                    .addComponent(DateField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBackDate)
+                    .addComponent(StaffQuantityField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnForwardDate1)
+                    .addComponent(btnBackDate1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnGenerateRota1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 305, Short.MAX_VALUE)
+                .addComponent(GenerateErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(btnSaveGeneratedRota, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGap(157, 157, 157)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(19, Short.MAX_VALUE)))
+        );
+
+        javax.swing.GroupLayout GenerateRotaLayout = new javax.swing.GroupLayout(GenerateRota.getContentPane());
+        GenerateRota.getContentPane().setLayout(GenerateRotaLayout);
+        GenerateRotaLayout.setHorizontalGroup(
+            GenerateRotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(GenerateRotaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        GenerateRotaLayout.setVerticalGroup(
+            GenerateRotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(GenerateRotaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -303,6 +529,15 @@ public class EditRota extends javax.swing.JFrame {
         ErrorMessage.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         ErrorMessage.setForeground(new java.awt.Color(255, 51, 0));
 
+        btnGenerateRota.setBackground(new java.awt.Color(128, 191, 180));
+        btnGenerateRota.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnGenerateRota.setText("Generate Rota");
+        btnGenerateRota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerateRotaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -314,31 +549,30 @@ public class EditRota extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2)
+                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(118, 118, 118)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(205, 205, 205)
+                                        .addGap(105, 105, 105)
                                         .addComponent(Title))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(118, 118, 118)
                                         .addComponent(StaffMember)
                                         .addGap(47, 47, 47)
-                                        .addComponent(StaffMemberField, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
+                                        .addComponent(StaffMemberField, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(91, 91, 91)
+                        .addGap(6, 6, 6)
                         .addComponent(btnAddNewShift, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnConfirmChanges)
-                        .addGap(87, 87, 87))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(ErrorMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addComponent(btnGenerateRota, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(43, 43, 43)
+                        .addComponent(btnConfirmChanges))
+                    .addComponent(ErrorMessage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -349,16 +583,18 @@ public class EditRota extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(StaffMember)
                     .addComponent(StaffMemberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(21, 21, 21)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(ErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAddNewShift, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
-                    .addComponent(btnConfirmChanges, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnGenerateRota, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnAddNewShift, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+                        .addComponent(btnConfirmChanges, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -407,18 +643,11 @@ public class EditRota extends javax.swing.JFrame {
     }//GEN-LAST:event_StaffMemberFieldActionPerformed
 
     private void AddNewShiftWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_AddNewShiftWindowOpened
-            DefaultTableModel dtm = (DefaultTableModel) UpcomingHolidayTable.getModel();   
-            dtm.setRowCount(0);
-            
-            String staffName = (String) StaffMemberField1.getSelectedItem();
-            String[] nameParts = staffName.split(" ");
-            int staffID = Integer.valueOf(nameParts[0]);
-            
-            try {
-            ResultSet rs = db.GenerateStaffList();          
-            while (rs.next()) {
-                String name = rs.getInt("staffid") + " - " + rs.getString("firstname") + " " + rs.getString("surname");
-                StaffMemberField1.addItem(name);
+            try {   
+                ResultSet rs = db.GenerateStaffList();          
+                while (rs.next()) {
+                    String name = rs.getInt("staffid") + " - " + rs.getString("firstname") + " " + rs.getString("surname");
+                    StaffMemberField1.addItem(name);
                 }
             } catch(Exception e) {
                 
@@ -426,7 +655,7 @@ public class EditRota extends javax.swing.JFrame {
     
             try {
                 ResultSet rs = db.GenerateLocations();
-                    while (rs.next()) {
+                while (rs.next()) {
                     String location = rs.getInt("locationid") + " - " + rs.getString("location");
                     LocationField.addItem(location);
                 }
@@ -434,6 +663,21 @@ public class EditRota extends javax.swing.JFrame {
         
             }
     
+            
+    }//GEN-LAST:event_AddNewShiftWindowOpened
+
+    private void StaffMemberField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StaffMemberField1ActionPerformed
+            DefaultTableModel dtm = (DefaultTableModel) UpcomingHolidayTable.getModel(); 
+            dtm.setRowCount(0);
+            
+            String staffName = (String) StaffMemberField1.getSelectedItem();            
+            String[] nameParts = staffName.split(" ");
+            int staffID = Integer.valueOf(nameParts[0]);
+            String firstName = nameParts[2];
+            String surname = nameParts[3];
+            
+            lblUpcomingHoliday.setText(firstName + "'s Upcoming Time Off:");
+            
             try { 
                 ResultSet rs = db.UpcomingHoliday(staffID);
 
@@ -449,15 +693,6 @@ public class EditRota extends javax.swing.JFrame {
             } catch(Exception e) {
 
             }
-    }//GEN-LAST:event_AddNewShiftWindowOpened
-
-    private void StaffMemberField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StaffMemberField1ActionPerformed
-            String staffName = (String) StaffMemberField1.getSelectedItem();            
-            String[] nameParts = staffName.split(" ");
-            int staffID = Integer.valueOf(nameParts[0]);
-            String firstName = nameParts[2];
-            String surname = nameParts[3];
-            lblUpcomingHoliday.setText(firstName + "'s Upcoming Time Off:");
     }//GEN-LAST:event_StaffMemberField1ActionPerformed
 
     private void btnAddNewShiftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddNewShiftActionPerformed
@@ -507,22 +742,20 @@ public class EditRota extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSubmitNewShiftActionPerformed
 
     private void btnConfirmChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmChangesActionPerformed
-                    for (int i = 0; i < ShiftTable.getRowCount(); i++) {
-                        DefaultTableModel dtm = (DefaultTableModel)ShiftTable.getModel();
-                        String shiftID = (dtm.getValueAt(i, 0).toString());
-                        String date = (dtm.getValueAt(i, 1).toString());
-                        String startTime = (dtm.getValueAt(i, 2).toString());
-                        String endTime = (dtm.getValueAt(i, 3).toString());
-                        String location = (dtm.getValueAt(i,4).toString());
-                        String[] shift = {shiftID, date, startTime, endTime, location};
-                        try {
-                            int result = db.UpdateShift(shift);
-                        } catch(Exception e) {
-                            ErrorMessage.setText(e.getMessage());
-                        }
-                        
-                        
-                    }        // TODO add your handling code here:
+        for (int i = 0; i < ShiftTable.getRowCount(); i++) {
+            DefaultTableModel dtm = (DefaultTableModel)ShiftTable.getModel();
+            String shiftID = (dtm.getValueAt(i, 0).toString());
+            String date = (dtm.getValueAt(i, 1).toString());
+            String startTime = (dtm.getValueAt(i, 2).toString());
+            String endTime = (dtm.getValueAt(i, 3).toString());
+            String location = (dtm.getValueAt(i,4).toString());
+            String[] shift = {shiftID, date, startTime, endTime, location};
+            try {
+                int result = db.UpdateShift(shift);
+            } catch(Exception e) {
+                ErrorMessage.setText(e.getMessage());
+            }   
+        }                    
     }//GEN-LAST:event_btnConfirmChangesActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -531,6 +764,228 @@ public class EditRota extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
+    private void btnForwardDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForwardDateActionPerformed
+        date = date.plusDays(1);
+        DateField1.setText(String.valueOf(date));
+        UpdateTable();
+    }//GEN-LAST:event_btnForwardDateActionPerformed
+
+    private void btnBackDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackDateActionPerformed
+        date = date.plusDays(-1);
+        DateField1.setText(String.valueOf(date));
+        UpdateTable();
+    }//GEN-LAST:event_btnBackDateActionPerformed
+
+    private void btnGenerateRotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateRotaActionPerformed
+        GenerateRota.setVisible(true);
+        jPanel2.setVisible(true);
+        UpdateTable();
+    }//GEN-LAST:event_btnGenerateRotaActionPerformed
+
+    private void DateField1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_DateField1PropertyChange
+
+    }//GEN-LAST:event_DateField1PropertyChange
+
+    private void DateField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DateField1ActionPerformed
+
+    }//GEN-LAST:event_DateField1ActionPerformed
+
+    private void btnGenerateRota1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateRota1ActionPerformed
+        DefaultTableModel dtm = (DefaultTableModel) RotaTable.getModel();
+        GenerateErrorMessage.setText("Generating...");
+        int staffQuantity = Integer.valueOf(StaffQuantityField.getText());
+        System.out.println(staffQuantity);
+        String date = DateField1.getText();
+        int staffWorking = dtm.getRowCount();
+        try {
+            GenerateRota(staffWorking,staffQuantity, date);
+        } catch (Exception e) {
+            GenerateErrorMessage.setText(e.getMessage());
+            System.out.println(e.getMessage());
+        }
+        
+    }//GEN-LAST:event_btnGenerateRota1ActionPerformed
+    
+    private void GenerateRota(int staffWorking, int staffQuantity, String date) throws SQLException {
+        ResultSet rs;
+        DefaultTableModel dtm = (DefaultTableModel) RotaTable.getModel(); 
+        dtm.setRowCount(0); 
+        
+        
+        if (staffWorking == staffQuantity) {
+            GenerateErrorMessage.setText("Generation Completed");
+            return;
+        } else if (staffQuantity <= 0) {
+            GenerateErrorMessage.setText("Number of staff working must be greater than 0!");
+            return;
+        } else {
+           
+            try {
+                Random random = new Random();
+                int staffID;
+                int startTimeHour;
+                int endTimeHour;
+                int locationID;
+                
+                rs = db.ExecuteQuery("SELECT COUNT(staffid) AS total FROM tblstaff WHERE userlevel != 'Manager';");
+                rs.next();
+                int total = rs.getInt("total");
+                System.out.println(total);
+                
+                for (int i = 0; i<staffQuantity-staffWorking; i++) {
+
+                    staffID = random.nextInt(total) + 1;
+                    rs = db.ExecuteQuery("SELECT firstname, surname FROM tblstaff WHERE staffid = '" + staffID + "';");
+                    rs.next();
+                    String name = rs.getString("firstname") + " " + rs.getString("surname");
+
+                    startTimeHour = random.nextInt(3) + 8;
+                    endTimeHour = random.nextInt(3) + 16;
+                    String startTime;
+                    if (startTimeHour == 10){
+                        startTime = (startTimeHour + ":00");
+                    } else {
+                        startTime = ("0" + startTimeHour + ":00");
+                    }
+                    String endTime = (endTimeHour + ":00");
+
+                    locationID = random.nextInt(5) + 1;
+
+
+
+                    String[] tableData = {name, String.valueOf(locationID), startTime, endTime};
+                    dtm.addRow(tableData);
+                
+                }
+
+            } catch(Exception e) {
+                System.out.println(e.getMessage());
+            }
+
+        }
+         boolean check = CheckRota(staffQuantity);
+         if (check == true) {
+            GenerateErrorMessage.setText("Generation Completed");    
+         } else {
+            GenerateRota(staffWorking, staffQuantity, date);   
+         }
+    }
+    
+    public boolean CheckRota(int staffQuantity) {
+        DefaultTableModel dtm = (DefaultTableModel)RotaTable.getModel();  
+        
+        boolean duplicate = false;
+        boolean earlyStart = false;
+        boolean lateFinish = false;
+        boolean kitchen = false;
+        boolean waiting = false;
+        
+        String staffMember = (dtm.getValueAt((RotaTable.getRowCount()-1), 0).toString());
+        
+                
+        for (int i = 0; i < staffQuantity - 1; i++) {
+                    if (dtm.getValueAt(i, 0).equals(staffMember)) {
+                        duplicate = true;
+                    }
+                    if (dtm.getValueAt(i, 2).equals("08:00")) {
+                        earlyStart = true;
+                    }
+                    if (dtm.getValueAt(i, 3).equals("18:00")) {
+                        lateFinish = true;
+                    }
+                    if (dtm.getValueAt(i, 1).equals("1")) {
+                        kitchen = true;
+                    }
+                    if (dtm.getValueAt(i, 1).equals("2") || dtm.getValueAt(i,1).equals("3")) {
+                        waiting = true;
+                    }               
+        }
+        System.out.println("\n" + duplicate);
+        System.out.println(earlyStart);
+        System.out.println(lateFinish);
+        System.out.println(kitchen);
+        System.out.println(waiting);
+        if (duplicate == true) {
+            return false;
+        } 
+        if (earlyStart == false || lateFinish == false || kitchen == false || waiting == false) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    private void btnBackDate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackDate1ActionPerformed
+        int staffQuantity = Integer.valueOf(StaffQuantityField.getText());
+        staffQuantity = staffQuantity - 1;
+        StaffQuantityField.setText(String.valueOf(staffQuantity));        
+    }//GEN-LAST:event_btnBackDate1ActionPerformed
+
+    private void btnForwardDate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForwardDate1ActionPerformed
+        int staffQuantity = Integer.valueOf(StaffQuantityField.getText());
+        staffQuantity++;
+        StaffQuantityField.setText(String.valueOf(staffQuantity));
+    }//GEN-LAST:event_btnForwardDate1ActionPerformed
+
+    private void btnSaveGeneratedRotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveGeneratedRotaActionPerformed
+            
+            DefaultTableModel dtm = (DefaultTableModel)RotaTable.getModel();
+            int userID;
+            int locationID;
+            String date;
+            String startTime;
+            String endTime;
+             
+            for (int i = 0; i < RotaTable.getRowCount() - 1; i++) {
+                        String staffName = (dtm.getValueAt(i, 0).toString());
+                        String[] nameParts = staffName.split(" ");
+                        String firstName = nameParts[0];
+                        String surname = nameParts[1];
+                        try {
+                            userID = db.ReturnStaffID(firstName, surname);
+                            date = DateField1.getText();
+                            locationID = Integer.valueOf(dtm.getValueAt(i, 1).toString());
+                            startTime = (dtm.getValueAt(i, 2).toString());
+                            endTime = (dtm.getValueAt(i, 3).toString());
+                        
+                            int result = db.SubmitShift(userID, locationID, date, startTime, endTime);
+                        } catch(Exception e) {
+                            ErrorMessage.setText(e.getMessage());
+                        }
+                        
+            } 
+
+    }//GEN-LAST:event_btnSaveGeneratedRotaActionPerformed
+
+    private void btnAddShiftBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddShiftBackActionPerformed
+        AddNewShift.setVisible(false);
+        jPanel1.setVisible(false);
+
+    }//GEN-LAST:event_btnAddShiftBackActionPerformed
+
+    private void UpdateTable() {
+            try {
+            DefaultTableModel dtm = (DefaultTableModel) RotaTable.getModel();
+            dtm.setRowCount(0);
+            ResultSet rs = db.RotaShifts((String) DateField1.getText());   
+            while (rs.next()) {
+                String shiftID = rs.getString("shiftid");
+                String name = rs.getString("firstname") + " " + rs.getString("surname");
+                String location = rs.getString("location");
+                String date = rs.getString("shiftdate");
+                String startTime = rs.getString("starttime");
+                String endTime = rs.getString("endtime");
+                
+                
+                String tableData[] = {shiftID, name, location, date, startTime, endTime};
+                
+                dtm.addRow(tableData);
+
+            }
+            } catch(Exception e) {
+            GenerateErrorMessage.setText(e.getMessage());
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -557,6 +1012,9 @@ public class EditRota extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(EditRota.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -569,30 +1027,48 @@ public class EditRota extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame AddNewShift;
     private javax.swing.JTextField DateField;
+    private javax.swing.JTextField DateField1;
     private javax.swing.JTextField EndTimeField;
     private javax.swing.JLabel ErrorMessage;
+    private javax.swing.JLabel GenerateErrorMessage;
+    private javax.swing.JFrame GenerateRota;
     private javax.swing.JComboBox<String> LocationField;
+    javax.swing.JTable RotaTable;
     private javax.swing.JLabel ShiftErrorMessage;
     private javax.swing.JTable ShiftTable;
     private javax.swing.JLabel StaffMember;
     private javax.swing.JLabel StaffMember1;
     private javax.swing.JComboBox<String> StaffMemberField;
     private javax.swing.JComboBox<String> StaffMemberField1;
+    private javax.swing.JTextField StaffQuantityField;
     private javax.swing.JTextField StartTimeField;
     private javax.swing.JLabel Title;
     private javax.swing.JTable UpcomingHolidayTable;
     private javax.swing.JButton btnAddNewShift;
+    private javax.swing.JButton btnAddShiftBack;
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnBackDate;
+    private javax.swing.JButton btnBackDate1;
     private javax.swing.JButton btnConfirmChanges;
+    private javax.swing.JButton btnForwardDate;
+    private javax.swing.JButton btnForwardDate1;
+    private javax.swing.JButton btnGenerateRota;
+    private javax.swing.JButton btnGenerateRota1;
+    private javax.swing.JButton btnSaveGeneratedRota;
     private javax.swing.JButton btnSubmitNewShift;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblAddNewShift;
     private javax.swing.JLabel lblDate;
     private javax.swing.JLabel lblEndTime;
     private javax.swing.JLabel lblLocation;
+    private javax.swing.JLabel lblStaffAmount;
     private javax.swing.JLabel lblStartTime;
     private javax.swing.JLabel lblUpcomingHoliday;
     // End of variables declaration//GEN-END:variables
