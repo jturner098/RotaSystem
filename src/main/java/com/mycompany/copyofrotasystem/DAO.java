@@ -84,6 +84,19 @@ public class DAO {
         return result;        
     }
     
+    public static int SubmitRequest(int staffID, String startDate, String endDate, String reason) throws SQLException {
+        
+        String sql = "INSERT INTO tbltimeoffrequests(staffid, requeststartdate, requestenddate, reason) "
+                + "VALUES('" + staffID + "', '" + startDate + "', '" + endDate + "', '" + reason + "');";
+        
+        
+        Connection con = DriverManager.getConnection(CONN_URL + DB_NAME, USER, PASSWORD);
+        System.out.println("Connection Made");
+        Statement st = con.createStatement();
+        int result = st.executeUpdate(sql);
+        return result;        
+    }
+    
     public static ResultSet GenerateStaffList() throws SQLException {
         String sql = "SELECT staffid, surname, firstname FROM tblstaff;";
         
@@ -209,7 +222,7 @@ public class DAO {
         return DAO.ExecuteQuery(sql);
     }
     
-        public static int SubmitShift(int staffID, int locationID, String date, String startTime, String endTime) throws SQLException {
+    public static int SubmitShift(int staffID, int locationID, String date, String startTime, String endTime) throws SQLException {
         
         String sql = "INSERT INTO tblshift(staffid, locationid, starttime, endtime, shiftdate) "
                 + "VALUES('" + staffID + "', '" + locationID + "', '" + startTime + "', '" + endTime + "', '" + date + "');";
@@ -238,18 +251,18 @@ public class DAO {
         return result;              
         }
         
-        public static int ReturnLocationID(String location) throws SQLException{
-        int secqid = 0;
+        public static int ReturnLocationID(String location) throws SQLException {
+        int locationID = 0;
         String sql = "SELECT locationid " +
                 "FROM tbllocation " +
                 "WHERE location = '" + location + "';";
         ResultSet rs = DAO.ExecuteQuery(sql);
         
         while (rs.next()) {
-            secqid = rs.getInt("locationid");
+            locationID = rs.getInt("locationid");
         }
-        return secqid;
-    }
+        return locationID;
+        }
         
         public static ResultSet GetRequests() throws SQLException {
         String sql = "SELECT requestid, tblstaff.staffid, firstname, surname, tbltimeoffrequests.requestid, requeststartdate, "

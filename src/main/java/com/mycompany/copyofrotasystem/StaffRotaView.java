@@ -247,6 +247,7 @@ public class StaffRotaView extends javax.swing.JFrame {
     private void btnViewShiftsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewShiftsActionPerformed
         YourCalendar yc = new YourCalendar(user);
         yc.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnViewShiftsActionPerformed
 
     /**

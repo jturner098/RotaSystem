@@ -44,6 +44,8 @@ public class CreateNewUser extends javax.swing.JFrame {
         ReasonField = new javax.swing.JTextField();
         btnSubmitHolidayRequest = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        HolidayErrorMessage = new javax.swing.JLabel();
+        btnBack = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         Title = new javax.swing.JLabel();
         subPersonalDetails = new javax.swing.JLabel();
@@ -72,9 +74,10 @@ public class CreateNewUser extends javax.swing.JFrame {
         ErrorMessage = new javax.swing.JLabel();
         BackButton = new javax.swing.JButton();
 
-        NewUserHolidayForm.setSize(new java.awt.Dimension(398, 308));
+        NewUserHolidayForm.setSize(new java.awt.Dimension(398, 390));
 
-        jPanel2.setSize(new java.awt.Dimension(386, 348));
+        jPanel2.setPreferredSize(new java.awt.Dimension(386, 378));
+        jPanel2.setSize(new java.awt.Dimension(386, 378));
 
         StartDate.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
         StartDate.setText("Start Date:");
@@ -109,30 +112,49 @@ public class CreateNewUser extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 14)); // NOI18N
         jLabel1.setText("Dates must be written in the form YYYY-MM-DD");
 
+        HolidayErrorMessage.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        HolidayErrorMessage.setForeground(new java.awt.Color(255, 0, 0));
+
+        btnBack.setBackground(new java.awt.Color(128, 191, 180));
+        btnBack.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addComponent(HolidayErrorMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSubmitHolidayRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(82, 82, 82))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(EndDate)
-                            .addComponent(StartDate)
-                            .addComponent(Reason))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(StartDateField)
-                            .addComponent(EndDateField)
-                            .addComponent(ReasonField, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(btnSubmitHolidayRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jLabel1)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(EndDate)
+                                    .addComponent(Reason))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(EndDateField)
+                                    .addComponent(ReasonField, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(StartDate)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(StartDateField, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addComponent(jLabel1))))
+                    .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,7 +163,7 @@ public class CreateNewUser extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(StartDate)
                     .addComponent(StartDateField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(EndDateField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(EndDate))
@@ -151,9 +173,13 @@ public class CreateNewUser extends javax.swing.JFrame {
                     .addComponent(ReasonField, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addGap(19, 19, 19)
-                .addComponent(btnSubmitHolidayRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(HolidayErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSubmitHolidayRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout NewUserHolidayFormLayout = new javax.swing.GroupLayout(NewUserHolidayForm.getContentPane());
@@ -168,7 +194,7 @@ public class CreateNewUser extends javax.swing.JFrame {
             NewUserHolidayFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(NewUserHolidayFormLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 296, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -414,6 +440,7 @@ public class CreateNewUser extends javax.swing.JFrame {
             String reason = ReasonField.getText();
 
             if (StartDateField.getText().equals("") || EndDateField.getText().equals("") || ReasonField.getText().equals("")) {
+                HolidayErrorMessage.setText("All fields must be filled!");
             }
             else {
                 String[] tableData = {startDate, endDate, reason};
@@ -469,17 +496,18 @@ public class CreateNewUser extends javax.swing.JFrame {
         else {
             String SecQ = (String) SecurityQuestionField.getSelectedItem();
             try {
-                int userSuccess = db.CreateUser(FirstNameField.getText(), SurnameField.getText(), UsernameField.getText(), PasswordField.getText(), SecQ, SecQAnswerField.getText());
+                int userSuccess = db.CreateUser(FirstNameField.getText(), SurnameField.getText(), UsernameField.getText(), 
+                        PasswordField.getText(), SecQ, SecQAnswerField.getText());
                 if (userSuccess == 1) {
+                    
                     int staffID = db.ReturnStaffID(FirstNameField.getText(), SurnameField.getText());
-                    int secQID = db.ReturnSecQID(SecQ);
-                    User user = new User(staffID, FirstNameField.getText(), SurnameField.getText(), UsernameField.getText(), PasswordField.getText(), secQID, SecQAnswerField.getText());
+                    
                     for (int i = 0; i < RequestList.getRowCount() - 1; i++) {
                         DefaultTableModel dtm = (DefaultTableModel)RequestList.getModel();
                         String startDate = (dtm.getValueAt(i, 0).toString());
                         String endDate = (dtm.getValueAt(i, 1).toString());
                         String reason = (dtm.getValueAt(i, 2).toString());
-                        db.SubmitRequest(user, startDate, endDate, reason);
+                        db.SubmitRequest(staffID, startDate, endDate, reason);
                         
                     }
                     LoginScreen ls = new LoginScreen();
@@ -500,8 +528,14 @@ public class CreateNewUser extends javax.swing.JFrame {
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
         LoginScreen ls = new LoginScreen();
+        ls.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_BackButtonActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        NewUserHolidayForm.setVisible(false);
+        jPanel2.setVisible(false);
+    }//GEN-LAST:event_btnBackActionPerformed
     
     private boolean CheckPassword(String password) {
         Boolean uppercase = false;
@@ -573,6 +607,7 @@ public class CreateNewUser extends javax.swing.JFrame {
     private javax.swing.JTextField EndDateField;
     private javax.swing.JLabel ErrorMessage;
     private javax.swing.JTextField FirstNameField;
+    private javax.swing.JLabel HolidayErrorMessage;
     private javax.swing.JFrame NewUserHolidayForm;
     private javax.swing.JPasswordField PasswordField;
     private javax.swing.JScrollPane PasswordRequirementBox;
@@ -587,6 +622,7 @@ public class CreateNewUser extends javax.swing.JFrame {
     private javax.swing.JLabel Title;
     private javax.swing.JTextField UsernameField;
     private javax.swing.JButton btnAddNewHoliday;
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnCreateNewUser;
     private javax.swing.JButton btnSubmitHolidayRequest;
     private javax.swing.JLabel jLabel1;

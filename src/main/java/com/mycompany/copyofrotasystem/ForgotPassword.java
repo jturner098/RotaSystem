@@ -22,6 +22,7 @@ public class ForgotPassword extends javax.swing.JFrame {
      */
     public ForgotPassword() {
         initComponents();
+        AnswerField.setEditable(false);
     }
 
     /**
@@ -43,7 +44,7 @@ public class ForgotPassword extends javax.swing.JFrame {
         lblConfirmPassword = new javax.swing.JLabel();
         ConfirmPasswordField = new javax.swing.JPasswordField();
         btnSubmitNewPassword = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         lblForgotPassword = new javax.swing.JLabel();
         lblUsername = new javax.swing.JLabel();
@@ -88,9 +89,14 @@ public class ForgotPassword extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(128, 191, 180));
-        jButton3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        jButton3.setText("Cancel");
+        btnCancel.setBackground(new java.awt.Color(128, 191, 180));
+        btnCancel.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -109,7 +115,7 @@ public class ForgotPassword extends javax.swing.JFrame {
                             .addComponent(PasswordField)
                             .addComponent(ConfirmPasswordField)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton3)
+                        .addComponent(btnCancel)
                         .addGap(78, 78, 78)
                         .addComponent(btnSubmitNewPassword)))
                 .addContainerGap(11, Short.MAX_VALUE))
@@ -132,7 +138,7 @@ public class ForgotPassword extends javax.swing.JFrame {
                 .addComponent(PasswordErrorMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(btnSubmitNewPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(17, 17, 17))))
@@ -310,9 +316,11 @@ public class ForgotPassword extends javax.swing.JFrame {
                 secQ = rs.getString("securityquestion");
                 lblSecurityQuestion.setForeground(black);
                 lblSecurityQuestion.setText(secQ);
+                AnswerField.setEditable(true);
             } else {
                 lblSecurityQuestion.setForeground(red);
                 lblSecurityQuestion.setText("User not found!");
+                AnswerField.setEditable(false);
             }
 
               
@@ -338,6 +346,7 @@ public class ForgotPassword extends javax.swing.JFrame {
                 }
             }
             if (matching == true) {
+                ErrorMessage.setText("");
                 ChangePasswordForm.setVisible(true);
                 jPanel2.setVisible(true);
             } else {
@@ -361,17 +370,23 @@ public class ForgotPassword extends javax.swing.JFrame {
                 int userSuccess = db.ChangePassword(UsernameField.getText(), password);
                 System.out.println(userSuccess);
                 if (userSuccess > 0) {
-                    PasswordField.setText("");
-                    ConfirmPasswordField.setText("");
-                    ChangePasswordForm.setVisible(false);
-                    jPanel2.setVisible(false);
-                    ErrorMessage.setText("Password changed Successfully!");
+                    LoginScreen ls = new LoginScreen();
+                    ls.setVisible(true);
+                    dispose();
+                } else {
+                    PasswordErrorMessage.setText("Error!");
                 }
             } catch (Exception e) {
                 
             }   
         }
     }//GEN-LAST:event_btnSubmitNewPasswordActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        LoginScreen ls = new LoginScreen();
+        ls.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     
     private boolean CheckPassword(String password) {
@@ -447,10 +462,10 @@ public class ForgotPassword extends javax.swing.JFrame {
     private javax.swing.JPasswordField PasswordField;
     private javax.swing.JScrollPane PasswordRequirementBox;
     private javax.swing.JTextField UsernameField;
+    private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnGetSecurityQuestion;
     private javax.swing.JButton btnSubmitAnswer;
     private javax.swing.JButton btnSubmitNewPassword;
-    private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblAnswer;
