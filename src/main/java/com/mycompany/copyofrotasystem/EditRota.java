@@ -967,15 +967,13 @@ public class EditRota extends javax.swing.JFrame {
             dtm.setRowCount(0);
             ResultSet rs = db.RotaShifts((String) DateField1.getText());   
             while (rs.next()) {
-                String shiftID = rs.getString("shiftid");
                 String name = rs.getString("firstname") + " " + rs.getString("surname");
                 String location = rs.getString("location");
-                String date = rs.getString("shiftdate");
                 String startTime = rs.getString("starttime");
                 String endTime = rs.getString("endtime");
                 
                 
-                String tableData[] = {shiftID, name, location, date, startTime, endTime};
+                String tableData[] = {name, location, startTime, endTime};
                 
                 dtm.addRow(tableData);
 

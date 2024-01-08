@@ -217,16 +217,14 @@ public class CalculateStaffPay extends javax.swing.JFrame {
         String surname = nameParts[3];
         try {
             ResultSet rs = db.CalculateStaffPay(staffID); 
-            rateOfPay = rs.getFloat("rateofpay");
             while (rs.next()) {
+                rateOfPay = rs.getFloat("rateofpay");
                 String startTime = rs.getString("starttime");
                 String endTime = rs.getString("endtime");
                 float shiftHours = db.CalculateHoursWorked(startTime, endTime);
-                System.out.println(shiftHours);
-                hoursWorked = hoursWorked + shiftHours;
-                pay = pay + (rateOfPay * hoursWorked);
-                
+                hoursWorked = hoursWorked + shiftHours;    
             }
+            pay = pay + (rateOfPay * hoursWorked);
 
             if (pay < 242) {
                 NIContribution = 0;

@@ -265,15 +265,15 @@ public class DAO {
         }
         
         public static ResultSet GetRequests() throws SQLException {
-        String sql = "SELECT requestid, tblstaff.staffid, firstname, surname, tbltimeoffrequests.requestid, requeststartdate, "
+            String sql = "SELECT requestid, tblstaff.staffid, firstname, surname, tbltimeoffrequests.requestid, requeststartdate, "
                 + "requestenddate, reason, requeststatus "
                 + "FROM tblstaff, tbltimeoffrequests "
                 + "WHERE tblstaff.staffid = tbltimeoffrequests.staffid "
                 + "AND requeststatus = '';";
                 
 
-        return DAO.ExecuteQuery(sql);
-    }
+            return DAO.ExecuteQuery(sql);
+        }
         
         public static int DeleteRequest(int requestID) throws SQLException {
             String sql = "DELETE FROM tbltimeoffrequests "
