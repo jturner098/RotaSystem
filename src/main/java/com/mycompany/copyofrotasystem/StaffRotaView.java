@@ -14,8 +14,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class StaffRotaView extends javax.swing.JFrame {
     DAO db;
-    String firstName;
-    int staffID;
     static User user;
     LocalDate date;
     /**
@@ -204,12 +202,12 @@ public class StaffRotaView extends javax.swing.JFrame {
                 String shiftID = rs.getString("shiftid");
                 String name = rs.getString("firstname") + " " + rs.getString("surname");
                 String location = rs.getString("location");
-                String date = rs.getString("shiftdate");
+                String shiftDate = rs.getString("shiftdate");
                 String startTime = rs.getString("starttime");
                 String endTime = rs.getString("endtime");
                 
                 
-                String tableData[] = {shiftID, name, location, date, startTime, endTime};
+                String tableData[] = {shiftID, name, location, shiftDate, startTime, endTime};
                 
                 dtm.addRow(tableData);
 
@@ -222,8 +220,6 @@ public class StaffRotaView extends javax.swing.JFrame {
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         StaffMainMenu smm = new StaffMainMenu(user);
         smm.setVisible(true);
-        smm.ShiftsHeader.setText(firstName + "'s upcoming shifts:");
-        smm.Title.setText("Welcome, " + firstName);
         dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 

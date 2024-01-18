@@ -6,7 +6,9 @@ package com.mycompany.copyofrotasystem;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Random;
 import javax.swing.table.DefaultTableModel;
 
@@ -622,8 +624,6 @@ public class EditRota extends javax.swing.JFrame {
             String staffName = (String) StaffMemberField.getSelectedItem();
             String[] nameParts = staffName.split(" ");
             int staffID = Integer.valueOf(nameParts[0]);
-            String firstName = nameParts[2];
-            String surname = nameParts[3];
             
             try {            
             ResultSet rs = db.UserShifts(staffID);
@@ -710,6 +710,8 @@ public class EditRota extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddNewShiftActionPerformed
 
     private void btnSubmitNewShiftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitNewShiftActionPerformed
+        boolean holiday = false;
+        
         try {
             String location = (String) LocationField.getSelectedItem();
             String[] locationParts = location.split(" ");
@@ -723,8 +725,26 @@ public class EditRota extends javax.swing.JFrame {
             String startTime = StartTimeField.getText();
             String endTime = EndTimeField.getText();
             
+            LocalDate shiftDate = LocalDate.parse(date);
+            
+            for (int i = 0; i < UpcomingHolidayTable.getRowCount(); i++) {
+                DefaultTableModel dtm = (DefaultTableModel)ShiftTable.getModel();
+                String startDate = (dtm.getValueAt(i, 0).toString());
+                String endDate = (dtm.getValueAt(i, 1).toString());
+                String reason = (dtm.getValueAt(i, 2).toString());
+                LocalDate holidayStartDate = LocalDate.parse(startDate);
+                LocalDate holidayEndDate = LocalDate.parse(endDate);
+                System.out.println(holidayStartDate + " + " + holidayEndDate);
+                if (shiftDate.isAfter(holidayStartDate) && shiftDate.isBefore(holidayEndDate)) {
+                    holiday = true;
+                }
+                
+            }
+
             if (date.equals("") || startTime.equals("") || endTime.equals("")) {
             ShiftErrorMessage.setText("Error - All fields must be filled in in order to be submitted!");
+            } else if (holiday == true) {
+                ShiftErrorMessage.setText(nameParts[2] + " has an approved holiday when this shift is due to take place!");
             } else {
                 int result = DAO.SubmitShift(staffID, locationID, date, startTime, endTime);
                 if (result == 1) {
@@ -738,6 +758,7 @@ public class EditRota extends javax.swing.JFrame {
             }
         } catch(Exception e) {
             ShiftErrorMessage.setText(e.getMessage());
+            System.out.println(e.getMessage());
         }        
     }//GEN-LAST:event_btnSubmitNewShiftActionPerformed
 

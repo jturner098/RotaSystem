@@ -17,8 +17,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ManagerMainMenu extends javax.swing.JFrame {
     DAO db = new DAO();
-    String firstName;
-    int staffID;
     static User user;
     /**
      * Creates new form StaffMainMenu

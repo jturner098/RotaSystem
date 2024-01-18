@@ -14,8 +14,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ManagerRotaView extends javax.swing.JFrame {
     DAO db;
-    String firstName;
-    int staffID;
     static User user;
     LocalDate date;
     /**
