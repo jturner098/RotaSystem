@@ -245,10 +245,8 @@ public class CalculateStaffPay extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGetStaffDetailsActionPerformed
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
-        StaffMainMenu smm = new StaffMainMenu(user);
-        smm.setVisible(true);
-        smm.ShiftsHeader.setText(firstName + "'s upcoming shifts:");
-        smm.Title.setText("Welcome, " + firstName);
+        ManagerMainMenu mmm = new ManagerMainMenu(user);
+        mmm.setVisible(true);
         dispose();
     }//GEN-LAST:event_BackButtonActionPerformed
 

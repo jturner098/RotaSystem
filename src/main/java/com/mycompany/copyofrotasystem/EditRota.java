@@ -391,16 +391,15 @@ public class EditRota extends javax.swing.JFrame {
                                 .addComponent(btnForwardDate)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblStaffAmount)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(btnBackDate1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(StaffQuantityField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(StaffQuantityField, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnForwardDate1)
-                                .addGap(86, 86, 86))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(lblStaffAmount)
-                                .addGap(31, 31, 31))))
+                                .addGap(43, 43, 43)))
+                        .addGap(31, 31, 31))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(GenerateErrorMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(6, 6, 6))))
@@ -724,22 +723,6 @@ public class EditRota extends javax.swing.JFrame {
             String date = DateField.getText();
             String startTime = StartTimeField.getText();
             String endTime = EndTimeField.getText();
-            
-            LocalDate shiftDate = LocalDate.parse(date);
-            
-            for (int i = 0; i < UpcomingHolidayTable.getRowCount(); i++) {
-                DefaultTableModel dtm = (DefaultTableModel)ShiftTable.getModel();
-                String startDate = (dtm.getValueAt(i, 0).toString());
-                String endDate = (dtm.getValueAt(i, 1).toString());
-                String reason = (dtm.getValueAt(i, 2).toString());
-                LocalDate holidayStartDate = LocalDate.parse(startDate);
-                LocalDate holidayEndDate = LocalDate.parse(endDate);
-                System.out.println(holidayStartDate + " + " + holidayEndDate);
-                if (shiftDate.isAfter(holidayStartDate) && shiftDate.isBefore(holidayEndDate)) {
-                    holiday = true;
-                }
-                
-            }
 
             if (date.equals("") || startTime.equals("") || endTime.equals("")) {
             ShiftErrorMessage.setText("Error - All fields must be filled in in order to be submitted!");
@@ -833,9 +816,7 @@ public class EditRota extends javax.swing.JFrame {
         rs.next();
         int staffWorking = rs.getInt(1);
         DefaultTableModel dtm = (DefaultTableModel) RotaTable.getModel(); 
-        dtm.setRowCount(0); 
-        
-        
+         
         if (staffWorking == staffQuantity) {
             GenerateErrorMessage.setText("Generation Completed");
             return;
@@ -843,7 +824,7 @@ public class EditRota extends javax.swing.JFrame {
             GenerateErrorMessage.setText("Number of staff working must be greater than 0!");
             return;
         } else {
-           
+            dtm.setRowCount(0);
             try {
                 Random random = new Random();
                 int staffID;
@@ -955,7 +936,7 @@ public class EditRota extends javax.swing.JFrame {
             String startTime;
             String endTime;
              
-            for (int i = 0; i < RotaTable.getRowCount() - 1; i++) {
+            for (int i = 0; i < RotaTable.getRowCount(); i++) {
                         String staffName = (dtm.getValueAt(i, 0).toString());
                         String[] nameParts = staffName.split(" ");
                         String firstName = nameParts[0];

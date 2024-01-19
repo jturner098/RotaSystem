@@ -269,7 +269,7 @@ public class DAO {
                 + "requestenddate, reason, requeststatus "
                 + "FROM tblstaff, tbltimeoffrequests "
                 + "WHERE tblstaff.staffid = tbltimeoffrequests.staffid "
-                + "AND requeststatus = '';";
+                + "AND requeststatus <> 'Approved';";
                 
 
             return DAO.ExecuteQuery(sql);
