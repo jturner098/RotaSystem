@@ -308,49 +308,48 @@ public class ForgotPassword extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGetSecurityQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetSecurityQuestionActionPerformed
-        String username = UsernameField.getText();
-        String secQ = "";
+        String username = UsernameField.getText(); // Stores the username entered by the user
+        String secQ = ""; // Empties the security question string
         try {
-            ResultSet rs = db.ReturnSecQ(username);
+            ResultSet rs = db.ReturnSecQ(username); // SQL Statement - Returns the staff member's security question
             if (rs.next()) {
-                secQ = rs.getString("securityquestion");
+                secQ = rs.getString("securityquestion"); // Stores the security question
                 lblSecurityQuestion.setForeground(black);
-                lblSecurityQuestion.setText(secQ);
-                AnswerField.setEditable(true);
+                lblSecurityQuestion.setText(secQ); // Displays the security question on the screen
+                AnswerField.setEditable(true); // Allows the user to input their answer
             } else {
-                lblSecurityQuestion.setForeground(red);
-                lblSecurityQuestion.setText("User not found!");
-                AnswerField.setEditable(false);
+                lblSecurityQuestion.setForeground(red); // Sets the text colour to red
+                lblSecurityQuestion.setText("User not found!"); // Displays an error message to tell the user that the account has not been found
+                AnswerField.setEditable(false); // Does not allow the user to enter an answer
             }
-
-              
+      
         } catch (Exception e) {
         }
         
     }//GEN-LAST:event_btnGetSecurityQuestionActionPerformed
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
-        LoginScreen ls = new LoginScreen();
-        ls.setVisible(true);
-        this.dispose();
+        LoginScreen ls = new LoginScreen(); // Creates an instance of the Login Screen
+        ls.setVisible(true); // Makes the Login Screen visible
+        this.dispose(); // Closes the Forgot Password screen
     }//GEN-LAST:event_BackButtonActionPerformed
 
     private void btnSubmitAnswerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitAnswerActionPerformed
         boolean matching = false;
-        String username = UsernameField.getText();
+        String username = UsernameField.getText(); // Stores the username entered by the user
         try {
-            ResultSet rs = db.ReturnSecQ(username);
+            ResultSet rs = db.ReturnSecQ(username); // SQL Statement - Returns the user's security question and answer
             while (rs.next()) {
-                if (AnswerField.getText().equals(rs.getString("secqanswer"))) {
+                if (AnswerField.getText().equals(rs.getString("secqanswer"))) { // If answer given by user matches answer in the database
                     matching = true;
                 }
             }
-            if (matching == true) {
-                ErrorMessage.setText("");
-                ChangePasswordForm.setVisible(true);
-                jPanel2.setVisible(true);
+            if (matching == true) { 
+                ErrorMessage.setText(""); // Clears error message box
+                ChangePasswordForm.setVisible(true); // Makes Change Password form visible
+                jPanel2.setVisible(true); // Makes Change Password form visible
             } else {
-                ErrorMessage.setText("Error - The answer you have submitted does not match our records!");
+                ErrorMessage.setText("Error - The answer you have submitted does not match our records!"); // Displays error message telling user that the answer does not match
             }
         } catch (Exception e) {
             
@@ -358,23 +357,22 @@ public class ForgotPassword extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSubmitAnswerActionPerformed
 
     private void btnSubmitNewPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitNewPasswordActionPerformed
-        String password = PasswordField.getText();
-        if (CheckPassword(password) == false) {
-            PasswordErrorMessage.setText("Error - Password does not match criteria!");
-        } else if (PasswordField.getText().equals("")) {
-            PasswordErrorMessage.setText("Error - Password is missing!");
-        } else if (!(ConfirmPasswordField.getText().equals(PasswordField.getText()))) {
-            PasswordErrorMessage.setText("Error - Passwords must match!");
+        String password = PasswordField.getText(); // Password is equal to the password entered by the user
+        if (CheckPassword(password) == false) { // If the new password does not meet the criteria
+            PasswordErrorMessage.setText("Error - Password does not match criteria!"); // Displays error message telling user that password doesn't meet the criteria
+        } else if (PasswordField.getText().equals("")) { // If the password field is empty
+            PasswordErrorMessage.setText("Error - Password is missing!"); // Displays error message telling user that password field is empty
+        } else if (!(ConfirmPasswordField.getText().equals(PasswordField.getText()))) { // If Password field and Confirm Password field do not match
+            PasswordErrorMessage.setText("Error - Passwords must match!"); // Displays error message telling user that passwords must match
         } else {
             try {
-                int userSuccess = db.ChangePassword(UsernameField.getText(), password);
-                System.out.println(userSuccess);
-                if (userSuccess > 0) {
-                    LoginScreen ls = new LoginScreen();
-                    ls.setVisible(true);
-                    dispose();
+                int userSuccess = db.ChangePassword(UsernameField.getText(), password); // SQL Statement - Updates user password within the database
+                if (userSuccess > 0) { // If password is saved successfully
+                    LoginScreen ls = new LoginScreen(); // Creates an instance of the Login Screen
+                    ls.setVisible(true); // Makes the Login Screen visible
+                    dispose(); // Closes the Forgot Password and Submit New Password screen
                 } else {
-                    PasswordErrorMessage.setText("Error!");
+                    PasswordErrorMessage.setText("Error!"); // Displays when the password is not saved successfully
                 }
             } catch (Exception e) {
                 
@@ -383,9 +381,9 @@ public class ForgotPassword extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSubmitNewPasswordActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        LoginScreen ls = new LoginScreen();
-        ls.setVisible(true);
-        dispose();
+        LoginScreen ls = new LoginScreen(); // Creates an instance of the Login Screen
+        ls.setVisible(true); // Makes the Login Screen visible
+        dispose(); // Closes the Forgot Password and Submit New Password screen
     }//GEN-LAST:event_btnCancelActionPerformed
 
     

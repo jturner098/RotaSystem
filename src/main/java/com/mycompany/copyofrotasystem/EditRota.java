@@ -606,10 +606,10 @@ public class EditRota extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
     try {
-            ResultSet rs = db.GenerateStaffList();          
-            while (rs.next()) {
-                String name = rs.getInt("staffid") + " - " + rs.getString("firstname") + " " + rs.getString("surname");
-                StaffMemberField.addItem(name);
+            ResultSet rs = db.GenerateStaffList(); // SQL Statement - Select all of the staff details from the database         
+            while (rs.next()) { // For each selected record
+                String name = rs.getInt("staffid") + " - " + rs.getString("firstname") + " " + rs.getString("surname"); // Create a string using the user's ID, first name and Surname
+                StaffMemberField.addItem(name); // Add the string to the combo box
                 }
             } catch(Exception e) {
                 
@@ -620,21 +620,21 @@ public class EditRota extends javax.swing.JFrame {
             DefaultTableModel dtm = (DefaultTableModel) ShiftTable.getModel();   
             dtm.setRowCount(0);
         
-            String staffName = (String) StaffMemberField.getSelectedItem();
-            String[] nameParts = staffName.split(" ");
-            int staffID = Integer.valueOf(nameParts[0]);
+            String staffName = (String) StaffMemberField.getSelectedItem(); // Gets the selected staff member from the Staff Member combo box
+            String[] nameParts = staffName.split(" "); // Splits the selected record from the Staff Member combo box into the StaffID, First Name and Surname, stores values in a string array
+            int staffID = Integer.valueOf(nameParts[0]); // Stores the StaffID of the selected user from the string array
             
             try {            
-            ResultSet rs = db.UserShifts(staffID);
-            while (rs.next()) {
-                String shiftID = rs.getString("shiftID");
-                String location = rs.getString("location");
-                String date = rs.getString("shiftdate");
-                String startTime = rs.getString("starttime");
-                String endTime = rs.getString("endtime");
-                String[] tableData = {shiftID, date, startTime, endTime, location};
+            ResultSet rs = db.UserShifts(staffID); // SQL Statement - Select all of the staff's shifts
+            while (rs.next()) { // For each selected record
+                String shiftID = rs.getString("shiftID"); // ShiftID is the shiftID from the current record
+                String location = rs.getString("location"); // Location is the location from the current record
+                String date = rs.getString("shiftdate"); // Shift Date is the date from the current record
+                String startTime = rs.getString("starttime"); // Start Time is the start time from the current record
+                String endTime = rs.getString("endtime"); // End Time is the end time from the current record
+                String[] tableData = {shiftID, date, startTime, endTime, location}; // Creates a string array using all the shift data
 
-                dtm.addRow(tableData);
+                dtm.addRow(tableData); // Adds array data to table
         }
         } catch(Exception e) {
             
@@ -643,20 +643,20 @@ public class EditRota extends javax.swing.JFrame {
 
     private void AddNewShiftWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_AddNewShiftWindowOpened
             try {   
-                ResultSet rs = db.GenerateStaffList();          
+                ResultSet rs = db.GenerateStaffList(); // SQL Statement - Selects all of the staff members from the database        
                 while (rs.next()) {
-                    String name = rs.getInt("staffid") + " - " + rs.getString("firstname") + " " + rs.getString("surname");
-                    StaffMemberField1.addItem(name);
+                    String name = rs.getInt("staffid") + " - " + rs.getString("firstname") + " " + rs.getString("surname"); // Creates a string from the selected record using the staff member's ID, first name and surname
+                    StaffMemberField1.addItem(name); // Adds the string to the Staff Member combo box
                 }
             } catch(Exception e) {
-                
+         
             }   
     
             try {
-                ResultSet rs = db.GenerateLocations();
+                ResultSet rs = db.GenerateLocations(); // SQL Statement - Selects all of the locations from the database
                 while (rs.next()) {
-                    String location = rs.getInt("locationid") + " - " + rs.getString("location");
-                    LocationField.addItem(location);
+                    String location = rs.getInt("locationid") + " - " + rs.getString("location"); // Create a string from the selected record using the location ID and name
+                    LocationField.addItem(location); // Adds the string to the Location combo box
                 }
             } catch(Exception e) {
         
@@ -667,25 +667,25 @@ public class EditRota extends javax.swing.JFrame {
 
     private void StaffMemberField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StaffMemberField1ActionPerformed
             DefaultTableModel dtm = (DefaultTableModel) UpcomingHolidayTable.getModel(); 
-            dtm.setRowCount(0);
+            dtm.setRowCount(0); // Clear the upcoming holiday table
             
-            String staffName = (String) StaffMemberField1.getSelectedItem();            
-            String[] nameParts = staffName.split(" ");
-            int staffID = Integer.valueOf(nameParts[0]);
-            String firstName = nameParts[2];
-            String surname = nameParts[3];
+            String staffName = (String) StaffMemberField1.getSelectedItem(); // Staff name is the currently selected staff member from the combo box           
+            String[] nameParts = staffName.split(" "); // Splits the selected record from the Staff Member combo box into the StaffID, First Name and Surname, stores values in a string array
+            int staffID = Integer.valueOf(nameParts[0]); // Stores the StaffID of the selected user from the string array
+            String firstName = nameParts[2]; // Store the First Name of the selected user from the string array
+            String surname = nameParts[3]; // Store the Surname of the selected user from the string array
             
-            lblUpcomingHoliday.setText(firstName + "'s Upcoming Time Off:");
+            lblUpcomingHoliday.setText(firstName + "'s Upcoming Time Off:"); // Sets the header to reflect the staff member's time off
             
             try { 
-                ResultSet rs = db.UpcomingHoliday(staffID);
+                ResultSet rs = db.UpcomingHoliday(staffID); // SQL Statement - Returns any of the staff member's approved holiday requests
 
-                while (rs.next()) {
-                        String startDate = rs.getString("requeststartdate");
-                        String endDate = rs.getString("requestenddate");
-                        String reason = rs.getString("reason");
+                while (rs.next()) { // For each selected record
+                        String startDate = rs.getString("requeststartdate"); // Start Date is the start date from the current record
+                        String endDate = rs.getString("requestenddate"); // End Date is the end date from the current record
+                        String reason = rs.getString("reason"); // Reason is the reason from the current record
 
-                        String[] tableData = {startDate, endDate, reason};
+                        String[] tableData = {startDate, endDate, reason}; // Creates a string array using all of the time off data
 
                         dtm.addRow(tableData);    
                 }
@@ -695,13 +695,13 @@ public class EditRota extends javax.swing.JFrame {
     }//GEN-LAST:event_StaffMemberField1ActionPerformed
 
     private void btnAddNewShiftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddNewShiftActionPerformed
-        AddNewShift.setVisible(true);
-        jPanel1.setVisible(true);
+        AddNewShift.setVisible(true); // Makes the Add New Shift screen visible
+        jPanel1.setVisible(true); // Makes the Add New Shift screen visible
             try {
-            ResultSet rs = db.GenerateStaffList();          
-            while (rs.next()) {
-                String name = rs.getInt("staffid") + " - " + rs.getString("firstname") + " " + rs.getString("surname");
-                StaffMemberField1.addItem(name);
+            ResultSet rs = db.GenerateStaffList(); // SQL Statement - Selects all of the staff members from the database          
+            while (rs.next()) { // For each staff member
+                String name = rs.getInt("staffid") + " - " + rs.getString("firstname") + " " + rs.getString("surname"); // Creates a string from the selected record using the staff member's ID, first name and surname
+                StaffMemberField1.addItem(name); // Adds the string to the Staff Member combo box
                 }
             } catch(Exception e) {
                 
@@ -712,78 +712,77 @@ public class EditRota extends javax.swing.JFrame {
         boolean holiday = false;
         
         try {
-            String location = (String) LocationField.getSelectedItem();
-            String[] locationParts = location.split(" ");
-            int locationID = Integer.valueOf(locationParts[0]);
+            String location = (String) LocationField.getSelectedItem(); // Location is the location selected from the combo box by the manager
+            String[] locationParts = location.split(" "); // Splits the location into the location ID and name
+            int locationID = Integer.valueOf(locationParts[0]); // Stores the ID of the location
             
-            String staffName = (String) StaffMemberField1.getSelectedItem();            
-            String[] nameParts = staffName.split(" ");
-            int staffID = Integer.valueOf(nameParts[0]);
+            String staffName = (String) StaffMemberField1.getSelectedItem(); // Staff Member is the staff member selected from the combo boxy by the manager            
+            String[] nameParts = staffName.split(" "); // Splits the staff member into the ID, first name and surname
+            int staffID = Integer.valueOf(nameParts[0]); // Stores the ID of the staff member
             
-            String date = DateField.getText();
-            String startTime = StartTimeField.getText();
-            String endTime = EndTimeField.getText();
+            String date = DateField.getText(); // Date is the date entered by the manager
+            String startTime = StartTimeField.getText(); // Start Time is the start time entered by the manager
+            String endTime = EndTimeField.getText(); // End Time is the end time entered by the manager
 
-            if (date.equals("") || startTime.equals("") || endTime.equals("")) {
-            ShiftErrorMessage.setText("Error - All fields must be filled in in order to be submitted!");
-            } else if (holiday == true) {
-                ShiftErrorMessage.setText(nameParts[2] + " has an approved holiday when this shift is due to take place!");
+            if (date.equals("") || startTime.equals("") || endTime.equals("")) { // If any of the fields are empty
+            ShiftErrorMessage.setText("Error - All fields must be filled in in order to be submitted!"); // Display an error message to tell the user that some of the fields are empty
+            } else if (holiday == true) { // If shift takes place during holiday
+                ShiftErrorMessage.setText(nameParts[2] + " has an approved holiday when this shift is due to take place!"); // Inform manager that user is unavailable for this shift
             } else {
-                int result = DAO.SubmitShift(staffID, locationID, date, startTime, endTime);
-                if (result == 1) {
-                    DateField.setText("");
-                    StartTimeField.setText("");
-                    EndTimeField.setText("");
-                    ShiftErrorMessage.setText("Request sent!");
+                int result = DAO.SubmitShift(staffID, locationID, date, startTime, endTime); // SQL Statement - Adds new shift to database
+                if (result == 1) { // If shift is submitted successfully
+                    DateField.setText(""); // Erase Date field
+                    StartTimeField.setText(""); // Erase Start Time field
+                    EndTimeField.setText(""); // Erase End Time field
+                    ShiftErrorMessage.setText("Request sent!"); // Display message telling manager the shift was added
                 } else {
-                    ShiftErrorMessage.setText("Error whilst inserting into database!");
+                    ShiftErrorMessage.setText("Error whilst inserting into database!"); // Display message telling manager the shift was not added
                 }
             }
         } catch(Exception e) {
-            ShiftErrorMessage.setText(e.getMessage());
-            System.out.println(e.getMessage());
+            ShiftErrorMessage.setText(e.getMessage()); // Display the SQL error
         }        
     }//GEN-LAST:event_btnSubmitNewShiftActionPerformed
 
     private void btnConfirmChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmChangesActionPerformed
-        for (int i = 0; i < ShiftTable.getRowCount(); i++) {
+        for (int i = 0; i < ShiftTable.getRowCount(); i++) { // For each shift in the shift table
             DefaultTableModel dtm = (DefaultTableModel)ShiftTable.getModel();
-            String shiftID = (dtm.getValueAt(i, 0).toString());
-            String date = (dtm.getValueAt(i, 1).toString());
-            String startTime = (dtm.getValueAt(i, 2).toString());
-            String endTime = (dtm.getValueAt(i, 3).toString());
-            String location = (dtm.getValueAt(i,4).toString());
-            String[] shift = {shiftID, date, startTime, endTime, location};
+            String shiftID = (dtm.getValueAt(i, 0).toString()); // ShiftID is equal to the shiftID in the current row
+            String date = (dtm.getValueAt(i, 1).toString()); // Date is equal to the date in the current row
+            String startTime = (dtm.getValueAt(i, 2).toString()); // Start Time is equal to the startTime in the current row
+            String endTime = (dtm.getValueAt(i, 3).toString()); // End Time is equal to the endTime in the current row
+            String location = (dtm.getValueAt(i,4).toString()); // Location is equal to the location in the current row
+            String[] shift = {shiftID, date, startTime, endTime, location}; // Stores shift details as a string array
             try {
-                int result = db.UpdateShift(shift);
+                int result = db.UpdateShift(shift); // SQL Statement - Updates shift using string array
             } catch(Exception e) {
-                ErrorMessage.setText(e.getMessage());
+                ErrorMessage.setText(e.getMessage()); // Display the SQL error
             }   
         }                    
     }//GEN-LAST:event_btnConfirmChangesActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        ManagerMainMenu mmm = new ManagerMainMenu(user);
-        mmm.setVisible(true);
-        dispose();
+        ManagerMainMenu mmm = new ManagerMainMenu(user); // Creates an instance of the Manager Main Menu
+        mmm.setVisible(true); // Makes Manager Main Menu visible
+        dispose(); // Closes Edit Rota screen
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnForwardDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForwardDateActionPerformed
-        date = date.plusDays(1);
-        DateField1.setText(String.valueOf(date));
-        UpdateTable();
+        date = date.plusDays(1); // Increases value of date
+        DateField1.setText(String.valueOf(date)); // Displays new date value
+        UpdateTable(); // Method - Updates rota table
     }//GEN-LAST:event_btnForwardDateActionPerformed
 
     private void btnBackDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackDateActionPerformed
-        date = date.plusDays(-1);
-        DateField1.setText(String.valueOf(date));
-        UpdateTable();
+        date = date.plusDays(-1); // Decreases value of date
+        DateField1.setText(String.valueOf(date)); // Displays new date value
+        UpdateTable(); // Method - Updates rota table
     }//GEN-LAST:event_btnBackDateActionPerformed
 
     private void btnGenerateRotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateRotaActionPerformed
-        GenerateRota.setVisible(true);
-        jPanel2.setVisible(true);
-        UpdateTable();
+        GenerateRota.setVisible(true); // Makes Generate Rota screen visible
+        jPanel2.setVisible(true); // Makes Generate Rota screen visible
+        UpdateTable(); // Method - Updates rota table
     }//GEN-LAST:event_btnGenerateRotaActionPerformed
 
     private void DateField1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_DateField1PropertyChange
@@ -796,35 +795,33 @@ public class EditRota extends javax.swing.JFrame {
 
     private void btnGenerateRota1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateRota1ActionPerformed
         DefaultTableModel dtm = (DefaultTableModel) RotaTable.getModel();
-        GenerateErrorMessage.setText("Generating...");
-        int staffQuantity = Integer.valueOf(StaffQuantityField.getText());
-        System.out.println(staffQuantity);
-        String date = DateField1.getText();
+        GenerateErrorMessage.setText("Generating..."); // Displays a message telling the manager that the rota is being created
+        int staffQuantity = Integer.valueOf(StaffQuantityField.getText()); // Stores number of staff required to work
+        String date = DateField1.getText(); // Stores date that rota is being generated for
 
         try {
-            GenerateRota(staffQuantity, date);
+            GenerateRota(staffQuantity, date); // Method - Generates rota using number of staff require to work and the date as parameters
         } catch (Exception e) {
-            GenerateErrorMessage.setText(e.getMessage());
-            System.out.println(e.getMessage());
+            GenerateErrorMessage.setText(e.getMessage()); // Displays the SQL error
         }
         
     }//GEN-LAST:event_btnGenerateRota1ActionPerformed
     
     private void GenerateRota(int staffQuantity, String date) throws SQLException {
         ResultSet rs;
-        rs = db.ExecuteQuery("SELECT COUNT(staffid) FROM tblshift WHERE shiftdate = '" + date + "';");
+        rs = db.ExecuteQuery("SELECT COUNT(staffid) FROM tblshift WHERE shiftdate = '" + date + "';"); // SQL Statement - Checks the number of people currently working on the selected day
         rs.next();
-        int staffWorking = rs.getInt(1);
+        int staffWorking = rs.getInt(1); // Stores the number of people currently working
         DefaultTableModel dtm = (DefaultTableModel) RotaTable.getModel(); 
          
-        if (staffWorking == staffQuantity) {
-            GenerateErrorMessage.setText("Generation Completed");
+        if (staffWorking == staffQuantity) { // If the number of people working already meets the required number
+            GenerateErrorMessage.setText("Generation Completed"); // No further generation needs to take place
             return;
-        } else if (staffQuantity <= 0) {
-            GenerateErrorMessage.setText("Number of staff working must be greater than 0!");
+        } else if (staffQuantity <= 0) { // If user enters a number equal to 0 or a negative number
+            GenerateErrorMessage.setText("Number of staff working must be greater than 0!"); // Displays an error message to inform the manager that a new number needs to be entered
             return;
         } else {
-            dtm.setRowCount(0);
+            dtm.setRowCount(0); // Empties table
             try {
                 Random random = new Random();
                 int staffID;
@@ -832,46 +829,44 @@ public class EditRota extends javax.swing.JFrame {
                 int endTimeHour;
                 int locationID;
                 
-                rs = db.ExecuteQuery("SELECT COUNT(staffid) AS total FROM tblstaff WHERE userlevel != 'Manager';");
+                rs = db.ExecuteQuery("SELECT COUNT(staffid) AS total FROM tblstaff WHERE userlevel != 'Manager';"); // SQL Statement - Returns the number of staff members available to work
                 rs.next();
-                int total = rs.getInt("total");
+                int total = rs.getInt("total"); // Stores the number of staff members to choose from
                 
-                for (int i = 0; i<staffQuantity-staffWorking; i++) {
+                for (int i = 0; i<staffQuantity-staffWorking; i++) { // Repeat for the number of people that need to be generated
 
-                    staffID = random.nextInt(total) + 1;
-                    rs = db.ExecuteQuery("SELECT firstname, surname FROM tblstaff WHERE staffid = '" + staffID + "';");
+                    staffID = random.nextInt(total) + 1; // Generates the staffID of the staff member
+                    rs = db.ExecuteQuery("SELECT firstname, surname FROM tblstaff WHERE staffid = '" + staffID + "';"); // SQL Statement - Selects name of staff member based on their staffID
                     rs.next();
-                    String name = rs.getString("firstname") + " " + rs.getString("surname");
+                    String name = rs.getString("firstname") + " " + rs.getString("surname"); // Creates one string containing the staff member's full name
 
-                    startTimeHour = random.nextInt(3) + 8;
-                    endTimeHour = random.nextInt(3) + 16;
+                    startTimeHour = random.nextInt(3) + 8; // Generates the start time of the shift
+                    endTimeHour = random.nextInt(3) + 16; // Generates the end time of the shift
                     String startTime;
-                    if (startTimeHour == 10){
+                    if (startTimeHour == 10){ // If the start time is 10
                         startTime = (startTimeHour + ":00");
                     } else {
-                        startTime = ("0" + startTimeHour + ":00");
+                        startTime = ("0" + startTimeHour + ":00"); // Formats the start time into HH:MM
                     }
-                    String endTime = (endTimeHour + ":00");
+                    String endTime = (endTimeHour + ":00"); // Formats the end time into HH:MM
 
-                    locationID = random.nextInt(5) + 1;
+                    locationID = random.nextInt(5) + 1; // Generates the locationID of the next shift
 
-
-
-                    String[] tableData = {name, String.valueOf(locationID), startTime, endTime};
-                    dtm.addRow(tableData);
+                    String[] tableData = {name, String.valueOf(locationID), startTime, endTime}; // Stores shift data in a string array
+                    dtm.addRow(tableData); // Adds shift to table
                 
                 }
 
             } catch(Exception e) {
-                System.out.println(e.getMessage());
+                System.out.println(e.getMessage()); // Displays the SQL error
             }
 
         }
-         boolean check = CheckRota(staffQuantity);
-         if (check == true) {
-            GenerateErrorMessage.setText("Generation Completed");    
-         } else {
-            GenerateRota(staffQuantity, date);   
+         boolean check = CheckRota(staffQuantity); // Method - Checks generated shifts meet the criteria
+         if (check == true) { // If the criteria is met
+            GenerateErrorMessage.setText("Generation Completed"); // No further generation needs to take place
+         } else { // If the criteria is not met
+            GenerateRota(staffQuantity, date); // The rota is regenerated   
          }
     }
     
@@ -884,47 +879,48 @@ public class EditRota extends javax.swing.JFrame {
         boolean kitchen = false;
         boolean waiting = false;
         
-        String staffMember = (dtm.getValueAt((RotaTable.getRowCount()-1), 0).toString());
+        String staffMember = (dtm.getValueAt((RotaTable.getRowCount()-1), 0).toString()); // Stores name of first staff member in the table
         
                 
-        for (int i = 0; i < staffQuantity - 1; i++) {
-                    if (dtm.getValueAt(i, 0).toString().equals(staffMember)) {
-                        duplicate = true;
+        for (int i = 0; i < staffQuantity - 1; i++) { // For each record in the table
+                    if (dtm.getValueAt(i, 0).toString().equals(staffMember)) { // If two names are the same
+                        duplicate = true; // Duplicate check is true
                     }
-                    if (dtm.getValueAt(i, 2).equals("08:00")) {
-                        earlyStart = true;
+                    if (dtm.getValueAt(i, 2).equals("08:00")) { // If at least one person starts at 08:00
+                        earlyStart = true; // Early Start check is true
                     }
-                    if (dtm.getValueAt(i, 3).equals("18:00")) {
-                        lateFinish = true;
+                    if (dtm.getValueAt(i, 3).equals("18:00")) { // If at least one person finishes at 18:00
+                        lateFinish = true; // Late Finish check is true
                     }
-                    if (dtm.getValueAt(i, 1).equals("1")) {
-                        kitchen = true;
+                    if (dtm.getValueAt(i, 1).equals("1")) { // If at least one person is working in the kitchen
+                        kitchen = true; // Kitchen check is true
                     }
-                    if (dtm.getValueAt(i, 1).equals("2") || dtm.getValueAt(i,1).equals("3")) {
-                        waiting = true;
+                    if (dtm.getValueAt(i, 1).equals("2") 
+                       || dtm.getValueAt(i,1).equals("3")) { // If at least one person is waiting
+                        waiting = true; // Waiting check is true
                     }               
         }
 
-        if (duplicate == true) {
-            return false;
+        if (duplicate == true) { // If the Duplicate check is true
+            return false; // The criteria is not met
         } 
-        if (earlyStart == false || lateFinish == false || kitchen == false || waiting == false) {
-            return false;
+        if (earlyStart == false || lateFinish == false || kitchen == false || waiting == false) { // If any of the other checks are not met
+            return false; // The criteria is not met
         } else {
-            return true;
+            return true; // The criteria is met
         }
     }
     
     private void btnBackDate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackDate1ActionPerformed
-        int staffQuantity = Integer.valueOf(StaffQuantityField.getText());
-        staffQuantity = staffQuantity - 1;
-        StaffQuantityField.setText(String.valueOf(staffQuantity));        
+        int staffQuantity = Integer.valueOf(StaffQuantityField.getText()); // Stores value of number of staff working
+        staffQuantity = staffQuantity - 1; // Decreases value by 1
+        StaffQuantityField.setText(String.valueOf(staffQuantity)); // Displays new value        
     }//GEN-LAST:event_btnBackDate1ActionPerformed
 
     private void btnForwardDate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForwardDate1ActionPerformed
-        int staffQuantity = Integer.valueOf(StaffQuantityField.getText());
-        staffQuantity++;
-        StaffQuantityField.setText(String.valueOf(staffQuantity));
+        int staffQuantity = Integer.valueOf(StaffQuantityField.getText()); // Stores value of number of staff working
+        staffQuantity++; // Increases value by 1
+        StaffQuantityField.setText(String.valueOf(staffQuantity)); // Displays new value
     }//GEN-LAST:event_btnForwardDate1ActionPerformed
 
     private void btnSaveGeneratedRotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveGeneratedRotaActionPerformed
@@ -936,19 +932,19 @@ public class EditRota extends javax.swing.JFrame {
             String startTime;
             String endTime;
              
-            for (int i = 0; i < RotaTable.getRowCount(); i++) {
-                        String staffName = (dtm.getValueAt(i, 0).toString());
-                        String[] nameParts = staffName.split(" ");
-                        String firstName = nameParts[0];
-                        String surname = nameParts[1];
+            for (int i = 0; i < RotaTable.getRowCount(); i++) { // For each record in the rota table
+                        String staffName = (dtm.getValueAt(i, 0).toString()); // Name is equal to the name stored in the first field of the record
+                        String[] nameParts = staffName.split(" "); // Splits staffName into first and last name, stored as a string array
+                        String firstName = nameParts[0]; // First name is the first value in the string array
+                        String surname = nameParts[1]; // Surname is the second value in the string array
                         try {
-                            userID = db.ReturnStaffID(firstName, surname);
-                            date = DateField1.getText();
-                            locationID = Integer.valueOf(dtm.getValueAt(i, 1).toString());
-                            startTime = (dtm.getValueAt(i, 2).toString());
-                            endTime = (dtm.getValueAt(i, 3).toString());
+                            userID = db.ReturnStaffID(firstName, surname); // SQL Statement - Returns the staffID of the user
+                            date = DateField1.getText(); // Date is the value in the date field
+                            locationID = Integer.valueOf(dtm.getValueAt(i, 1).toString()); // LocationID is equal to the ID stored in the second field of the record
+                            startTime = (dtm.getValueAt(i, 2).toString()); // Start Time is equal to the time stored in the third field of the record
+                            endTime = (dtm.getValueAt(i, 3).toString()); // End Time is equal to the time stored in the fourth field of the record
                         
-                            int result = db.SubmitShift(userID, locationID, date, startTime, endTime);
+                            int result = db.SubmitShift(userID, locationID, date, startTime, endTime); // Adds the shift to the database
                         } catch(Exception e) {
                             ErrorMessage.setText(e.getMessage());
                         }
@@ -958,30 +954,29 @@ public class EditRota extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveGeneratedRotaActionPerformed
 
     private void btnAddShiftBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddShiftBackActionPerformed
-        AddNewShift.setVisible(false);
-        jPanel1.setVisible(false);
+        AddNewShift.setVisible(false); // Closes Add New Shift screen
+        jPanel1.setVisible(false); // Closes Add New Shift screen
 
     }//GEN-LAST:event_btnAddShiftBackActionPerformed
 
     private void UpdateTable() {
             try {
             DefaultTableModel dtm = (DefaultTableModel) RotaTable.getModel();
-            dtm.setRowCount(0);
-            ResultSet rs = db.RotaShifts((String) DateField1.getText());   
-            while (rs.next()) {
-                String name = rs.getString("firstname") + " " + rs.getString("surname");
-                String location = rs.getString("location");
-                String startTime = rs.getString("starttime");
-                String endTime = rs.getString("endtime");
+            dtm.setRowCount(0); // Clears Rota table
+            ResultSet rs = db.RotaShifts((String) DateField1.getText()); // SQL Statement - Returns all the shifts on the date given as a parameter  
+            while (rs.next()) { // For each record
+                String name = rs.getString("firstname") + " " + rs.getString("surname"); // Name of the staff member is made up of the first name and surname
+                String location = rs.getString("location"); // Location of the shift
+                String startTime = rs.getString("starttime"); // Start time of the shift
+                String endTime = rs.getString("endtime"); // End time of the shift
                 
+                String tableData[] = {name, location, startTime, endTime}; // Stores the details of the shift in a string array
                 
-                String tableData[] = {name, location, startTime, endTime};
-                
-                dtm.addRow(tableData);
+                dtm.addRow(tableData); // Adds shift to Rota table
 
             }
             } catch(Exception e) {
-            GenerateErrorMessage.setText(e.getMessage());
+            GenerateErrorMessage.setText(e.getMessage()); // Displays the SQL error
         }
     }
     /**

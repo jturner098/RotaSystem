@@ -11,8 +11,6 @@ import java.sql.*;
  * @author josephturner
  */
 public class CalculateStaffPay extends javax.swing.JFrame {
-    int staffID;
-    String firstName;
     static User user;
     DAO db;
     /**
@@ -20,7 +18,7 @@ public class CalculateStaffPay extends javax.swing.JFrame {
      */
     public CalculateStaffPay(User user) {
         initComponents();
-        this.user = user;
+        this.user = user; // Gets the details of the user that is logged in from the main menu
     }
     
 
@@ -210,52 +208,52 @@ public class CalculateStaffPay extends javax.swing.JFrame {
         float rateOfPay = 0;
         float pay = 0;
         float NIContribution = 0;
-        String staffName = (String) StaffMemberField.getSelectedItem();
-        String[] nameParts = staffName.split(" ");
-        int staffID = Integer.valueOf(nameParts[0]);
-        String firstName = nameParts[2];
-        String surname = nameParts[3];
+        String staffName = (String) StaffMemberField.getSelectedItem(); // Gets the selected staff member from the Staff Member combo box
+        String[] nameParts = staffName.split(" "); // Splits the selected record from the Staff Member combo box into the StaffID, First Name and Surname, stores values in a string array
+        int staffID = Integer.valueOf(nameParts[0]); // Stores the StaffID of the selected user from the string array
+        String firstName = nameParts[2]; // Store the First Name of the selected user from the string array
+        String surname = nameParts[3]; // Store the Surname of the selected user from the string array
         try {
-            ResultSet rs = db.CalculateStaffPay(staffID); 
+            ResultSet rs = db.CalculateStaffPay(staffID); // SQL Statement - Selects all of the shifts that have been completed by the staff member, stored as a ResultSet
             while (rs.next()) {
-                rateOfPay = rs.getFloat("rateofpay");
-                String startTime = rs.getString("starttime");
-                String endTime = rs.getString("endtime");
-                float shiftHours = db.CalculateHoursWorked(startTime, endTime);
-                hoursWorked = hoursWorked + shiftHours;    
+                rateOfPay = rs.getFloat("rateofpay"); // Stores the staff member's rate of pay from the record in the ResultSet
+                String startTime = rs.getString("starttime"); // Stores the staff member's start time from the selected record in the ResultSet
+                String endTime = rs.getString("endtime"); // Stores the staff member's end time from the selected record in the ResultSet
+                float shiftHours = db.CalculateHoursWorked(startTime, endTime); // SQL Statement - Works out the number of hours worked in the selected shift
+                hoursWorked = hoursWorked + shiftHours; // Adds the hours worked in the selected shift to the total
             }
-            pay = pay + (rateOfPay * hoursWorked);
+            pay = pay + (rateOfPay * hoursWorked); // Stores the staff member's total pay
 
-            if (pay < 242) {
+            if (pay < 242) { // If pay is below the National Insurance tax band
                 NIContribution = 0;
             }
             else if (pay > 242 && pay < 967) {
-                NIContribution = (float) ((pay - 242) * 0.12);
+                NIContribution = (float) ((pay - 242) * 0.12); // The staff member will pay 12% of what they earn between £242 and £967
             }
             else {
-                NIContribution = (float) (93.24 + ((pay - 967) * 0.02));
+                NIContribution = (float) (93.24 + ((pay - 967) * 0.02)); // The staff member will pay 12% of what they earn between £242 and £967, and 2% on anything earned above £967
             }
             } catch(Exception e) {
                 
         }
-            HoursWorkedField.setText(Float.toString(hoursWorked));
-            RateOfPayField.setText("£" + Float.toString(rateOfPay));   
-            NIContributionField.setText("£" + Float.toString(NIContribution));
-            TotalPayField.setText("£" + Float.toString(pay - NIContribution));
+            HoursWorkedField.setText(Float.toString(hoursWorked)); // Displays the number of hours the staff member has worked
+            RateOfPayField.setText("£" + Float.toString(rateOfPay)); // Displays the staff member's rate of pay   
+            NIContributionField.setText("£" + Float.toString(NIContribution)); // Displays the National Contribution payment the staff member will make
+            TotalPayField.setText("£" + Float.toString(pay - NIContribution)); // Displays the amount of money the staff member will take home
     }//GEN-LAST:event_btnGetStaffDetailsActionPerformed
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
-        ManagerMainMenu mmm = new ManagerMainMenu(user);
-        mmm.setVisible(true);
-        dispose();
+        ManagerMainMenu mmm = new ManagerMainMenu(user); // Creates an instance of the Manager Main Menu, using the instance of the User class containing the manager's details
+        mmm.setVisible(true); // Makes the Manager Main Menu visible
+        dispose(); // Closes the Calculate Staff Pay screen
     }//GEN-LAST:event_BackButtonActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         try {
-            ResultSet rs = db.GenerateStaffList();          
+            ResultSet rs = db.GenerateStaffList(); // SQL Statement - Selects all of the staff members from the database          
             while (rs.next()) {
-                String name = rs.getInt("staffid") + " - " + rs.getString("firstname") + " " + rs.getString("surname");
-                StaffMemberField.addItem(name);
+                String name = rs.getInt("staffid") + " - " + rs.getString("firstname") + " " + rs.getString("surname"); // Creates a string from the selected record using the staff member's ID, first name and surname
+                StaffMemberField.addItem(name); // Adds the string to the Staff Member combo box
                 }
             } catch(Exception e) {
                 

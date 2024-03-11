@@ -194,21 +194,20 @@ public class ManagerRotaView extends javax.swing.JFrame {
     private void btnGenerateRotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateRotaActionPerformed
         try {
             DefaultTableModel dtm = (DefaultTableModel) RotaTable.getModel();
-            dtm.setRowCount(0);
-            ResultSet rs = db.RotaShifts((String) DateField.getText());   
+            dtm.setRowCount(0); // Clears the Rota table
+            ResultSet rs = db.RotaShifts((String) DateField.getText()); // SQL Statement -  Selects all of the shifts on the data given as a parameter 
             System.out.println(rs);
-            while (rs.next()) {
-                String shiftID = rs.getString("shiftid");
-                String name = rs.getString("firstname") + " " + rs.getString("surname");
-                String location = rs.getString("location");
-                String date = rs.getString("shiftdate");
-                String startTime = rs.getString("starttime");
-                String endTime = rs.getString("endtime");
+            while (rs.next()) { // For each selected record
+                String shiftID = rs.getString("shiftid"); // Stores the shift's ID
+                String name = rs.getString("firstname") + " " + rs.getString("surname"); // Store the first and surname of the staff member completing the shift as a single string
+                String location = rs.getString("location"); // Stores the shift's location
+                String date = rs.getString("shiftdate"); // Stores the shift's date
+                String startTime = rs.getString("starttime"); // Stores the shift's start time
+                String endTime = rs.getString("endtime"); // Stores the shift's end time
                 
+                String tableData[] = {shiftID, name, location, date, startTime, endTime}; // Stores the shift data as a string array
                 
-                String tableData[] = {shiftID, name, location, date, startTime, endTime};
-                
-                dtm.addRow(tableData);
+                dtm.addRow(tableData); // Adds the shift to the Rota table
 
             }
             } catch(Exception e) {
@@ -217,9 +216,9 @@ public class ManagerRotaView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGenerateRotaActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        ManagerMainMenu mmm = new ManagerMainMenu(user);
-        mmm.setVisible(true);
-        dispose();
+        ManagerMainMenu mmm = new ManagerMainMenu(user); // Creates an instance of the Manager Main Menu, using the staff detail's as a parameter
+        mmm.setVisible(true); // Makes the Manager Main Menu visible
+        dispose(); // Closes the View Rota screen
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -230,19 +229,19 @@ public class ManagerRotaView extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void btnBackDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackDateActionPerformed
-        date = date.plusDays(-1);
-        DateField.setText(String.valueOf(date));
+        date = date.plusDays(-1); // Subtracts one day from the date
+        DateField.setText(String.valueOf(date)); // Displays the new date value
     }//GEN-LAST:event_btnBackDateActionPerformed
 
     private void btnForwardDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForwardDateActionPerformed
-        date = date.plusDays(1);
-        DateField.setText(String.valueOf(date));
+        date = date.plusDays(1); // Adds one day to the date
+        DateField.setText(String.valueOf(date)); // Displays the new date value
     }//GEN-LAST:event_btnForwardDateActionPerformed
 
     private void btnEditRotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditRotaActionPerformed
-        EditRota er = new EditRota(user);
-        er.setVisible(true);
-        dispose();
+        EditRota er = new EditRota(user); // Creates an instance of the Edit Rota screen, using the staff details as a parameter
+        er.setVisible(true); // Makes the Edit Rota screen visible
+        dispose(); // Closes the View Rota screen
     }//GEN-LAST:event_btnEditRotaActionPerformed
 
     /**

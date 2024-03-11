@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
  * @author josephturner
  */
 public class CreateNewUser extends javax.swing.JFrame {
-    DAO db = new DAO();
+    DAO db = new DAO(); // Creates an instance of the Database Access Object
     /**
      * Creates new form CreateNewUser
      */
@@ -425,8 +425,8 @@ public class CreateNewUser extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddNewHolidayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddNewHolidayActionPerformed
-        NewUserHolidayForm.setVisible(true);
-        jPanel2.setVisible(true);
+        NewUserHolidayForm.setVisible(true); // Opens the Add New Holiday screen
+        jPanel2.setVisible(true); // Opens the Add New Holiday screen
     }//GEN-LAST:event_btnAddNewHolidayActionPerformed
 
     private void ReasonFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReasonFieldActionPerformed
@@ -435,18 +435,18 @@ public class CreateNewUser extends javax.swing.JFrame {
 
     private void btnSubmitHolidayRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitHolidayRequestActionPerformed
         try {
-            String startDate = StartDateField.getText();
-            String endDate = EndDateField.getText();
-            String reason = ReasonField.getText();
+            String startDate = StartDateField.getText(); // Gets start date for holiday from Start Date field
+            String endDate = EndDateField.getText(); // Gets end date for holiday from Start Date field
+            String reason = ReasonField.getText(); // Gets reason for holiday from Start Date field
 
-            if (StartDateField.getText().equals("") || EndDateField.getText().equals("") || ReasonField.getText().equals("")) {
-                HolidayErrorMessage.setText("All fields must be filled!");
+            if (StartDateField.getText().equals("") || EndDateField.getText().equals("") || ReasonField.getText().equals("")) { // If any of the fields are empty
+                HolidayErrorMessage.setText("All fields must be filled!"); // An error message is displayed
             }
             else {
-                String[] tableData = {startDate, endDate, reason};
-                DefaultTableModel dtm = (DefaultTableModel) RequestList.getModel();
-                dtm.addRow(tableData);
-                NewUserHolidayForm.dispose();
+                String[] tableData = {startDate, endDate, reason}; // Stores the information about the holiday request in a string
+                DefaultTableModel dtm = (DefaultTableModel) RequestList.getModel(); 
+                dtm.addRow(tableData); // Adds request to the Requests table on the Create New User screen
+                NewUserHolidayForm.dispose(); // Closes the Add New Holiday Request screen
             }
         } catch(Exception e) {
 
@@ -455,10 +455,10 @@ public class CreateNewUser extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         try {
-            ResultSet rs = db.SecurityQuestions();
+            ResultSet rs = db.SecurityQuestions(); // SQL Statement - Selects all of the security questions from the database
             while (rs.next()) {
-                String question = rs.getString("securityquestion");
-                SecurityQuestionField.addItem(question);                
+                String question = rs.getString("securityquestion"); // Creates a string of the security question in the current iteration of the ResultSet
+                SecurityQuestionField.addItem(question);  // Adds the security question to the Security Question combo box               
             }
  
         } catch(Exception e) {
@@ -468,57 +468,56 @@ public class CreateNewUser extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnCreateNewUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateNewUserActionPerformed
-    if (FirstNameField.getText().equals("")) {
+    if (FirstNameField.getText().equals("")) { // If the First Name field is empty
         ErrorMessage.setText("Error - First Name is missing!");
     }
-    else if (SurnameField.getText().equals("")) {
+    else if (SurnameField.getText().equals("")) { // If the Surname field is empty
         ErrorMessage.setText("Error - Surname is missing!");
     }
-    else if (UsernameField.getText().equals("")) {
+    else if (UsernameField.getText().equals("")) { // If the Username field is empty
         ErrorMessage.setText("Error - Username is missing!");
     }
     else try {
-        if (db.CheckUsernames(UsernameField.getText()) == true) {
+        if (db.CheckUsernames(UsernameField.getText()) == true) { // If the Username entered by the user already exists within the database
             ErrorMessage.setText("Error - Username is already in use!");
         }
-        else if (PasswordField.getText().equals("")) {
+        else if (PasswordField.getText().equals("")) { // If the Password field is empty
             ErrorMessage.setText("Error - Password is missing!");
         }
-        else if (!CheckPassword(PasswordField.getText())) {
+        else if (!CheckPassword(PasswordField.getText())) { // If the Password field does not meet the criteria - Checked using CheckPassword method
             ErrorMessage.setText("Error - Password does not meet requirements!");
         }
-        else if (!(ConfirmPasswordField.getText().equals(PasswordField.getText()))) {
+        else if (!(ConfirmPasswordField.getText().equals(PasswordField.getText()))) { // // If the Password field does not match the Confirm Password field
             ErrorMessage.setText("Error - Passwords must match!");
         }
-        else if (SecQAnswerField.getText().equals("")) {
+        else if (SecQAnswerField.getText().equals("")) { // If the Security Question Answer field is empty
             ErrorMessage.setText("Error - Security Question Answer is missing!");
         }
         else {
-            String SecQ = (String) SecurityQuestionField.getSelectedItem();
+            String SecQ = (String) SecurityQuestionField.getSelectedItem(); // Stores the security question that the user selected
             try {
                 int userSuccess = db.CreateUser(FirstNameField.getText(), SurnameField.getText(), UsernameField.getText(), 
-                        PasswordField.getText(), SecQ, SecQAnswerField.getText());
-                if (userSuccess == 1) {
+                        PasswordField.getText(), SecQ, SecQAnswerField.getText()); // SQL Statement - Creates a new record in the User table of the database
+                if (userSuccess == 1) { // If the record is saved successfully
                     
-                    int staffID = db.ReturnStaffID(FirstNameField.getText(), SurnameField.getText());
+                    int staffID = db.ReturnStaffID(FirstNameField.getText(), SurnameField.getText()); // SQL Statement - Returns the staffID of the new staff member
                     
-                    for (int i = 0; i < RequestList.getRowCount() - 1; i++) {
+                    for (int i = 0; i < RequestList.getRowCount() - 1; i++) { // Iterates through the list of holiday requests submitted by the user
                         DefaultTableModel dtm = (DefaultTableModel)RequestList.getModel();
-                        String startDate = (dtm.getValueAt(i, 0).toString());
-                        String endDate = (dtm.getValueAt(i, 1).toString());
-                        String reason = (dtm.getValueAt(i, 2).toString());
-                        db.SubmitRequest(staffID, startDate, endDate, reason);
+                        String startDate = (dtm.getValueAt(i, 0).toString()); // Stores Start Date of holiday request in current iteration of the for loop
+                        String endDate = (dtm.getValueAt(i, 1).toString()); // Stores End Date of holiday request in current iteration of the for loop
+                        String reason = (dtm.getValueAt(i, 2).toString()); // Stores reason for holiday request in current iteration of the for loop
+                        db.SubmitRequest(staffID, startDate, endDate, reason); // SQL Statement - Creates a new record in the Holiday Request table of the database
                         
                     }
-                    LoginScreen ls = new LoginScreen();
-                    ls.setVisible(true);
-                    dispose();
-                } else {
-                    ErrorMessage.setText("Error inserting into database!");
+                    LoginScreen ls = new LoginScreen(); // Creates a new instance of the Login Screen
+                    ls.setVisible(true); // Makes the Login Screen visible
+                    dispose(); // Closes the Create New User screen
+                } else { 
+                    ErrorMessage.setText("Error inserting into database!"); // Displays an error message if the user record is not inserted into the database
                 }
             } catch(Exception e) {
-                ErrorMessage.setText(e.getMessage());
-                System.out.println(e.getMessage());
+                ErrorMessage.setText(e.getMessage()); // Displays any SQL errors that occur
             }
         }
     } catch (SQLException ex) {
@@ -527,14 +526,14 @@ public class CreateNewUser extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCreateNewUserActionPerformed
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
-        LoginScreen ls = new LoginScreen();
-        ls.setVisible(true);
-        this.dispose();
+        LoginScreen ls = new LoginScreen(); // Creates a new instance of the Login Screen
+        ls.setVisible(true); // Makes the Login Screen visible
+        this.dispose(); // Closes the Create New User screen
     }//GEN-LAST:event_BackButtonActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        NewUserHolidayForm.setVisible(false);
-        jPanel2.setVisible(false);
+        NewUserHolidayForm.setVisible(false); // Closes the Add New Holiday screen
+        jPanel2.setVisible(false); // Closes the Add New Holiday screen
     }//GEN-LAST:event_btnBackActionPerformed
     
     private boolean CheckPassword(String password) {
@@ -543,26 +542,26 @@ public class CreateNewUser extends javax.swing.JFrame {
         Boolean special = false;
         Boolean length = false;
         if (password.length() >= 8) {
-            length = true;
+            length = true; // If the password is longer than or equal to 8 characters, it meets the length check
         } else {
             return false;
         }
-        char[] characters = password.toCharArray();
-        for (char character : characters) {
+        char[] characters = password.toCharArray(); // Turns the user's password into a character array
+        for (char character : characters) { // For every character in the password
             if (Character.isUpperCase(character)) {
-                uppercase = true;
+                uppercase = true; // If the character is an uppercase letter, the password meets the uppercase check
             }
             if (Character.isDigit(character)) {
-                number = true;
+                number = true; // If the character is a digit, the password meets the number check
             }
             if (!Character.isLetterOrDigit(character)) {
-                special = true;
+                special = true; // If the character isn't a letter or digit, it is a character, sothe password meets the special character check
             }
         }
         if (uppercase == true && number == true && special == true && length == true) {
-            return true;
+            return true; // If all the checks are met, the password is accepted
         } else {
-            return false;
+            return false; // If not all the checks are met, the password is rejected
         }
     }
     /**

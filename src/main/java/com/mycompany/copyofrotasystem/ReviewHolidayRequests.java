@@ -170,9 +170,9 @@ static User user;
     }// </editor-fold>//GEN-END:initComponents
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
-        ManagerMainMenu mmm = new ManagerMainMenu(user);
-        mmm.setVisible(true);
-        dispose();
+        ManagerMainMenu mmm = new ManagerMainMenu(user); // Creates an instance of the Manager Main Menu, using the user details as a parameter
+        mmm.setVisible(true); // Makes the Manager Main Menu visible
+        dispose(); // Closes the Review Holiday Requests screen
     }//GEN-LAST:event_BackButtonActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -181,20 +181,20 @@ static User user;
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         try {
-            ResultSet rs = db.GetRequests();
-            while (rs.next()) {
-                String requestID = rs.getString("requestid");
-                String staffID = rs.getString("staffid");
-                String name = rs.getString("firstname") + " " + rs.getString("surname");
-                String startDate = rs.getString("requeststartdate");
-                String endDate = rs.getString("requestenddate");
-                String reason = rs.getString("reason");
-                String status = rs.getString("requeststatus");
-                String tableData[] = {requestID, staffID, name, startDate, endDate, reason, status};
+            ResultSet rs = db.GetRequests(); // SQL Statement - Selects all of the Requests that have not been approved or denied
+            while (rs.next()) { // For each Request
+                String requestID = rs.getString("requestid"); // Stores the request's ID
+                String staffID = rs.getString("staffid"); // Stores the staffID of the staff member making the request
+                String name = rs.getString("firstname") + " " + rs.getString("surname"); // Stores the name of the staff member making the request
+                String startDate = rs.getString("requeststartdate"); // Stores the start date of the request
+                String endDate = rs.getString("requestenddate"); // Stores the end date of the request
+                String reason = rs.getString("reason"); // Stores the reason for the request
+                String status = rs.getString("requeststatus"); // Stores the status of the request
+                String tableData[] = {requestID, staffID, name, startDate, endDate, reason, status}; // Stores the request data in a string array
                 
                 
                 DefaultTableModel dtm = (DefaultTableModel) RequestTable.getModel();
-                dtm.addRow(tableData);
+                dtm.addRow(tableData); // Adds request to Request Table
         }
         } catch(Exception e) {
             
@@ -202,22 +202,22 @@ static User user;
     }//GEN-LAST:event_formWindowOpened
 
     private void btnConfirmChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmChangesActionPerformed
-        for (int i = 0; i < RequestTable.getRowCount(); i++) {
+        for (int i = 0; i < RequestTable.getRowCount(); i++) { // For each request in the table
                 DefaultTableModel dtm = (DefaultTableModel)RequestTable.getModel();
-                String requestID = (dtm.getValueAt(i, 0).toString());
-                String staffID = (dtm.getValueAt(i,1).toString());
-                String startDate = (dtm.getValueAt(i, 3).toString());
-                String endDate = (dtm.getValueAt(i, 4).toString());
-                String reason = (dtm.getValueAt(i,5).toString());
-                String status = (dtm.getValueAt(i,6).toString());
-                String[] request = {requestID, staffID, startDate, endDate, reason, status};
+                String requestID = (dtm.getValueAt(i, 0).toString()); // Stores the current record's requestID
+                String staffID = (dtm.getValueAt(i,1).toString()); // Stores the current record's staffID
+                String startDate = (dtm.getValueAt(i, 3).toString()); // Stores the current record's start date
+                String endDate = (dtm.getValueAt(i, 4).toString()); // Stores the current record's end date
+                String reason = (dtm.getValueAt(i,5).toString()); // Stores the current record's reason
+                String status = (dtm.getValueAt(i,6).toString()); // Stores the current record's status
+                String[] request = {requestID, staffID, startDate, endDate, reason, status}; // Stores the request details in a string array
                 try {
-                    if (status.equals("Denied")) {
-                        db.DeleteRequest(Integer.parseInt(requestID));
+                    if (status.equals("Denied")) { // If the request has been denied
+                        db.DeleteRequest(Integer.parseInt(requestID)); // SQL Statement - Deletes the selected request
                     }
-                    int result = db.UpdateRequest(request);
+                    int result = db.UpdateRequest(request); // SQL Statement - Saves request to database
                 } catch(Exception e) {
-                    ErrorMessage.setText(e.getMessage());
+                    ErrorMessage.setText(e.getMessage()); // Displays the SQL error
                 }
                         
                         

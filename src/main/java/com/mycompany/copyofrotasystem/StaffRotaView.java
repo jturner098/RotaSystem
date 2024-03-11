@@ -195,21 +195,20 @@ public class StaffRotaView extends javax.swing.JFrame {
     private void btnGenerateRotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateRotaActionPerformed
         try {
             DefaultTableModel dtm = (DefaultTableModel) RotaTable.getModel();
-            dtm.setRowCount(0);
-            ResultSet rs = db.RotaShifts((String) DateField.getText());   
-            System.out.println(rs);
-            while (rs.next()) {
-                String shiftID = rs.getString("shiftid");
-                String name = rs.getString("firstname") + " " + rs.getString("surname");
-                String location = rs.getString("location");
-                String shiftDate = rs.getString("shiftdate");
-                String startTime = rs.getString("starttime");
-                String endTime = rs.getString("endtime");
+            dtm.setRowCount(0); // Clears the rota table
+            ResultSet rs = db.RotaShifts((String) DateField.getText());  // SQL Statement - Selects the shifts that are happening on the date  
+            while (rs.next()) { // For each selected shift
+                String shiftID = rs.getString("shiftid"); // Stores the shift's ID number
+                String name = rs.getString("firstname") + " " + rs.getString("surname"); // Stores the name of the staff member doing the shift
+                String location = rs.getString("location"); // Stores the shift's location
+                String shiftDate = rs.getString("shiftdate"); // Stores the shift's date
+                String startTime = rs.getString("starttime"); // Stores the shift's start time
+                String endTime = rs.getString("endtime"); // Stores the shift's end time
                 
                 
-                String tableData[] = {shiftID, name, location, shiftDate, startTime, endTime};
+                String tableData[] = {shiftID, name, location, shiftDate, startTime, endTime}; // Stores the shift information in a single string array
                 
-                dtm.addRow(tableData);
+                dtm.addRow(tableData); // Adds shift to Rota Table
 
             }
             } catch(Exception e) {
@@ -218,9 +217,9 @@ public class StaffRotaView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGenerateRotaActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        StaffMainMenu smm = new StaffMainMenu(user);
-        smm.setVisible(true);
-        dispose();
+        StaffMainMenu smm = new StaffMainMenu(user); // Creates an instance of the Staff Main Menu, using the staff member's details as a parameter
+        smm.setVisible(true); // Makes the Staff Main Menu visible
+        dispose(); // Closes the View Rota screen
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -231,19 +230,19 @@ public class StaffRotaView extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void btnBackDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackDateActionPerformed
-        date = date.plusDays(-1);
-        DateField.setText(String.valueOf(date));
+        date = date.plusDays(-1); // Subtracts one day from the date in the Date field
+        DateField.setText(String.valueOf(date)); // Displays the new date
     }//GEN-LAST:event_btnBackDateActionPerformed
 
     private void btnForwardDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForwardDateActionPerformed
-        date = date.plusDays(1);
-        DateField.setText(String.valueOf(date));
+        date = date.plusDays(1); // Adds one day to the date in the Date field
+        DateField.setText(String.valueOf(date)); // Displays the new date
     }//GEN-LAST:event_btnForwardDateActionPerformed
 
     private void btnViewShiftsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewShiftsActionPerformed
-        YourCalendar yc = new YourCalendar(user);
-        yc.setVisible(true);
-        dispose();
+        YourCalendar yc = new YourCalendar(user); // Creates an instance of the Your Calendar screen, using the staff member's details as a parameter
+        yc.setVisible(true); // Makes the Your Calendar screen visible
+        dispose(); // Closes the View Rota screen
     }//GEN-LAST:event_btnViewShiftsActionPerformed
 
     /**

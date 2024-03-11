@@ -13,7 +13,7 @@ import java.time.LocalDate;
  */
 public class HolidayRequestForm extends javax.swing.JFrame {
     int staffID;
-    String firstName;
+    String firstName;   
     static User user;
     /**
      * Creates new form HolidayRequestForm
@@ -165,28 +165,27 @@ public class HolidayRequestForm extends javax.swing.JFrame {
 
     private void btnSubmitHolidayRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitHolidayRequestActionPerformed
         try {
-            String startDate = StartDateField.getText();
-            String endDate = EndDateField.getText();
-            String reason = ReasonField.getText();
+            String startDate = StartDateField.getText(); // Stores the start date entered by the user
+            String endDate = EndDateField.getText(); // Stores the end date entered by the user
+            String reason = ReasonField.getText(); // Stores the reason entered by the user
             
-            if (StartDateField.getText().equals("") || EndDateField.getText().equals("") || ReasonField.getText().equals("")) {
-            ErrorMessage.setText("Error - All fields must be filled in in order to be submitted!");
+            if (StartDateField.getText().equals("") || EndDateField.getText().equals("") || ReasonField.getText().equals("")) { // If any of the fields are empty
+                ErrorMessage.setText("Error - All fields must be filled in in order to be submitted!"); // Displays an error message informing the user that all of the fields must be filled
             }    
             else {
-            
-            int result = DAO.SubmitRequest(user, startDate, endDate, reason);
-            if (result == 1) {
-            StartDateField.setText("");
-            EndDateField.setText("");
-            ReasonField.setText("");
-            ErrorMessage.setText("Request sent!");
-            } else {
-                ErrorMessage.setText("Error whilst inserting into database!");
+                int result = DAO.SubmitRequest(user, startDate, endDate, reason); // SQL Statement - Inserts the request into the database
+                if (result == 1) { // If the request is inserted into the database successfully
+                StartDateField.setText(""); // Clears the start date field
+                EndDateField.setText(""); // Clears the end date field
+                ReasonField.setText(""); // Clears the reason field
+                ErrorMessage.setText("Request sent!"); // Tells the user that the request has been sent
+                } else {
+                    ErrorMessage.setText("Error whilst inserting into database!"); // Tells the user that an error has occured
             }
             
             }
         } catch(Exception e) {
-                ErrorMessage.setText("Database error - " + e);
+                ErrorMessage.setText("Database error - " + e); // Displays the SQL error
                 
         }        
     }//GEN-LAST:event_btnSubmitHolidayRequestActionPerformed
@@ -196,11 +195,9 @@ public class HolidayRequestForm extends javax.swing.JFrame {
     }//GEN-LAST:event_ReasonFieldActionPerformed
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
-        StaffMainMenu smm = new StaffMainMenu(user);
-        smm.setVisible(true);
-        smm.ShiftsHeader.setText(firstName + "'s upcoming shifts:");
-        smm.Title.setText("Welcome, " + firstName);
-        dispose();
+        StaffMainMenu smm = new StaffMainMenu(user); // Creates an instance of the Staff Main Menu, using the details of the currently logged in user as a parameter
+        smm.setVisible(true); // Makes the Staff Main Menu visible
+        dispose(); // Closes the Holiday Request Form
     }//GEN-LAST:event_BackButtonActionPerformed
 
     /**

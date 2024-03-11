@@ -193,15 +193,15 @@ public class LoginScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void btnCreateAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateAccountActionPerformed
-        CreateNewUser cnu = new CreateNewUser();
-        cnu.setVisible(true);
-        dispose();
+        CreateNewUser cnu = new CreateNewUser(); // Creates an instance of the Create New User screen
+        cnu.setVisible(true); // Makes the Create New User screen visible
+        dispose(); // Closes the Login Screen
     }//GEN-LAST:event_btnCreateAccountActionPerformed
 
     private void btnForgotPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForgotPasswordActionPerformed
-        ForgotPassword fp = new ForgotPassword();
-        fp.setVisible(true);
-        dispose();
+        ForgotPassword fp = new ForgotPassword(); // Creates an instance of the Forgot Password screen
+        fp.setVisible(true); // Makes the Forgot Password screen visible
+        dispose(); // Closes the Login Screen
     }//GEN-LAST:event_btnForgotPasswordActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
@@ -210,10 +210,10 @@ public class LoginScreen extends javax.swing.JFrame {
         String username = UsernameField.getText(); // Gets user's username entry from the username field
         String password = PasswordField.getText(); // Gets user's password entry from the password field
         try {
-            ResultSet rs = db.GetUserDetails();
-            while (rs.next()) {
-                String dbUsername = rs.getString("username");
-                String dbPassword = rs.getString("userpassword"); // Selects username and password from database
+            ResultSet rs = db.GetUserDetails(); // SQL Statement - Gets information for each staff member in the table
+            while (rs.next()) { // For each record
+                String dbUsername = rs.getString("username"); 
+                String dbPassword = rs.getString("userpassword"); // Selects username and password from current record in database
                 
                 if (dbUsername.equals(username) && dbPassword.equals(password)) { // If database username and password match user's entries
                             check = 1;
@@ -221,15 +221,15 @@ public class LoginScreen extends javax.swing.JFrame {
                                     rs.getString("surname"), rs.getString("username"), 
                                     rs.getString("userpassword"), rs.getInt("secqid"), 
                                     rs.getString("secqanswer"), rs.getFloat("rateofpay"), 
-                                    rs.getString("userlevel"));
+                                    rs.getString("userlevel")); // Creates an instance of the user class using the details of the logged in user
                             if (user.getUserLevel().equals("Staff")) {
-                                StaffMainMenu smm = new StaffMainMenu(user); // Create new Staff Main Menu
-                                smm.setVisible(true);
-                                dispose();// Make Staff Main Menu visible    
+                                StaffMainMenu smm = new StaffMainMenu(user); // Create new instance of Staff Main Menu
+                                smm.setVisible(true); // Makes Staff Main Menu visible 
+                                dispose(); // Closes Login Screen
                             } else {
-                                ManagerMainMenu mmm = new ManagerMainMenu(user);
-                                mmm.setVisible(true);
-                                dispose();
+                                ManagerMainMenu mmm = new ManagerMainMenu(user); // Create new instance of Manager Main Menu
+                                mmm.setVisible(true); // Makes Manager Main Menu visible
+                                dispose(); // Closes Login Screen
                             }
                 } else {
                     check = 0;

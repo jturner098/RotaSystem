@@ -190,27 +190,27 @@ public class StaffMainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnViewRotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewRotaActionPerformed
-        StaffRotaView srv = new StaffRotaView(user); // When the view rota button is pressed, the screen is initialised, storing the user details in it
-        srv.setVisible(true); // The view rota screen becomes visible
-        dispose(); // The main menu will be closed. Should it need to be opened again, the back button can be pressed by the user
+        StaffRotaView srv = new StaffRotaView(user); // Creates an instance of the View Rota screen, using the staff member's details as a parameter
+        srv.setVisible(true); // Makes the View Rota screen visible
+        dispose(); // Closes the Staff Main Menu
     }//GEN-LAST:event_btnViewRotaActionPerformed
 
     private void btnSubmitHolidayRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitHolidayRequestActionPerformed
-       HolidayRequestForm hrf = new HolidayRequestForm(user); // When the submit holidy request button is pressed, the screen is initialised, storing the user details in it
-       hrf.setVisible(true); // The holiday request form becomes visible
-       dispose(); // The main menu will be closed. Should it need to be opened again, the back button can be pressed by the user
+       HolidayRequestForm hrf = new HolidayRequestForm(user); // Creates an instance of the Holiday Request Form, using the staff member's details as a parameter
+       hrf.setVisible(true); // Makes the Holiday Request Form visible
+       dispose(); // Closes the Staff Main Menu
     }//GEN-LAST:event_btnSubmitHolidayRequestActionPerformed
 
     private void btnYourShiftsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnYourShiftsActionPerformed
-        YourCalendar calendar = new YourCalendar(user); // When the your shifts button is pressed, the screen is initialised, storing the user details in it
-        calendar.setVisible(true); // The your shifts screen becomes visible
-        dispose(); // The main menu will be closed. Should it need to be opened again, the back button can be pressed by the user
+        YourCalendar calendar = new YourCalendar(user); // Creates an instance of the Your Calendar screen, using the staff member's details as a parameter
+        calendar.setVisible(true); // Makes the Your Calendar screen visible
+        dispose(); // Closes the Staff Main Menu
     }//GEN-LAST:event_btnYourShiftsActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
-       LoginScreen login = new LoginScreen();
-       login.setVisible(true);
-       this.dispose();
+       LoginScreen login = new LoginScreen(); // Creates an instance of the Login Screen
+       login.setVisible(true); // Makes the Login Screen visible
+       this.dispose(); // Closes the Staff Main Menu
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -221,18 +221,17 @@ public class StaffMainMenu extends javax.swing.JFrame {
         Title.setText("Welcome, " + user.getFirstName());
         ShiftsHeader.setText(user.getFirstName() + "'s upcoming shifts");
         try {
-            ResultSet rs = db.UpcomingShifts(user.getID());
-            System.out.println(rs);
-            while (rs.next()) {
-                String location = rs.getString("location");
-                String date = rs.getString("shiftdate");
-                String startTime = rs.getString("starttime");
-                String endTime = rs.getString("endtime");
-                String tableData[] = {date, startTime, endTime, location};
+            ResultSet rs = db.UpcomingShifts(user.getID()); // SQL Statement - Selects the upcoming shifts for the currently logged in staff member
+            while (rs.next()) { // For each selected record
+                String location = rs.getString("location"); // Stores the shift's location
+                String date = rs.getString("shiftdate"); // Stores the shift's date
+                String startTime = rs.getString("starttime"); // Stores the shift's start time
+                String endTime = rs.getString("endtime"); // Stores the shift end time
+                String tableData[] = {date, startTime, endTime, location}; // Stores the shift information in a single string array
                 
                 
                 DefaultTableModel dtm = (DefaultTableModel) ShiftList.getModel();
-                dtm.addRow(tableData);
+                dtm.addRow(tableData); // Adds the shift to the table
         }
         } catch(Exception e) {
             

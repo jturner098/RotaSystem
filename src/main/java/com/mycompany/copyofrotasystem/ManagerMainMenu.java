@@ -208,27 +208,27 @@ public class ManagerMainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnViewRotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewRotaActionPerformed
-        ManagerRotaView mrv = new ManagerRotaView(user); // When the view rota button is pressed, the screen is initialised, storing the user details in it
-        mrv.setVisible(true); // The view rota screen becomes visible
-        dispose(); // The main menu will be closed. Should it need to be opened again, the back button can be pressed by the user
+        ManagerRotaView mrv = new ManagerRotaView(user); // Creates an instance of the View Rota screen using the user's details as a parameter
+        mrv.setVisible(true); // Makes the View Rota screen visible
+        dispose(); // Closes the main menu
     }//GEN-LAST:event_btnViewRotaActionPerformed
 
     private void btnCalculateStaffPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalculateStaffPayActionPerformed
-       CalculateStaffPay csp = new CalculateStaffPay(user); // When the submit holidy request button is pressed, the screen is initialised, storing the user details in it
-       csp.setVisible(true); // The holiday request form becomes visible
-       dispose(); // The main menu will be closed. Should it need to be opened again, the back button can be pressed by the user
+       CalculateStaffPay csp = new CalculateStaffPay(user); // Creates an instance of the Calculate Staff Pay screen using the user's details as a parameter
+       csp.setVisible(true); // Makes the Calculate Staff Pay screen visible
+       dispose(); // Closes the main menu
     }//GEN-LAST:event_btnCalculateStaffPayActionPerformed
 
     private void btnReviewHolidayRequestsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReviewHolidayRequestsActionPerformed
-        ReviewHolidayRequests rhr = new ReviewHolidayRequests(user); // When the your shifts button is pressed, the screen is initialised, storing the user details in it
-        rhr.setVisible(true); // The your shifts screen becomes visible
-        this.dispose(); // The main menu will be closed. Should it need to be opened again, the back button can be pressed by the user
+        ReviewHolidayRequests rhr = new ReviewHolidayRequests(user); // Creates an instance of the Review Holiday Requests screen using the user's details as a parameter
+        rhr.setVisible(true); // Makes the Review Holiday Requests screen visible
+        this.dispose(); // Closes the main menu
     }//GEN-LAST:event_btnReviewHolidayRequestsActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
-       LoginScreen login = new LoginScreen();
-       login.setVisible(true);
-       this.dispose();
+       LoginScreen login = new LoginScreen(); // Creates a new instance of Login Screen
+       login.setVisible(true); // Makes the Login Screen visible
+       this.dispose(); // Closes the main menu
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -236,25 +236,25 @@ public class ManagerMainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void btnEditRotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditRotaActionPerformed
-       EditRota er = new EditRota(user);
-       er.setVisible(true);
-       dispose();
+       EditRota er = new EditRota(user); // Creates a new instance of the Edit Rota screen, using the details of the currently logged in user as a parameter
+       er.setVisible(true); // Makes the Edit Rota screen visible
+       dispose(); // Closes the main menu
     }//GEN-LAST:event_btnEditRotaActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         Title.setText("Welcome, " + user.getFirstName());
         try {
-            ResultSet rs = db.NewRequests();
-            while (rs.next()) {
-                String name = rs.getString("firstname") + " " + rs.getString("surname");
-                String startDate = rs.getString("requeststartdate");
-                String endDate = rs.getString("requestenddate");
-                String reason = rs.getString("reason");
-                String tableData[] = {name, startDate, endDate, reason};
+            ResultSet rs = db.NewRequests(); // SQL Statement - Selects all unapproved requests from the database
+            while (rs.next()) { // For each record selected
+                String name = rs.getString("firstname") + " " + rs.getString("surname"); // Store the record's first name and surname as one string
+                String startDate = rs.getString("requeststartdate"); // Store the request's start date
+                String endDate = rs.getString("requestenddate"); // Store the request's end date
+                String reason = rs.getString("reason"); // Store the reason for the request
+                String tableData[] = {name, startDate, endDate, reason}; // Store the request details as a string array
                 
                 
-                DefaultTableModel dtm = (DefaultTableModel) RequestList.getModel();
-                dtm.addRow(tableData);
+                DefaultTableModel dtm = (DefaultTableModel) RequestList.getModel(); // 
+                dtm.addRow(tableData); // Adds request to the table
         }
         } catch(Exception e) {
             

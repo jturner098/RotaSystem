@@ -270,46 +270,44 @@ LocalDate endDate;
     }// </editor-fold>//GEN-END:initComponents
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
-        StaffMainMenu smm = new StaffMainMenu(user);
-        smm.setVisible(true);
-        smm.ShiftsHeader.setText(firstName + "'s upcoming shifts:");
-        smm.Title.setText("Welcome, " + firstName);
-        dispose();
+        StaffMainMenu smm = new StaffMainMenu(user); // Creates an instance of the Staff Main Menu, using the staff member's details as a parameter
+        smm.setVisible(true); // Makes the Staff Main Menu visible
+        dispose(); // Closes the Your Calendar screen
     }//GEN-LAST:event_BackButtonActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         try {
-            ResultSet rs = db.UserShifts(user.getID());
+            ResultSet rs = db.UserShifts(user.getID()); // SQL Statement - Selects the staff member's shifts
             DefaultTableModel dtm = (DefaultTableModel) ShiftTable.getModel();
-            dtm.setRowCount(0);
-            while (rs.next()) {
-                String location = rs.getString("location");
-                String date = rs.getString("shiftdate");
-                String startTime = rs.getString("starttime");
-                String endTime = rs.getString("endtime");
-                String tableData[] = {date, startTime, endTime, location};
+            dtm.setRowCount(0); // Clears the Shift table
+            while (rs.next()) { // For each selected record
+                String location = rs.getString("location"); // Stores the shift's location
+                String date = rs.getString("shiftdate"); // Stores the shift's date
+                String startTime = rs.getString("starttime"); // Stores the shift's start time
+                String endTime = rs.getString("endtime"); // Stores the shift's end time
+                String tableData[] = {date, startTime, endTime, location}; // Stores the shift data in a single string array
                 
                 
                 dtm = (DefaultTableModel) ShiftTable.getModel();
-                dtm.addRow(tableData);
+                dtm.addRow(tableData); // Adds shift to the Shift table
         }
         } catch(Exception e) {
             
         }
         
         try { 
-            ResultSet rs = db.UpcomingHoliday(user.getID());
+            ResultSet rs = db.UpcomingHoliday(user.getID()); // SQL Statement - Selects the staff member's upcoming holiday
             DefaultTableModel dtm = (DefaultTableModel) HolidayTable.getModel();
-            dtm.setRowCount(0);
-            while (rs.next()) {
-                String startDate = rs.getString("requeststartdate");
-                String endDate = rs.getString("requestenddate");
-                String reason = rs.getString("reason");
-                String tableData[] = {startDate, endDate, reason};
+            dtm.setRowCount(0); // Clears the Request table
+            while (rs.next()) { // For each selected record
+                String startDate = rs.getString("requeststartdate"); // Stores the request's start date
+                String endDate = rs.getString("requestenddate"); // Stores the request's end date
+                String reason = rs.getString("reason"); // Stores the reason for the request
+                String tableData[] = {startDate, endDate, reason}; // Stores the request data in a single string array
                 
                 
                 dtm = (DefaultTableModel) HolidayTable.getModel();
-                dtm.addRow(tableData);            
+                dtm.addRow(tableData); // Adds request to the Holiday table            
         }
         } catch(Exception e) {
             
@@ -318,19 +316,19 @@ LocalDate endDate;
 
     private void btnShowAllShiftsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowAllShiftsActionPerformed
         try {
-            ResultSet rs = db.UserShifts(user.getID());
+            ResultSet rs = db.UserShifts(user.getID()); // SQL Statement - Selects the staff member's shifts
             DefaultTableModel dtm = (DefaultTableModel) ShiftTable.getModel();
-            dtm.setRowCount(0);
-            while (rs.next()) {
-                String location = rs.getString("location");
-                String date = rs.getString("shiftdate");
-                String startTime = rs.getString("starttime");
-                String endTime = rs.getString("endtime");
-                String tableData[] = {date, startTime, endTime, location};
+            dtm.setRowCount(0); // Clears the Shift tabl
+            while (rs.next()) { // For each selected record
+                String location = rs.getString("location"); // Stores the shift's location
+                String date = rs.getString("shiftdate"); // Stores the shift's date
+                String startTime = rs.getString("starttime"); // Stores the shift's start time
+                String endTime = rs.getString("endtime"); // Stores the shift's end time 
+                String tableData[] = {date, startTime, endTime, location}; // Stores the shift data in a single string array
                 
                 
                 dtm = (DefaultTableModel) ShiftTable.getModel();
-                dtm.addRow(tableData);
+                dtm.addRow(tableData); // Adds shift to the Shift table
         }
         } catch(Exception e) {
             
